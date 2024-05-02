@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import UserDetailsForm, DirectDepositForm, ContractorAgreementForm, CommissionAgreementForm
 from fillpdf import fillpdfs
-from drive import DriveUploader
+from .drive import DriveUploader
 
 
 OUTPUT_LOCAL_FOLDER_PATH = 'output_files'
