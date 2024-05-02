@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import UserDetailsForm, DirectDepositForm, ContractorAgreementForm, CommissionAgreementForm
 from fillpdf import fillpdfs
+from drive import DriveUploader
+
+
+OUTPUT_LOCAL_FOLDER_PATH = 'output_files'
 
 def process_pdf(pdf_template_path, output_path, data_dict):
     # Logic to fill out PDF form with user details
@@ -22,7 +26,7 @@ def user_details_form(request):
             form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf', 'output_files/Agent_information.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
             return redirect('direct-deposit')
 
     else:
@@ -47,7 +51,7 @@ def direct_deposit_form(request):
             print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Direct_Deposit_Form.pdf', 'output_files/direct_deposit.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Direct_Deposit_Form.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', final_dict)
             return redirect('contractor-agreement')
 
     else:
@@ -69,7 +73,7 @@ def contractor_agreement_form(request):
             form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf', 'output_files/contractor_agreement.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf', final_dict)
             return redirect('commission-agreement')
 
     else:
@@ -78,6 +82,7 @@ def contractor_agreement_form(request):
     return render(request, 'pdfapp/contractor_agreement_form.html', {'form': form})
 
 def commission_agreement_form(request):
+    uploader = DriveUploader()
     if request.method == 'POST':
         form = CommissionAgreementForm(request.POST)
         web_form_fields = dict(form.data)
@@ -102,7 +107,8 @@ def commission_agreement_form(request):
             print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Commission_agreement.pdf', 'output_files/commission_agreement.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Commission_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf', final_dict)
+            uploader.upload_files(OUTPUT_LOCAL_FOLDER_PATH)
             return redirect('success')
 
     else:
