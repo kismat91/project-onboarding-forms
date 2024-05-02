@@ -25,8 +25,8 @@ from django.urls import path
 from pdfapp import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('user_details_form/', views.user_details_form, name='user_details_form'),
+    path('', views.user_details_form, name='user_details_form'),
+    # path('user_details_form/', views.user_details_form, name='user_details_form'),
     path('direct_deposit_form/', views.direct_deposit_form, name='direct_deposit_form'),
     path('contractor_agreement_form/', views.contractor_agreement_form, name='contractor_agreement_form'),
     path('commission_agreement_form/', views.commission_agreement_form, name='commission_agreement_form'),

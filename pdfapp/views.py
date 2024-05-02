@@ -22,8 +22,8 @@ def user_details_form(request):
             form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf', 'Agent_information.pdf', final_dict)
-            return redirect('success')
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf', 'output_files/Agent_information.pdf', final_dict)
+            return redirect('direct-deposit')
 
     else:
         form = UserDetailsForm()
@@ -47,8 +47,8 @@ def direct_deposit_form(request):
             print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Direct_Deposit_Form.pdf', 'direct_deposit.pdf', final_dict)
-            return redirect('success')
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Direct_Deposit_Form.pdf', 'output_files/direct_deposit.pdf', final_dict)
+            return redirect('contractor-agreement')
 
     else:
         form = DirectDepositForm()
@@ -69,8 +69,8 @@ def contractor_agreement_form(request):
             form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf', 'contractor_agreement.pdf', final_dict)
-            return redirect('success')
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf', 'output_files/contractor_agreement.pdf', final_dict)
+            return redirect('commission-agreement')
 
     else:
         form = ContractorAgreementForm()
@@ -102,7 +102,7 @@ def commission_agreement_form(request):
             print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Commission_agreement.pdf', 'commission_agreement.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Commission_agreement.pdf', 'output_files/commission_agreement.pdf', final_dict)
             return redirect('success')
 
     else:
