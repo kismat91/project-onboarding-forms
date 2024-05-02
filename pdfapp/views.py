@@ -27,7 +27,7 @@ def user_details_form(request):
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
             fillpdfs.write_fillable_pdf('automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
-            return redirect('direct-deposit')
+            return redirect('direct_deposit_form')
 
     else:
         form = UserDetailsForm()
@@ -52,7 +52,7 @@ def direct_deposit_form(request):
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
             fillpdfs.write_fillable_pdf('automatePDF/Direct_Deposit_Form.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', final_dict)
-            return redirect('contractor-agreement')
+            return redirect('contractor_agreement_form')
 
     else:
         form = DirectDepositForm()
@@ -74,7 +74,7 @@ def contractor_agreement_form(request):
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
             fillpdfs.write_fillable_pdf('automatePDF/Independent_contractor_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf', final_dict)
-            return redirect('commission-agreement')
+            return redirect('commission_agreement_form')
 
     else:
         form = ContractorAgreementForm()
