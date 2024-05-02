@@ -23,10 +23,10 @@ def user_details_form(request):
         # Concept 1: Get form data from the web form and fill PDF
         if form.is_valid():
             print('user_details_form')
-            form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf').keys())
+            form_fields = list(fillpdfs.get_form_fields('automatePDF/Agent_information_sheet.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
             return redirect('direct-deposit')
 
     else:
@@ -46,12 +46,12 @@ def direct_deposit_form(request):
         # Attempt to fill PDF using web form data
         if form.is_valid():
             print('direct_deposit_form')
-            form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Direct_Deposit_Form.pdf').keys())
+            form_fields = list(fillpdfs.get_form_fields('automatePDF/Direct_Deposit_Form.pdf').keys())
             print(form_fields)
             print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Direct_Deposit_Form.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('automatePDF/Direct_Deposit_Form.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', final_dict)
             return redirect('contractor-agreement')
 
     else:
@@ -70,10 +70,10 @@ def contractor_agreement_form(request):
 
         # Attempt to fill PDF using web form data
         if form.is_valid():
-            form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf').keys())
+            form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Independent_contractor_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('automatePDF/Independent_contractor_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf', final_dict)
             return redirect('commission-agreement')
 
     else:
@@ -102,12 +102,12 @@ def commission_agreement_form(request):
 
         # Attempt to fill PDF using web form data
         if form.is_valid():
-            form_fields = list(fillpdfs.get_form_fields('/Users/kismatkhatri/Downloads/automatePDF/Commission_agreement.pdf').keys())
+            form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
             print(form_fields)
             print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
-            fillpdfs.write_fillable_pdf('/Users/kismatkhatri/Downloads/automatePDF/Commission_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf', final_dict)
+            fillpdfs.write_fillable_pdf('automatePDF/Commission_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf', final_dict)
             uploader.upload_files(OUTPUT_LOCAL_FOLDER_PATH)
             return redirect('success')
 
