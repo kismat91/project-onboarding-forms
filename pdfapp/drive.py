@@ -6,9 +6,8 @@ from googleapiclient.http import MediaFileUpload
 
 class DriveUploader:
     def __init__(self):
-        self.service_account_path = 'pdfapp/project-421220-f3cae941cfb1.json'
+        self.service_account_path = 'pdfapp/drive_creds.json'
         self.scope = 'https://www.googleapis.com/auth/drive'
-        self.parent_folder_id = '1Ozz0SY1J9G5NkTUrVvTFotHnqdrFd0jN'
         self.service = self._authenticate()
 
     def _authenticate(self):
@@ -20,7 +19,6 @@ class DriveUploader:
         file_metadata = {
             'name': folder_name,
             'mimeType': 'application/vnd.google-apps.folder',
-            'parents': [self.parent_folder_id]
         }
         folder = self.service.files().create(body=file_metadata, fields='id').execute()
         return folder.get('id')
