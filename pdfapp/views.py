@@ -11,10 +11,7 @@ def process_pdf(pdf_template_path, output_path, data_dict):
     fillpdfs.write_fillable_pdf(pdf_template_path, output_path, data_dict)
 
 def user_details_form(request):
-    print('user_details_form')
-
     if request.method == 'POST':
-        print('user_details_form')
         form = UserDetailsForm(request.POST)
         web_form_fields = dict(form.data)
         web_form_fields.pop('csrfmiddlewaretoken')
@@ -22,10 +19,8 @@ def user_details_form(request):
 
         # Concept 1: Get form data from the web form and fill PDF
         if form.is_valid():
-            print('user_details_form')
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Agent_information_sheet.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
-            print(final_dict)
             fillpdfs.write_fillable_pdf('automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
             return redirect('direct_deposit_form')
 
@@ -41,16 +36,10 @@ def direct_deposit_form(request):
         web_form_fields = dict(form.data)
         web_form_fields.pop('csrfmiddlewaretoken')
         web_form_fields_keys = list(web_form_fields.keys())
-        print(web_form_fields)
-        print(len(web_form_fields_keys))
         # Attempt to fill PDF using web form data
         if form.is_valid():
-            print('direct_deposit_form')
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Direct_Deposit_Form.pdf').keys())
-            print(form_fields)
-            print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
-            print(final_dict)
             fillpdfs.write_fillable_pdf('automatePDF/Direct_Deposit_Form.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', final_dict)
             return redirect('contractor_agreement_form')
 
@@ -61,7 +50,6 @@ def direct_deposit_form(request):
 
 
 def contractor_agreement_form(request):
-    print('contractor_agreement_form')
     if request.method == 'POST':
         form = ContractorAgreementForm(request.POST)
         web_form_fields = dict(form.data)
@@ -88,25 +76,49 @@ def commission_agreement_form(request):
         web_form_fields = dict(form.data)
         web_form_fields.pop('csrfmiddlewaretoken')
         web_form_fields_keys = list(web_form_fields.keys())
+        web_form_fields_items = list(web_form_fields.items())
+        web_form_fields_items.insert(web_form_fields_keys.index('notapplicableExclussion')+1, ('applicableExclusion', [None]))
+        web_form_fields_items.insert(web_form_fields_keys.index('notApplicable')+1, ('applicable', [None]))
+        web_form_fields_items.insert(web_form_fields_keys.index('notApplicableExpenses')+1, ('applicableExpenses', [None]))
+        web_form_fields_items.insert(web_form_fields_keys.index('exclusive')+1, ('nonExclusive', [None]))
+        web_form_fields = dict(web_form_fields_items)
+        web_form_fields_keys = list(web_form_fields.keys())
+
+        if web_form_fields['exclusive'][0] == 'on':
+            web_form_fields['exclusive'] = ['Yes_pgge']
+            web_form_fields['nonExclusive'] = [None]
+        else:
+            web_form_fields['exclusive'] = [None]
+            web_form_fields['nonExclusive'] = ['Yes_rjaw']
+
+        if web_form_fields['notApplicableExpenses'][0] == 'on':
+            web_form_fields['notApplicableExpenses'] = ['Yes_xavj']
+            web_form_fields['applicableExpenses'] = [None]
+        else:
+            web_form_fields['notApplicableExpenses'] = [None]
+            web_form_fields['applicableExpenses'] = ['Yes_vkfk']
+
+
+        if web_form_fields['notApplicable'][0] == 'on':
+            web_form_fields['notApplicable'] = ['Yes_aecf']
+            web_form_fields['applicable'] = [None]
+        else:
+            web_form_fields['notApplicable'] = [None]
+            web_form_fields['applicable'] = ['Yes_kzvw']
         
-        # Handle checkboxes and convert their values accordingly
-        checkboxes = ['exclusive', 'nonExclusive', 'notApplicableExpenses', 'applicableExpenses', 'notApplicable', 'applicable', 'notapplicableExclussion', 'applicableExclusion']
-        for checkbox in checkboxes:
-            if checkbox in web_form_fields and web_form_fields[checkbox][0] == 'on':
-                web_form_fields[checkbox] = ['Yes']
-            else:
-                web_form_fields[checkbox] = [None]
         
-        print(web_form_fields)
-        print(len(web_form_fields_keys))
+        if web_form_fields['notapplicableExclussion'][0] == 'on':
+            web_form_fields['notapplicableExclussion'] = ['Yes_jqla']
+            web_form_fields['applicableExclusion'] = [None]
+        else:
+            web_form_fields['notapplicableExclussion'] = [None]
+            web_form_fields['applicableExclusion'] = ['Yes_erku']
+        
 
         # Attempt to fill PDF using web form data
         if form.is_valid():
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
-            print(form_fields)
-            print(len(form_fields))
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
-            print(final_dict)
             fillpdfs.write_fillable_pdf('automatePDF/Commission_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf', final_dict)
             uploader.upload_files(OUTPUT_LOCAL_FOLDER_PATH)
             return redirect('success')
