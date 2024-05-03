@@ -77,43 +77,54 @@ def commission_agreement_form(request):
         web_form_fields.pop('csrfmiddlewaretoken')
         web_form_fields_keys = list(web_form_fields.keys())
         web_form_fields_items = list(web_form_fields.items())
-        web_form_fields_items.insert(web_form_fields_keys.index('notapplicableExclussion')+1, ('applicableExclusion', [None]))
-        web_form_fields_items.insert(web_form_fields_keys.index('notApplicable')+1, ('applicable', [None]))
-        web_form_fields_items.insert(web_form_fields_keys.index('notApplicableExpenses')+1, ('applicableExpenses', [None]))
-        web_form_fields_items.insert(web_form_fields_keys.index('exclusive')+1, ('nonExclusive', [None]))
-        web_form_fields = dict(web_form_fields_items)
-        web_form_fields_keys = list(web_form_fields.keys())
-
-        if web_form_fields['exclusive'][0] == 'on':
+                                
+        try:
+            web_form_fields_items.insert(web_form_fields_keys.index('exclusive')+1, ('nonExclusive', [None]))
+            web_form_fields = dict(web_form_fields_items)
             web_form_fields['exclusive'] = ['Yes_pgge']
-            web_form_fields['nonExclusive'] = [None]
-        else:
-            web_form_fields['exclusive'] = [None]
-            web_form_fields['nonExclusive'] = ['Yes_rjaw']
-
-        if web_form_fields['notApplicableExpenses'][0] == 'on':
+            web_form_fields_keys = list(web_form_fields.keys())
+            web_form_fields_items = list(web_form_fields.items())
+        except:
+            web_form_fields_items.insert(1, ('exclusive', [None]))
+            web_form_fields_items.insert(2, ('nonExclusive', ['Yes_rjaw']))
+            web_form_fields = dict(web_form_fields_items)
+            web_form_fields_keys = list(web_form_fields.keys())
+            
+        try:
+            web_form_fields_items.insert(web_form_fields_keys.index('notApplicableExpenses')+1, ('applicableExpenses', [None]))
+            web_form_fields = dict(web_form_fields_items)
             web_form_fields['notApplicableExpenses'] = ['Yes_xavj']
-            web_form_fields['applicableExpenses'] = [None]
-        else:
-            web_form_fields['notApplicableExpenses'] = [None]
-            web_form_fields['applicableExpenses'] = ['Yes_vkfk']
-
-
-        if web_form_fields['notApplicable'][0] == 'on':
+            web_form_fields_keys = list(web_form_fields.keys())
+            web_form_fields_items = list(web_form_fields.items())
+        except:
+            web_form_fields_items.insert(16, ('notApplicableExpenses', [None]))
+            web_form_fields_items.insert(17, ('applicableExpenses', ['Yes_vkfk']))
+            web_form_fields = dict(web_form_fields_items)
+            web_form_fields_keys = list(web_form_fields.keys())
+            
+        try:
+            web_form_fields_items.insert(web_form_fields_keys.index('notApplicable')+1, ('applicable', [None]))
+            web_form_fields = dict(web_form_fields_items)
             web_form_fields['notApplicable'] = ['Yes_aecf']
-            web_form_fields['applicable'] = [None]
-        else:
-            web_form_fields['notApplicable'] = [None]
-            web_form_fields['applicable'] = ['Yes_kzvw']
-        
-        
-        if web_form_fields['notapplicableExclussion'][0] == 'on':
+            web_form_fields_keys = list(web_form_fields.keys())
+            web_form_fields_items = list(web_form_fields.items())
+        except:
+            web_form_fields_items.insert(23, ('notApplicable', [None]))
+            web_form_fields_items.insert(24, ('applicable', ['Yes_kzvw']))
+            web_form_fields = dict(web_form_fields_items)
+            web_form_fields_keys = list(web_form_fields.keys())
+
+        try:
+            web_form_fields_items.insert(web_form_fields_keys.index('notapplicableExclussion')+1, ('applicableExclusion', [None]))
+            web_form_fields = dict(web_form_fields_items)
             web_form_fields['notapplicableExclussion'] = ['Yes_jqla']
-            web_form_fields['applicableExclusion'] = [None]
-        else:
-            web_form_fields['notapplicableExclussion'] = [None]
-            web_form_fields['applicableExclusion'] = ['Yes_erku']
-        
+            web_form_fields_keys = list(web_form_fields.keys())
+            web_form_fields_items = list(web_form_fields.items())
+        except:
+            web_form_fields_items.insert(31, ('notapplicableExclussion', [None]))
+            web_form_fields_items.insert(32, ('applicableExclusion', ['Yes_erku']))
+            web_form_fields = dict(web_form_fields_items)
+            web_form_fields_keys = list(web_form_fields.keys())
 
         # Attempt to fill PDF using web form data
         if form.is_valid():
