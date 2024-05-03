@@ -8,7 +8,7 @@ class DriveUploader:
     def __init__(self):
         self.service_account_path = 'pdfapp/drive_creds.json'
         self.scope = 'https://www.googleapis.com/auth/drive'
-        self.parent_folder_id = '1Ozz0SY1J9G5NkTUrVvTFotHnqdrFd0jN'
+        self.parent_folder_id = '1RHBTSL5JXwwqXEOx7SDONPfFVx5VHu7r' # Update folder ID
         self.service = self._authenticate()
 
     def _authenticate(self):
