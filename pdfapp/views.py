@@ -10,43 +10,54 @@ def process_pdf(pdf_template_path, output_path, data_dict):
     # Logic to fill out PDF form with user details
     fillpdfs.write_fillable_pdf(pdf_template_path, output_path, data_dict)
 
+from django.shortcuts import render, redirect
+
 def user_details_form(request):
     if request.method == 'POST':
         form = UserDetailsForm(request.POST)
-        web_form_fields = dict(form.data)
-        web_form_fields.pop('csrfmiddlewaretoken')
-        web_form_fields_keys = list(web_form_fields.keys())
-
-        # Concept 1: Get form data from the web form and fill PDF
         if form.is_valid():
-            form_fields = list(fillpdfs.get_form_fields('automatePDF/Agent_information_sheet.pdf').keys())
-            final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
-            fillpdfs.write_fillable_pdf('automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
-            return redirect('direct_deposit_form')
+            # Save form data in session for reuse
+            common_data = {
+                'payee_name': f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}",
+                'payee_address': form.cleaned_data['street_address'],
+                'payee_city': form.cleaned_data['city'],
+                'payee_state': form.cleaned_data['state'],
+                'payee_phone_number': form.cleaned_data['home_phone'],
+                'payee_ssn': form.cleaned_data['ssn_or_gov_id'],
+            }
+            request.session['common_data'] = common_data
 
+            # Generate PDF for UserDetails using form.cleaned_data
+            form_fields = list(fillpdfs.get_form_fields('automatePDF/Agent_information_sheet.pdf').keys())
+            final_dict = {field: form.cleaned_data.get(field, '') for field in form_fields if field in form.cleaned_data}
+            fillpdfs.write_fillable_pdf('automatePDF/Agent_information_sheet.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
+            
+            return redirect('direct_deposit_form')
     else:
         form = UserDetailsForm()
-
     return render(request, 'pdfapp/user_details_form.html', {'form': form})
 
 
+
 def direct_deposit_form(request):
+    initial_data = request.session.get('common_data', {})  # Retrieve data from session
     if request.method == 'POST':
         form = DirectDepositForm(request.POST)
-        web_form_fields = dict(form.data)
-        web_form_fields.pop('csrfmiddlewaretoken')
-        web_form_fields_keys = list(web_form_fields.keys())
-        # Attempt to fill PDF using web form data
         if form.is_valid():
+            # Optionally merge session data with current form data for PDF
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Direct_Deposit_Form.pdf').keys())
-            final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
+            final_dict = {field: (form.cleaned_data.get(field) or initial_data.get(field)) for field in form_fields}
             fillpdfs.write_fillable_pdf('automatePDF/Direct_Deposit_Form.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', final_dict)
+
+            # Clear session data if no longer needed
+            if 'common_data' in request.session:
+                del request.session['common_data']
+            
             return redirect('contractor_agreement_form')
-
     else:
-        form = DirectDepositForm()
-
+        form = DirectDepositForm(initial=initial_data)
     return render(request, 'pdfapp/direct_deposit_form.html', {'form': form})
+
 
 
 def contractor_agreement_form(request):
