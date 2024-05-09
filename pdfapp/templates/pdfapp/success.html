@@ -8,5 +8,10 @@
 <body>
     <h2>Success!</h2>
     <p>Your form has been submitted successfully.</p>
+    <form method="post" action="{% url 'records_form' %}">        
+        <div class="send-container">
+            <button type="submit" class="btn btn-success">Next</button>
+        </div>
+    </form>
 </body>
 </html>
