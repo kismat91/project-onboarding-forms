@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .forms import ContractorAgreementForm, CommissionAgreementForm, CombinedForm
 from fillpdf import fillpdfs
-from .drive import DriveUploader
 import os
 from django.http import HttpResponseNotFound, FileResponse
 import pandas as pd
@@ -113,6 +112,15 @@ def user_details(request):
     return render(request, 'pdfapp/combined_form.html', {'form': form})
 
 def contractor_agreement_form(request):
+    global OUTPUT_LOCAL_FOLDER_PATH, session_id
+    session_id = request.GET.get('session_id')
+    print('aaa')
+    print(session_id)
+    print(request.GET.dict())
+    OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
+    print(OUTPUT_LOCAL_FOLDER_PATH)
+    if not session_id:
+        return redirect('log_in')
     if request.method == 'POST':
         form = ContractorAgreementForm(request.POST)
         web_form_fields = dict(form.data)
@@ -121,19 +129,29 @@ def contractor_agreement_form(request):
 
         # Attempt to fill PDF using web form data
         if form.is_valid():
+            print(OUTPUT_LOCAL_FOLDER_PATH)
+
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             print(final_dict)
+            if not os.path.exists(OUTPUT_LOCAL_FOLDER_PATH):
+                os.makedirs(OUTPUT_LOCAL_FOLDER_PATH)
             fillpdfs.write_fillable_pdf('automatePDF/Independent_contractor_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf', final_dict)
-            return redirect('commission_agreement_form')
+            return redirect('/commission_agreement_form/?session_id={session_id}'.format(session_id=session_id))
 
     else:
         form = ContractorAgreementForm()
 
-    return render(request, 'pdfapp/contractor_agreement_form.html', {'form': form})
+    return render(request, 'pdfapp/contractor_agreement_form.html', {'form': form, 'session_id': session_id})
 
 def commission_agreement_form(request):
-    uploader = DriveUploader()
+    global OUTPUT_LOCAL_FOLDER_PATH, session_id
+    session_id = request.GET.get('session_id')
+    OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
+    print('aaa')
+    print(session_id)
+    if not session_id:
+        return redirect('log_in')
     if request.method == 'POST':
         form = CommissionAgreementForm(request.POST)
         web_form_fields = dict(form.data)
@@ -194,13 +212,12 @@ def commission_agreement_form(request):
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             fillpdfs.write_fillable_pdf('automatePDF/Commission_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf', final_dict)
-            uploader.upload_files(OUTPUT_LOCAL_FOLDER_PATH)
             return redirect('success')
 
     else:
         form = CommissionAgreementForm()
 
-    return render(request, 'pdfapp/commission_agreement_form.html', {'form': form})
+    return render(request, 'pdfapp/commission_agreement_form.html', {'form': form, 'session_id': session_id})
 
 def download_file(request):
     # Path to your file
@@ -250,7 +267,7 @@ def records_form(request):
     def make_next_form_button(file_path):
         # Ensure the file path is URL-encoded to handle special characters
         safe_path = quote(file_path.replace('output_files/', ''))
-        return f'<a href="/download_file/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
+        return f'<a href="/contractor_agreement_form/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
     if not df.empty:
         df['Download'] = df.apply(lambda x: make_download_button(x['file_path'], x['name']), axis=1)
         df['Next'] = df.apply(lambda x: make_next_form_button(x['file_path']), axis=1)
