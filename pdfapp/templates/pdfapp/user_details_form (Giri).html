@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Submission Form: oNEST Real Estate</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #E7F0F1;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            font-family: 'Roboto', sans-serif; /* Ensures Roboto is used throughout */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+        .form-control, .btn {
+            font-family: 'Roboto', sans-serif; /* Roboto for input fields and buttons */
+            border-radius: 30px;
+            padding: 10px 20px;
+        }
+        .btn {
+            background-color: #0050c8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        h1 {
+            font-family: 'Roboto', sans-serif; /* Roboto for headings */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+            .form-container {
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="text-center mb-4">
+                <h1>Agent Submission Form</h1>
+            </div>
+            <form method="post" action="{% url 'direct_deposit_form' %}">
+                {% csrf_token %}
+                <!-- Text input fields -->
+                <div class="form-group">
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="street_address" placeholder="Street Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="city" placeholder="City" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="state" placeholder="State" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="zip_code" placeholder="Zip Code" required>
+                </div>
+                <div class="form-group">
+                    <label for="ssn" class="form-label">SSN</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="ssn1" maxlength="3" required>
+                        <div class="input-group-append"><span class="input-group-text">-</span></div>
+                        <input type="text" class="form-control" name="ssn2" maxlength="2" required>
+                        <div class="input-group-append"><span class="input-group-text">-</span></div>
+                        <input type="text" the class="form-control" name="ssn3" maxlength="4" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <div class="d-flex">
+                        <select class="form-control me-1" id="dob-month" required>
+                            <option>Month</option>
+                        </select>
+                        <select class="form-control me-1" id="dob-day" required>
+                            <option>Day</option>
+                        </select>
+                        <select class="form-control" id="dob-year" required>
+                            <option>Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="send-container">
+                    <button type="submit" class="btn">Submit Form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            for(let i = 1; i <= 31; i++) {
+                $('#dob-day').append($('<option>', {value: i, text: i}));
+            }
+            monthNames.forEach((month, index) => {
+                $('#dob-month').append($('<option>', {value: index + 1, text: month}));
+            });
+            const year = new Date().getFullYear();
+            for(let i = year; i >= year - 100; i--) {
+                $('#dob-year').append($('<option>', {value: i, text: i}));
+            }
+        });
+    </script>
+</body>
+</html>
