@@ -1,20 +1,34 @@
 from django import forms
-from .models import UserDetails, DirectDeposit, ContractorAgreement, CommissionAgreement
+from .models import UserDetails, ContractorAgreement, CommissionAgreement
 
-class UserDetailsForm(forms.ModelForm):
+class CombinedForm(forms.ModelForm):
+    # Additional fields from DirectDeposit
+    bank_name = forms.CharField(max_length=100)
+    bank_address = forms.CharField(max_length=200, required=False)
+    bank_city = forms.CharField(max_length=100, required=False)
+    bank_state = forms.CharField(max_length=100, required=False)
+    bank_zipcode = forms.CharField(max_length=100, required=False)
+    fax_number = forms.CharField(max_length=20, required=False)
+    bank_phone_number = forms.CharField(max_length=20, required=False)
+    account_number = forms.CharField(max_length=100)
+    bank_route_number = forms.CharField(max_length=100)
+    type_of_account = forms.CharField(max_length=100, required=False)
+    date = forms.DateField(widget=forms.DateInput(format='%Y-%m-%d'))
+
     class Meta:
         model = UserDetails
-        fields = '__all__'
+        fields = [
+            'first_name', 'last_name', 'middle_name', 'street_address', 'apartment_number',
+            'city', 'state', 'zip_code', 'home_phone', 'alternate_phone', 'email',
+            'ssn_or_gov_id', 'birth_date', 'marital_status', 'spouse_name', 
+            'spouse_employer', 'spouse_work_phone', 'referred_by',
+            'bank_name', 'bank_address', 'bank_city', 'bank_state', 'bank_zipcode',
+            'fax_number', 'bank_phone_number', 'account_number', 'bank_route_number',
+            'type_of_account', 'date'
+        ]
         widgets = {
-            'birth_date': forms.DateInput(format='%d:%m:%Y'),
-        }
-
-class DirectDepositForm(forms.ModelForm):
-    class Meta:
-        model = DirectDeposit
-        fields = '__all__'
-        widgets = {
-            'date': forms.DateInput(format='%d:%m:%Y'),
+            'birth_date': forms.DateInput(format='%Y-%m-%d'),
+            'date': forms.DateInput(format='%Y-%m-%d'),
         }
 
 class ContractorAgreementForm(forms.ModelForm):

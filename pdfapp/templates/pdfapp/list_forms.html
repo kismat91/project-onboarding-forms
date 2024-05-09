@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with Download Buttons</title>
+</head>
+<body>
+    <h1>Data Table</h1>
+    <table>
+        <tr>
+          {% for col in html_table.columns %}
+            <td>
+              {{col}}
+            </td>
+          {% endfor %}
+        </tr>
+          {% for index, row in html_table.iterrows %}
+            <tr>
+              {% for cell in row %}
+                <td>
+                  {{cell}}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+      </table>
+    {{ html_table|safe }}
+</body>
+</html>

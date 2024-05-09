@@ -1,10 +1,9 @@
 # Create your models here.
 from django.db import models
-
 class UserDetails(models.Model):
-    fist_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100, blank=True, null=True)
     street_address = models.CharField(max_length=200)
     apartment_number = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=100)
@@ -20,36 +19,22 @@ class UserDetails(models.Model):
     spouse_employer = models.CharField(max_length=200, blank=True, null=True)
     spouse_work_phone = models.CharField(max_length=20, blank=True, null=True)
     referred_by = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.fist_name
     
-class DirectDeposit(models.Model):
-    payee_name = models.CharField(max_length=100, null=True)
-    payee_address = models.CharField(max_length=100, null=True)
-    payee_city = models.CharField(max_length=100, null=True)
-    payee_state = models.CharField(max_length=100, null=True)
-    payee_phone_number = models.CharField(max_length=100, null=True)
-    payee_fax_number = models.CharField(max_length=100, null=True)
-    payee_home_number = models.CharField(max_length=100, null=True)
-    payee_work_number = models.CharField(max_length=100, null=True)
-    payee_ssn = models.CharField(max_length=100, null=True)
-    payee_identification_number = models.CharField(max_length=100, null=True)
-    bank_name = models.CharField(max_length=100, null=True)
-    bank_address_1 = models.CharField(max_length=100, null=True)
-    bank_address_2 = models.CharField(max_length=100, blank=True)
-    bank_address_3 = models.CharField(max_length=100, blank=True)
-    bank_address_4 = models.CharField(max_length=100, blank=True)
-    bank_phone_number = models.CharField(max_length=100, null=True)
-    fax_number = models.CharField(max_length=100, null=True)
-    bank_route_number = models.CharField(max_length=100, null=True)
-    account_number = models.CharField(max_length=100, null=True)
-    type_of_account = models.CharField(max_length=100, null=True)
-    date = models.DateTimeField()
+    bank_name = models.CharField(max_length=100)
+    bank_address = models.CharField(max_length=200)
+    bank_city = models.CharField(max_length=100, blank=True, null=True)
+    bank_state = models.CharField(max_length=100, blank=True, null=True)
+    bank_zipcode = models.CharField(max_length=100, blank=True, null=True)
+    bank_phone_number = models.CharField(max_length=20)
+    fax_number = models.CharField(max_length=20, blank=True, null=True)
+    bank_route_number = models.CharField(max_length=100)
+    account_number = models.CharField(max_length=100)
+    type_of_account = models.CharField(max_length=100)
+    transaction_date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.payee_name
-
+    def _str_(self):
+        return f"{self.first_name} {self.last_name}"
+    
 class ContractorAgreement(models.Model):
     contractDay = models.CharField(max_length=2)
     contractMonth = models.CharField(max_length=2)
