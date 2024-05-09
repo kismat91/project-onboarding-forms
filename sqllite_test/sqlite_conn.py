@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 class DatabaseManager:
-    def __init__(self, db_path='real_estate_onboarding.db'):
+    def __init__(self, db_path='/root/project/real_estate_onboarding.db'):
         """Initialize the database connection."""
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
