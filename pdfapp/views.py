@@ -286,4 +286,4 @@ def log_in(request):
 
 
 def success(request):
-    return render(request, 'pdfapp/success.html')
+    return render(request, 'pdfapp/success.html', {'host_link':request.build_absolute_uri('/records_form/')})

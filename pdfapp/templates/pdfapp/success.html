@@ -8,12 +8,8 @@
 <body>
     <h2>Success!</h2>
     <p>Your form has been submitted successfully.</p>
-    <form method="post" action="{% url 'records_form' %}">
-        {% csrf_token %}
-        
-        <div class="send-container">
-            <button type="submit" class="btn btn-success">Next</button>
-        </div>
+    <form action="{{ %host_link }}">
+        <input type="submit" value="Go to Google" />
     </form>
 </body>
 </html>
