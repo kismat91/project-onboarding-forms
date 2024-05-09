@@ -22,7 +22,7 @@ def process_pdf(pdf_template_path, output_path, data_dict):
 
 def user_details(request):
     print(session_id)
-    db = DatabaseManager("sqllite_test/real_estate_onboarding.db")
+    db = DatabaseManager("/root/project/real_estate_onboarding.db")
     email_sender = EmailSender()
     if request.method == 'POST':
         form = CombinedForm(request.POST)
@@ -255,7 +255,7 @@ def records_form(request):
     is_log_in = request.COOKIES.get('isLogIn', 'No Cookie Found')
     if is_log_in!='True':
         return redirect('log_in')   
-    db = DatabaseManager("sqllite_test/real_estate_onboarding.db")
+    db = DatabaseManager("/root/project/real_estate_onboarding.db")
 
     df = db.fetch_all_records()
 
