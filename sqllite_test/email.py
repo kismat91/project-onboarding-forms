@@ -28,19 +28,3 @@ class EmailSender:
         """Close the SMTP server connection."""
         if self.server:
             self.server.quit()
-
-# Usage
-if __name__ == "__main__":
-    recipient = 'amitshendge1990@gmail.com'
-    subject = 'Hello from Python'
-    message = 'This is a test email sent from a Python script.'
-
-    email_sender = EmailSender()
-    try:
-        email_sender.connect()
-        email_sender.send_email(recipient, subject, message)
-        print("Email sent successfully!")
-    except Exception as e:
-        print(f"Failed to send email: {e}")
-    finally:
-        email_sender.close_connection()
