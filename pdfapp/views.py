@@ -22,7 +22,7 @@ def process_pdf(pdf_template_path, output_path, data_dict):
 
 def user_details(request):
     print(session_id)
-    db = DatabaseManager("/root/project/real_estate_onboarding.db")
+    db = DatabaseManager("/Users/koiralagiri/Desktop/project-onboarding-forms-main/real_estate_onboarding.db")
     email_sender = EmailSender()
     if request.method == 'POST':
         form = CombinedForm(request.POST)
@@ -37,7 +37,7 @@ def user_details(request):
             # Generate UserDetails PDF
             user_details_pdf_fields = {
                 'FirstName': web_form_fields['first_name'],
-                'MiddleInitial': web_form_fields['middle_name'][:1] if web_form_fields['middle_name'] else '',  # Handle middle name being optional
+                'MiddleInitial': web_form_fields['middle_name'][:1] if web_form_fields['middle_name'] else 'N/A',  # Handle middle name being optional
                 'LastName': web_form_fields['last_name'],
                 'Address': f"{web_form_fields['street_address']}",
                 'apartment_num': f"{web_form_fields.get('apartment_number', '')}",
@@ -101,7 +101,7 @@ def user_details(request):
             )
             db.add_record(web_form_fields['first_name'], web_form_fields['email'], web_form_fields['home_phone'], web_form_fields['street_address'], web_form_fields['ssn_or_gov_id'], OUTPUT_LOCAL_FOLDER_PATH)
             email_sender.connect()
-            recipient = 'kismatkhatri91@gmail.com'
+            recipient = 'koirala.p.giriraj@gmail.com'
             email_sender.send_email(recipient, f'Form Submitted by {web_form_fields["first_name"]}', f"""For was submitted you can check at {request.build_absolute_uri('/log_in/')}""")
             email_sender.close_connection()
 
