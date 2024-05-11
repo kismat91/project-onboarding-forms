@@ -22,7 +22,7 @@ def process_pdf(pdf_template_path, output_path, data_dict):
 
 def user_details(request):
     print(session_id)
-    db = DatabaseManager("/root/project/real_estate_onboarding.db)
+    db = DatabaseManager("/root/project/real_estate_onboarding.db")
     email_sender = EmailSender()
     if request.method == 'POST':
         form = CombinedForm(request.POST)
