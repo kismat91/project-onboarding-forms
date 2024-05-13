@@ -270,7 +270,7 @@
       </div>
     </div>
     <script>
-      $(document).ready(function () {
+     $(document).ready(function () {
         let currentSection = 0;
         const sections = $(".form-section");
         $(sections[currentSection]).show();
@@ -279,7 +279,8 @@
           if (currentSection < sections.length - 1) {
             $(sections[currentSection]).hide();
             currentSection++;
-            $(sections[currentSection]).show();
+            $(sections[currentSection]).fadeIn();
+            updateProgressBar(currentSection + 1);
           }
         });
 
@@ -287,9 +288,17 @@
           if (currentSection > 0) {
             $(sections[currentSection]).hide();
             currentSection--;
-            $(sections[currentSection]).show();
+            $(sections[currentSection]).fadeIn();
+            updateProgressBar(currentSection + 1);
           }
         });
+
+        function updateProgressBar(stepNumber) {
+          var percentage = (stepNumber / 5) * 100;
+          $(".progress-fill")
+            .width(percentage + "%")
+            .text("Step " + stepNumber + " of 5");
+        }
       });
     </script>
     <!-- Bootstrap JS and Popper.js for Bootstrap functionalities -->
