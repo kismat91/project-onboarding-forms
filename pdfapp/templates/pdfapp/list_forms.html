@@ -4,27 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table with Download Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Sets the font for the page */
+            padding: 20px; /* Adds spacing around the content */
+        }
+        h1 {
+            color: #b68319; /* Dark grey color for the heading */
+        }
+        table {
+            width: 100%; /* Full width */
+            border-collapse: collapse; /* Ensures borders between cells are merged */
+        }
+        th, td {
+            border: 1px solid #b68319; /* Teal colored border */
+            padding: 8px; /* Spacing inside cells */
+            text-align: left; /* Aligns text to the left */
+        }
+        th {
+            background-color: #b68319; /* Teal background for headers */
+            color: white; /* White text for headers */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Light grey background for even rows */
+        }
+        tr:hover {
+            background-color: #ddd; /* Lighter grey background on hover */
+        }
+    </style>
 </head>
 <body>
     <h1>Data Table</h1>
     <table>
         <tr>
           {% for col in html_table.columns %}
-            <td>
-              {{col}}
-            </td>
+            <th>{{ col }}</th> <!-- Changed td to th for header cells -->
           {% endfor %}
         </tr>
-          {% for index, row in html_table.iterrows %}
+        {% for index, row in html_table.iterrows %}
             <tr>
               {% for cell in row %}
-                <td>
-                  {{cell}}
-                </td>
+                <td>{{ cell }}</td>
               {% endfor %}
             </tr>
-          {% endfor %}
-      </table>
+        {% endfor %}
+    </table>
     {{ html_table|safe }}
 </body>
 </html>
