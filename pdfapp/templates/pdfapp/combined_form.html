@@ -1,227 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agent Submission Form - oNest Real Estate</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <style>
         body {
-            background-color: #f0f4f8;
-            padding-top: 40px;
-            padding-bottom: 40px;
-            font-family: 'Roboto', sans-serif;
+          background-color: #f0f4f8;
+          padding-top: 40px;
+          padding-bottom: 40px;
+          font-family: "Roboto", sans-serif;
         }
         .form-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 55px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.07);
-            margin: auto;
-            width: 600px;
-            border: 1px solid #e0e0e0;
+          background-color: #ffffff;
+          padding: 40px;
+          border-radius: 55px;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+          margin: auto;
+          width: 600px;
+          border: 1px solid #e0e0e0;
         }
         .title-bubble {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 50px;
-            text-align: center;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.10);
-            width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 50px;
+          text-align: center;
+          margin-bottom: 15px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+          height: 175px;
         }
-        input[type="text"], input[type="email"], select, .date-picker {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+        input[type="text"],
+        input[type="email"],
+        select,
+        .date-picker {
+          width: 100%;
+          padding: 10px;
+          margin-top: 8px;
+          margin-bottom: 16px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
         }
-            .button-group {
-    display: flex;
-    justify-content: space-between; /* Adjusts the space distribution */
-    align-items: center;
-}
-
-button, .next-btn, .back-btn, .submit-btn {
-    background-color: #b68319;
-    color: #ffffff;
-    border-radius: 1em;
-    font-size: 17px;
-    font-weight: 600;
-    padding: 1em 2em;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    border: 0px solid black;
-    box-shadow: 0 0 0 0 black;
-    width: 49%; /* Adjust width to make space for both buttons in one line */
-    margin-top: 30px;
-    margin-bottom: 15px;
-}
-
-button:hover, .next-btn:hover, .back-btn:hover {
-    transform: translateY(-4px) translateX(-2px);
-    box-shadow: 2px 5px 0 0 black;
-    border: 0px;
-}
-
-button:active, .next-btn:active, .back-btn:active {
-    transform: translateY(2px) translateX(1px);
-    box-shadow: 0 0 0 0 black;
-}
-
-.submit-btn {
-    background-color: #b68319; /* Default background color */
-    color: #ffffff; /* Default text color */
-    border: 0px;
-    /* Other styles already defined */
-}
-
-.submit-btn:hover {
-    background-color: #217eda; /* Green background color on hover */
-    color: #ffffff; /* Optional: change text color on hover if needed */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow effect on hover */
-    border: 0px;
-}
-
-
+        .button-group {
+          display: flex;
+          justify-content: space-between; /* Adjusts the space distribution */
+          align-items: center;
+        }
+  
+        button,
+        .next-btn,
+        .back-btn,
+        .submit-btn {
+          background-color: #b68319;
+          color: #ffffff;
+          border-radius: 1em;
+          font-size: 17px;
+          font-weight: 600;
+          padding: 1em 2em;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          border: 0px solid black;
+          box-shadow: 0 0 0 0 black;
+          width: 49%; /* Adjust width to make space for both buttons in one line */
+          margin-top: 30px;
+          margin-bottom: 15px;
+        }
+  
+        button:hover,
+        .next-btn:hover,
+        .back-btn:hover {
+          transform: translateY(-4px) translateX(-2px);
+          box-shadow: 2px 5px 0 0 black;
+          border: 0px;
+        }
+  
+        button:active,
+        .next-btn:active,
+        .back-btn:active {
+          transform: translateY(2px) translateX(1px);
+          box-shadow: 0 0 0 0 black;
+        }
+  
+        .submit-btn {
+          background-color: #b68319; /* Default background color */
+          color: #ffffff; /* Default text color */
+          border: 0px;
+          /* Other styles already defined */
+        }
+  
+        .submit-btn:hover {
+          background-color: #217eda; /* Green background color on hover */
+          color: #ffffff; /* Optional: change text color on hover if needed */
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow effect on hover */
+          border: 0px;
+        }
+  
+        .back-to-main {
+          position: absolute;
+          top: 65px;
+          left: 450px;
+        }
+  
         .form-section {
-            display: none;
+          display: none;
         }
         h1 {
-            font-weight: bold;
+          font-weight: bold;
         }
         h2 {
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 30px;
+          text-align: center;
+          margin-top: 30px;
+          margin-bottom: 50px;
         }
-
+  
+        img {
+          margin-top: -182px; /* Moves the image upwards by 20px */
+          vertical-align: center;
+        }
+  
+        .progress-bar-container {
+          width: 605px;
+          background-color: (241, 244, 248); /* Light grey that's still visible */
+          border-radius: 55px;
+          margin: 20px auto 30px;
+          padding: 3px;
+          align-items: center;
+        }
+  
+        .progress-bar {
+          width: 100%;
+          background-color: #e0e0e0; /* Slightly darker grey for contrast */
+          border-radius: 20px;
+          overflow: hidden;
+          margin-bottom: 20px;
+        }
+  
+        .progress-fill {
+          background-color: #b68319; /* Your theme color for visibility */
+          color: white;
+          text-align: center;
+          line-height: 35px;
+          height: 35px;
+          border-radius: 25px;
+          transition: width 0.3s ease-in-out;
+        }
         
-
-    </style>
-</head>
-<body>
+      </style>
+  </head>
+  <body>
     <div class="container">
-        <div class="title-bubble">
-            <h1>oNest Real Estate</h1>
+      <div class="title-bubble">
+        <img
+          src="https://raw.githubusercontent.com/kismat91/project-onboarding-forms/main/oNEST%20Logo.png"
+          alt="oNest Real Estate"
+          style="width: 500px; height: 500px"
+        />
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
         </div>
-        <div class="form-container">
-            <form method="post" action="{% url 'user_details' %}">
-                {% csrf_token %}
-                <div class="form-section active">
-                    <h2>Section 1: Personal Details</h2>
-                    <label for="id_first_name">First Name:</label>
-                    {{ form.first_name }}
-                    <label for="id_last_name">Last Name:</label>
-                    {{ form.last_name }}
-                    <label for="id_middle_name">Middle Name:</label>
-                    {{ form.middle_name }}
-                    <label for="id_street_address">Street Address:</label>
-                    {{ form.street_address }}
-                    <label for="id_apartment_number">APT / UNIT #:</label>
-                    {{ form.apartment_number }}
-                    <label for="id_city">City:</label>
-                    {{ form.city }}
-                    <label for="id_state">State:</label>
-                    {{ form.state }}
-                    <label for="id_zip_code">Zip Code:</label>
-                    {{ form.zip_code }}
-                    <button type="button" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="next-btn">Continue</button>
-                </div>
-                <div class="form-section">
-                    <h2>Section 2: Contact Information</h2>
-                    <label for="id_home_phone">Home Phone:</label>
-                    {{ form.home_phone }}
-                    <label for="id_alternate_phone">Alternate Phone:</label>
-                    {{ form.alternate_phone }}
-                    <label for="id_email">Email:</label>
-                    {{ form.email }}
-                    <button type="button" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="next-btn">Continue</button>
-                </div>
-                <div class="form-section">
-                    <h2>Section 3: Personal - Continued</h2>
-                    <label for="id_ssn_or_gov_id">SSN or Government ID:</label>
-                    {{ form.ssn_or_gov_id }}
-                    <label for="id_birth_date">Birth Date:</label>
-                    {{ form.birth_date }}
-                    <label for="id_marital_status">Marital Status:</label>
-                    {{ form.marital_status }}
-                    <label for="id_spouse_name">Spouse's Name:</label>
-                    {{ form.spouse_name }}
-                    <label for="id_spouse_employer">Spouse's Employer:</label>
-                    {{ form.spouse_employer }}
-                    <label for="id_spouse_work_phone">Spouse's Work Phone:</label>
-                    {{ form.spouse_work_phone }}
-                    <label for="id_referred_by">Referred By:</label>
-                    {{ form.referred_by }}
-                    <button type="button" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="next-btn">Continue</button>
-                </div>
-                <div class="form-section">
-                    <h2>Section 4: Bank Details</h2>
-                    <label for="id_bank_name">Bank Name:</label>
-                    {{ form.bank_name }}
-                    <label for="id_bank_address">Bank Address:</label>
-                    {{ form.bank_address }}
-                    <label for="id_bank_city">Bank City:</label>
-                    {{ form.bank_city }}
-                    <label for="id_bank_state">Bank State:</label>
-                    {{ form.bank_state }}
-                    <label for="id_bank_zipcode">Bank Zipcode:</label>
-                    {{ form.bank_zipcode }}
-                    <label for="id_fax_number">Fax Number:</label>
-                    {{ form.fax_number }}
-                    <label for="id_bank_phone_number">Bank Phone Number:</label>
-                    {{ form.bank_phone_number }}
-                    <label for="id_account_number">Account Number:</label>
-                    {{ form.account_number }}
-                    <label for="id_bank_route_number">Routing Number:</label>
-                    {{ form.bank_route_number }}
-                    <label for="id_type_of_account">Type of Account:</label>
-                    {{ form.type_of_account }}
-                    <label for="id_date">Transaction Date:</label>
-                    {{ form.date }}
-                    <button type="button" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="submit" class="submit-btn">Submit</button>
-                </div>
-            </form>
-        </div>
+      <div class="form-container">
+        <form method="post" action="{% url 'user_details' %}">
+          {% csrf_token %}
+          <div class="form-section active">
+            <h2>Section 1: Personal Details</h2>
+            <label for="id_first_name">First Name:</label>
+            {{ form.first_name }}
+            <label for="id_last_name">Last Name:</label>
+            {{ form.last_name }}
+            <label for="id_middle_name">Middle Name:</label>
+            {{ form.middle_name }}
+            <label for="id_street_address">Street Address:</label>
+            {{ form.street_address }}
+            <label for="id_apartment_number">APT / UNIT #:</label>
+            {{ form.apartment_number }}
+            <label for="id_city">City:</label>
+            {{ form.city }}
+            <label for="id_state">State:</label>
+            {{ form.state }}
+            <label for="id_zip_code">Zip Code:</label>
+            {{ form.zip_code }}
+            <button type="button" class="back-btn">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section">
+            <h2>Section 2: Contact Information</h2>
+            <label for="id_home_phone">Home Phone:</label>
+            {{ form.home_phone }}
+            <label for="id_alternate_phone">Alternate Phone:</label>
+            {{ form.alternate_phone }}
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+            <button type="button" class="back-btn">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section">
+            <h2>Section 3: Personal - Continued</h2>
+            <label for="id_ssn_or_gov_id">SSN or Government ID:</label>
+            {{ form.ssn_or_gov_id }}
+            <label for="id_birth_date">Birth Date:</label>
+            {{ form.birth_date }}
+            <label for="id_marital_status">Marital Status:</label>
+            {{ form.marital_status }}
+            <label for="id_spouse_name">Spouse's Name:</label>
+            {{ form.spouse_name }}
+            <label for="id_spouse_employer">Spouse's Employer:</label>
+            {{ form.spouse_employer }}
+            <label for="id_spouse_work_phone">Spouse's Work Phone:</label>
+            {{ form.spouse_work_phone }}
+            <label for="id_referred_by">Referred By:</label>
+            {{ form.referred_by }}
+            <button type="button" class="back-btn">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section">
+            <h2>Section 4: Bank Details</h2>
+            <label for="id_bank_name">Bank Name:</label>
+            {{ form.bank_name }}
+            <label for="id_bank_address">Bank Address:</label>
+            {{ form.bank_address }}
+            <label for="id_bank_city">Bank City:</label>
+            {{ form.bank_city }}
+            <label for="id_bank_state">Bank State:</label>
+            {{ form.bank_state }}
+            <label for="id_bank_zipcode">Bank Zipcode:</label>
+            {{ form.bank_zipcode }}
+            <label for="id_fax_number">Fax Number:</label>
+            {{ form.fax_number }}
+            <label for="id_bank_phone_number">Bank Phone Number:</label>
+            {{ form.bank_phone_number }}
+            <label for="id_account_number">Account Number:</label>
+            {{ form.account_number }}
+            <label for="id_bank_route_number">Routing Number:</label>
+            {{ form.bank_route_number }}
+            <label for="id_type_of_account">Type of Account:</label>
+            {{ form.type_of_account }}
+            <label for="id_date">Transaction Date:</label>
+            {{ form.date }}
+            <button type="button" class="back-btn">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="submit" class="submit-btn">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
     <script>
-        $(document).ready(function() {
-            let currentSection = 0;
-            const sections = $(".form-section");
+      $(document).ready(function () {
+        let currentSection = 0;
+        const sections = $(".form-section");
+        $(sections[currentSection]).show();
+
+        $(".next-btn").click(function () {
+          if (currentSection < sections.length - 1) {
+            $(sections[currentSection]).hide();
+            currentSection++;
             $(sections[currentSection]).show();
-
-            $(".next-btn").click(function() {
-                if (currentSection < sections.length - 1) {
-                    $(sections[currentSection]).hide();
-                    currentSection++;
-                    $(sections[currentSection]).show();
-                }
-            });
-
-            $(".back-btn").click(function() {
-                if (currentSection > 0) {
-                    $(sections[currentSection]).hide();
-                    currentSection--;
-                    $(sections[currentSection]).show();
-                }
-            });
+          }
         });
+
+        $(".back-btn").click(function () {
+          if (currentSection > 0) {
+            $(sections[currentSection]).hide();
+            currentSection--;
+            $(sections[currentSection]).show();
+          }
+        });
+      });
     </script>
     <!-- Bootstrap JS and Popper.js for Bootstrap functionalities -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>
