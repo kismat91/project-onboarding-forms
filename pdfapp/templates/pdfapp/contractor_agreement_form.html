@@ -1,67 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contractor Agreement Form - oNest Real Estate</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery and jQuery UI for Datepicker -->
+    <!-- Bootstrap CSS and custom styles -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#id_birth_date").datepicker({ // Make sure to match this ID with your form field's ID
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-100:+0",
-                dateFormat: 'yy-mm-dd'
-            });
-        });
-    </script>
     <style>
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            max-width: 600px;
-            margin: auto;
-        }
-        .form-container h1, .form-container h2 {
-            text-align: center;
-        }
-        .send-container button {
-            width: 100%;
-            padding: 10px;
-            font-size: 18px;
-        }
+      body {
+        background-color: #f0f4f8;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        font-family: "Roboto", sans-serif;
+      }
+      .form-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 55px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+        margin: auto;
+        width: 600px;
+        border: 1px solid #e0e0e0;
+      }
+      .title-bubble {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 50px;
+        text-align: center;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 175px;
+      }
+      input[type="text"],
+      input[type="email"],
+      select,
+      .date-picker {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .button-group {
+        display: flex;
+        justify-content: space-between; /* Adjusts the space distribution */
+        align-items: center;
+      }
+
+      button,
+      .next-btn,
+      .back-btn,
+      .submit-btn {
+        background-color: #b68319;
+        color: #ffffff;
+        border-radius: 1em;
+        font-size: 17px;
+        font-weight: 600;
+        padding: 1em 2em;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        border: 0px solid black;
+        box-shadow: 0 0 0 0 black;
+        width: 49%; /* Adjust width to make space for both buttons in one line */
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      button:hover,
+      .next-btn:hover,
+      .back-btn:hover {
+        transform: translateY(-4px) translateX(-2px);
+        box-shadow: 2px 5px 0 0 black;
+        border: 0px;
+      }
+
+      button:active,
+      .next-btn:active,
+      .back-btn:active {
+        transform: translateY(2px) translateX(1px);
+        box-shadow: 0 0 0 0 black;
+      }
+
+      .submit-btn {
+        background-color: #b68319; /* Default background color */
+        color: #ffffff; /* Default text color */
+        border: 0px;
+        /* Other styles already defined */
+      }
+
+      .submit-btn:hover {
+        background-color: #217eda; /* Green background color on hover */
+        color: #ffffff; /* Optional: change text color on hover if needed */
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow effect on hover */
+        border: 0px;
+      }
+
+      .back-to-main {
+        position: absolute;
+        top: 65px;
+        left: 450px;
+      }
+
+      .form-section {
+        display: none;
+      }
+      h1 {
+        font-weight: bold;
+      }
+      h2 {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 50px;
+      }
+
+      img {
+        margin-top: -182px; /* Moves the image upwards by 20px */
+        vertical-align: center;
+      }
+
+      .progress-bar-container {
+        width: 605px;
+        background-color: (241, 244, 248); /* Light grey that's still visible */
+        border-radius: 55px;
+        margin: 20px auto 30px;
+        padding: 3px;
+        align-items: center;
+      }
+
+      .progress-bar {
+        width: 100%;
+        background-color: #e0e0e0; /* Slightly darker grey for contrast */
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .progress-fill {
+        background-color: #b68319; /* Your theme color for visibility */
+        color: white;
+        text-align: center;
+        line-height: 35px;
+        height: 35px;
+        border-radius: 25px;
+        transition: width 0.3s ease-in-out;
+      }
+      
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="form-container">
-            <h1>oNest Real Estate</h1>
-            <h2>Contractor Agreement Form</h2>
-            <form method="post" action="{% url 'contractor_agreement_form' %}?session_id={{ session_id }}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                
-                <div class="send-container">
-                    <button type="submit" class="btn btn-success">Next</button>
-                </div>
-            </form>
-        </div>
+  </head>
+  <body>
+    <div class="back-to-main">
+      <a href="{% url 'records_form' %}" class="back-button"
+        ><i class="fas fa-arrow-left"></i> Table</a
+      >
     </div>
-    <!-- Bootstrap JS, Popper.js for dropdowns, tooltips, etc. -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <div class="container">
+      <div class="title-bubble">
+        <img
+          src="https://raw.githubusercontent.com/kismat91/project-onboarding-forms/main/oNEST%20Logo.png"
+          alt="oNest Real Estate"
+          style="width: 500px; height: 500px"
+        />
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
+      </div>
+      <div class="form-container">
+        <form
+          method="post"
+          action="{% url 'contractor_agreement_form' %}?session_id={{ session_id }}"
+        >
+          {% csrf_token %}
+          <div class="form-section active" id="section1">
+            <h2>Basic Details</h2>
+            <label for="id_contractDay">Contract Day:</label>
+            {{ form.contractDay }}
+            <label for="id_contractMonth">Contract Month:</label>
+            {{ form.contractMonth }}
+            <label for="id_contractYear">Contract Year:</label>
+            {{ form.contractYear }}
+            <label for="id_brokerName">Broker's Name:</label>
+            {{ form.brokerName }}
+            <label for="id_employeeName">Employee's Name:</label>
+            {{ form.employeeName }}
+            <button type="button" class="back-btn">Back</button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section" id="section2">
+            <h2>Personal Details</h2>
+            <label for="id_age">Age:</label>
+            {{ form.age }}
+            <label for="id_ssn">SSN:</label>
+            {{ form.ssn }}
+            <label for="id_contractorLocation">Contractor Location:</label>
+            {{ form.contractorLocation }}
+            <button type="button" class="back-btn">Back</button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section" id="section3">
+            <h2>Agreement & Commission</h2>
+            <label for="id_effectiveDayOfAgreement"
+              >Effective Day of Agreement:</label
+            >
+            {{ form.effectiveDayOfAgreement }}
+            <label for="id_effectiveMonthOfAgreement"
+              >Effective Month of Agreement:</label
+            >
+            {{ form.effectiveMonthOfAgreement }}
+            <label for="id_effectiveYearOfAgreement"
+              >Effective Year of Agreement:</label
+            >
+            {{ form.effectiveYearOfAgreement }}
+            <label for="id_commissionTimePeriod">Commission Time Period:</label>
+            {{ form.commissionTimePeriod }}
+            <label for="id_bCommission">Broker Commission:</label>
+            {{ form.bCommission }}
+            <label for="id_cCommission">Contractor Commission:</label>
+            {{ form.cCommission }}
+            <button type="button" class="back-btn">Back</button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section" id="section4">
+            <h2>Legal Details</h2>
+            <label for="id_agreementDuration">Agreement Duration:</label>
+            {{ form.agreementDuration }}
+            <label for="id_agreementEffectiveDate"
+              >Agreement Effective Date:</label
+            >
+            {{ form.agreementEffectiveDate }}
+            <label for="id_terminationDays">Termination Days:</label>
+            {{ form.terminationDays }}
+            <label for="id_bAddress">Broker's Address:</label>
+            {{ form.bAddress }}
+            <label for="id_bAttention">Broker's Attention:</label>
+            {{ form.bAttention }}
+            <label for="id_bFacsimileNo">Broker's Facsimile No:</label>
+            {{ form.bFacsimileNo }}
+            <label for="id_cAddress">Contractor's Address:</label>
+            {{ form.cAddress }}
+            <label for="id_cAttention">Contractor's Attention:</label>
+            {{ form.cAttention }}
+            <label for="id_cFacsimileNo">Contractor's Facsimile No:</label>
+            {{ form.cFacsimileNo }}
+            <label for="id_forumLocation">Forum Location:</label>
+            {{ form.forumLocation }}
+            <button type="button" class="back-btn">Back</button>
+            <button type="button" class="next-btn">Continue</button>
+          </div>
+          <div class="form-section" id="section5">
+            <h2>Confirmation Details</h2>
+            <label for="id_bName">Broker's Name:</label>
+            {{ form.bName }}
+            <label for="id_bTitle">Broker's Title:</label>
+            {{ form.bTitle }}
+            <label for="id_bdate">Broker's Date:</label>
+            {{ form.bdate }}
+            <label for="id_bWitness">Broker's Witness:</label>
+            {{ form.bWitness }}
+            <label for="id_cName">Contractor's Name:</label>
+            {{ form.cName }}
+            <label for="id_cTitle">Contractor's Title:</label>
+            {{ form.cTitle }}
+            <label for="id_cDate">Contractor's Date:</label>
+            {{ form.cDate }}
+            <label for="id_cWitness">Contractor's Witness:</label>
+            {{ form.cWitness }}
+            <button type="button" class="back-btn">Back</button>
+            <button type="submit" class="submit-btn">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        let currentSection = 0;
+        const sections = $(".form-section");
+        $(sections[currentSection]).show();
+
+        $(".next-btn").click(function () {
+          if (currentSection < sections.length - 1) {
+            $(sections[currentSection]).hide();
+            currentSection++;
+            $(sections[currentSection]).fadeIn();
+            updateProgressBar(currentSection + 1);
+          }
+        });
+
+        $(".back-btn").click(function () {
+          if (currentSection > 0) {
+            $(sections[currentSection]).hide();
+            currentSection--;
+            $(sections[currentSection]).fadeIn();
+            updateProgressBar(currentSection + 1);
+          }
+        });
+
+        function updateProgressBar(stepNumber) {
+          var percentage = (stepNumber / 5) * 100;
+          $(".progress-fill")
+            .width(percentage + "%")
+            .text("Step " + stepNumber + " of 5");
+        }
+      });
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>
