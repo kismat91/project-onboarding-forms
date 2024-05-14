@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, reverse
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import ContractorAgreementForm, CommissionAgreementForm, CombinedForm
 from fillpdf import fillpdfs
 import os
-from django.http import HttpResponseNotFound, FileResponse
+from django.http import HttpResponseNotFound, FileResponse, HttpResponse
 import pandas as pd
 from urllib.parse import quote
 from sqllite_test.sqlite_conn import DatabaseManager
@@ -254,36 +257,65 @@ def download_file(request):
 def records_form(request):
     is_log_in = request.COOKIES.get('isLogIn', 'No Cookie Found')
     if is_log_in!='True':
-        return redirect('log_in')   
+        return redirect('log_in')
+    
     db = DatabaseManager("/root/project/real_estate_onboarding.db")
-
     df = db.fetch_all_records()
 
     def make_download_button(file_path, file_name):
-        # Ensure the file path is URL-encoded to handle special characters
         safe_path = quote(file_path)
         return f'<a href="/download_file/?file_path={safe_path}&file_name={file_name}" class="btn btn-primary">Download</a>'
     
     def make_next_form_button(file_path):
-        # Ensure the file path is URL-encoded to handle special characters
         safe_path = quote(file_path.replace('output_files/', ''))
         return f'<a href="/contractor_agreement_form/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
+    
     if not df.empty:
         df['Download'] = df.apply(lambda x: make_download_button(x['file_path'], x['name']), axis=1)
         df['Next'] = df.apply(lambda x: make_next_form_button(x['file_path']), axis=1)
     else:
         df['Download'] = 'No records found'
+        
     df.drop('file_path', axis=1, inplace=True)
-    # Convert DataFrame to HTML
-    html_table = df.to_html(index=False, escape=False)
-    # Convert DataFrame to HTML, without index and escaping text
     html_table = df.to_html(index=False, escape=False)
     return render(request, 'pdfapp/list_forms.html', {'html_table': html_table})
 
 
 def log_in(request):
-    return render(request, 'pdfapp/log_in_page.html')
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return HttpResponse("Invalid username or password.")
+        else:
+            return HttpResponse("Invalid username or password.")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'pdfapp/log_in_page.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('log_in')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+def home(request):
+    return render(request, 'pdfapp/home.html')
 
 def success(request):
     return render(request, 'pdfapp/success.html', {'host_link':request.build_absolute_uri('/records_form/')})
