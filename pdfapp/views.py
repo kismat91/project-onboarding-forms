@@ -319,3 +319,6 @@ def home(request):
 
 def success(request):
     return render(request, 'pdfapp/success.html', {'host_link':request.build_absolute_uri('/records_form/')})
+
+def success2(request):
+    return render(request, 'pdfapp/success2.html')
