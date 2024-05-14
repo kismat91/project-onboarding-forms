@@ -20,8 +20,8 @@ Including another URLconf
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 # ]
-from django.contrib import admin
 from django.urls import path
+from django.contrib import admin
 from pdfapp import views
 
 urlpatterns = [
@@ -32,4 +32,8 @@ urlpatterns = [
     path('contractor_agreement_form/', views.contractor_agreement_form, name='contractor_agreement_form'),
     path('commission_agreement_form/', views.commission_agreement_form, name='commission_agreement_form'),
     path('success/', views.success, name='success'),
+    path('logout/', views.logout_view, name='logout'),  # Use views.logout_view here
+    path('register/', views.register, name='register'),
+    path('admin/', admin.site.urls),
+    path('home/', views.home, name='home')
 ]
