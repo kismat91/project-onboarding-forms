@@ -104,7 +104,7 @@ def user_details(request):
             )
             db.add_record(web_form_fields['first_name'], web_form_fields['email'], web_form_fields['home_phone'], web_form_fields['street_address'], web_form_fields['ssn_or_gov_id'], OUTPUT_LOCAL_FOLDER_PATH)
             email_sender.connect()
-            recipient = 'info@onest.realestate'
+            recipient = 'koirala.p.giriraj@gmail.com'
             email_sender.send_email(recipient, f'Form Submitted by {web_form_fields["first_name"]}', f"""For was submitted you can check at {request.build_absolute_uri('/log_in/')}""")
             email_sender.close_connection()
 
