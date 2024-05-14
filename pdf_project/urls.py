@@ -36,4 +36,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('admin/', admin.site.urls),
     path('home/', views.home, name='home')
+    path('success2/' views.success, name='success2')
 ]
