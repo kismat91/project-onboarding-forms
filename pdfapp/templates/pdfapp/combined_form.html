@@ -161,6 +161,36 @@
           border-radius: 25px;
           transition: width 0.3s ease-in-out;
         }
+
+        .warning-bubble {
+            position: absolute;  /* Absolute positioning relative to its nearest positioned ancestor */
+            top: 50%;  /* Center it vertically relative to the form container */
+            right: -300px;  /* Adjust this value based on your layout to move it right outside the form */
+            width: 280px;  /* Set a fixed width for the bubble */
+            padding: 15px;
+            background-color: #fff4e5;  /* Light orange background for visibility */
+            border: 1px solid #ffd580;  /* Slightly darker border */
+            border-radius: 10px;  /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Soft shadow for 3D effect */
+            transform: translateY(-50%);  /* Adjust vertical position to truly center */
+            z-index: 10;  /* Ensure it's above other content */
+        }
+
+        .warning-bubble p {
+            margin: 0;
+            font-size: 14px;  /* Smaller font size for the warning text */
+            color: #ca5700;  /* Dark orange text for contrast */
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+    .warning-bubble {
+        position: static;  /* Make it part of the normal document flow on small screens */
+        margin-top: 20px;  /* Add some space above the bubble */
+        right: 0;
+        transform: translateY(0);
+    }
+}
         
       </style>
   </head>
@@ -178,6 +208,9 @@
             <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
         </div>
       <div class="form-container">
+        <div class="warning-bubble">
+            <p>Please ensure all fields, especially names, email addresses, and dates, are filled correctly to submit the form.</p>
+        </div>
         <form method="post" action="{% url 'user_details' %}">
           {% csrf_token %}
           <div class="form-section active">
