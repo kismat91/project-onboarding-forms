@@ -57,7 +57,7 @@ ROOT_URLCONF = 'pdf_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['/root/project/project-onboarding-forms/pdfapp/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
