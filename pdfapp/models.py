@@ -40,10 +40,10 @@ class ContractorAgreement(models.Model):
     contractMonth = models.CharField(max_length=2)
     contractYear = models.CharField(max_length=4)
     brokerName = models.CharField(max_length=100)
-    employeeName = models.CharField(max_length=100)
+    # employeeName = models.CharField(max_length=100)
     age = models.CharField(max_length=3)
-    ssn = models.CharField(max_length=10)
-    contractorLocation = models.CharField(max_length=100)
+    # ssn = models.CharField(max_length=10)
+    # contractorLocation = models.CharField(max_length=100)
     effectiveDayOfAgreement = models.CharField(max_length=2)
     effectiveMonthOfAgreement = models.CharField(max_length=2)
     effectiveYearOfAgreement = models.CharField(max_length=4)
@@ -56,7 +56,7 @@ class ContractorAgreement(models.Model):
     bAddress = models.CharField(max_length=100)
     bAttention = models.CharField(max_length=100)
     bFacsimileNo = models.CharField(max_length=20)
-    cAddress = models.CharField(max_length=100)
+    # cAddress = models.CharField(max_length=100)20
     cAttention = models.CharField(max_length=100)
     cFacsimileNo = models.CharField(max_length=20)
     forumLocation = models.CharField(max_length=100)
@@ -64,7 +64,7 @@ class ContractorAgreement(models.Model):
     bTitle = models.CharField(max_length=100)
     bdate = models.DateField()
     bWitness = models.CharField(max_length=100)
-    cName = models.CharField(max_length=100)
+    # cName = models.CharField(max_length=100)28
     cTitle = models.CharField(max_length=100)
     cDate = models.DateField()
     cWitness = models.CharField(max_length=100)
@@ -73,7 +73,7 @@ class ContractorAgreement(models.Model):
         return self.contractDay
     
 class CommissionAgreement(models.Model):
-    agentName = models.CharField(max_length=100)
+    # agentName = models.CharField(max_length=100)
     exclusive = models.BooleanField(default=False)
     companyPurpose1 = models.CharField(max_length=100)
     companyPurpose2 = models.CharField(max_length=100)
@@ -99,15 +99,15 @@ class CommissionAgreement(models.Model):
     incrementMonth = models.CharField(max_length=100)
     incrementYear = models.CharField(max_length=100)
     noticeDay = models.CharField(max_length=100)
-    printedNameOfAgent = models.CharField(max_length=100)
-    agentAddress = models.CharField(max_length=100)
+    # printedNameOfAgent = models.CharField(max_length=100)26
+    # agentAddress = models.CharField(max_length=100)27
     notapplicableExclussion = models.BooleanField(default=False)
     agreementPages = models.CharField(max_length=100)
     agreementDay = models.CharField(max_length=100)
     agreementMonth = models.CharField(max_length=100)
     agreementYear = models.CharField(max_length=100)
     nameOfCompanyRepresentative = models.CharField(max_length=100)
-    nameOfAgent = models.CharField(max_length=100)
+    # nameOfAgent = models.CharField(max_length=100)34
 
     def __str__(self):
         return self.agentName
