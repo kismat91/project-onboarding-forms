@@ -102,9 +102,23 @@ def user_details(request):
                 f'{OUTPUT_LOCAL_FOLDER_PATH}/direct_deposit.pdf', 
                 final_dict
             )
-            db.add_record(web_form_fields['first_name'], web_form_fields['email'], web_form_fields['home_phone'], web_form_fields['street_address'], web_form_fields['ssn_or_gov_id'], OUTPUT_LOCAL_FOLDER_PATH)
+            # f_name, l_name, m_name, email, h_number, a_number, s_address, address, apt, city, state, zip, b_date, file_path
+            db.add_record(web_form_fields['first_name'],
+                            web_form_fields['last_name'], 
+                            web_form_fields['middle_name'], 
+                            web_form_fields['email'], 
+                            web_form_fields['home_phone'], 
+                            web_form_fields['alternate_phone'], 
+                            web_form_fields['street_address'], 
+                            web_form_fields['apartment_number'], 
+                            web_form_fields['city'], 
+                            web_form_fields['state'], 
+                            web_form_fields['zip_code'], 
+                            web_form_fields['birth_date'].strftime('%Y-%m-%d'), 
+                            web_form_fields['ssn_or_gov_id'], 
+                            OUTPUT_LOCAL_FOLDER_PATH)
             email_sender.connect()
-            recipient = 'koirala.p.giriraj@gmail.com'
+            recipient = 'info@onest.realestate'
             email_sender.send_email(recipient, f'Form Submitted by {web_form_fields["first_name"]}', f"""For was submitted you can check at {request.build_absolute_uri('/log_in/')}""")
             email_sender.close_connection()
 
@@ -115,12 +129,14 @@ def user_details(request):
     return render(request, 'pdfapp/combined_form.html', {'form': form})
 
 def contractor_agreement_form(request):
+    db = DatabaseManager("/root/project/real_estate_onboarding.db")
     global OUTPUT_LOCAL_FOLDER_PATH, session_id
     session_id = request.GET.get('session_id')
     print('aaa')
     print(session_id)
     print(request.GET.dict())
     OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
+    user_details = db.fetch_record(OUTPUT_LOCAL_FOLDER_PATH).to_dict()
     print(OUTPUT_LOCAL_FOLDER_PATH)
     if not session_id:
         return redirect('log_in')
@@ -128,6 +144,20 @@ def contractor_agreement_form(request):
         form = ContractorAgreementForm(request.POST)
         web_form_fields = dict(form.data)
         web_form_fields.pop('csrfmiddlewaretoken')
+        web_form_fields_items = list(web_form_fields.items())
+        if user_details['m_name'][0]:
+            web_form_fields_items.insert(4, ('employeeName', [f"{user_details['f_name'][0]} {user_details['m_name'][0]} {user_details['l_name'][0]}".strip()]))
+        else:
+            web_form_fields_items.insert(4, ('employeeName', [f"{user_details['f_name'][0]} {user_details['l_name'][0]}".strip()]))
+        web_form_fields_items.insert(6, ('ssn', [f"{user_details['ssn'][0]}"]))
+        web_form_fields_items.insert(7, ('contractorLocation', [f"{user_details['s_address'][0]}"]))
+        web_form_fields_items.insert(20, ('cAddress', [f"{user_details['s_address'][0]}"]))
+        if user_details['m_name'][0]:
+            web_form_fields_items.insert(28, ('cName', [f"{user_details['f_name'][0]} {user_details['m_name'][0]} {user_details['l_name'][0]}".strip()]))
+        else:
+            web_form_fields_items.insert(28, ('cName', [f"{user_details['f_name'][0]} {user_details['l_name'][0]}".strip()]))
+        # web_form_fields_items.insert(28, ('cName', [f"{user_details['f_name'][0]} {user_details['m_name'][0]} {user_details['l_name'][0]}".strip()]))
+        web_form_fields = dict(web_form_fields_items)
         web_form_fields_keys = list(web_form_fields.keys())
 
         # Attempt to fill PDF using web form data
@@ -151,14 +181,26 @@ def commission_agreement_form(request):
     global OUTPUT_LOCAL_FOLDER_PATH, session_id
     session_id = request.GET.get('session_id')
     OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
-    print('aaa')
-    print(session_id)
+    db = DatabaseManager("/root/project/real_estate_onboarding.db")
+    user_details = db.fetch_record(OUTPUT_LOCAL_FOLDER_PATH).to_dict()
     if not session_id:
         return redirect('log_in')
     if request.method == 'POST':
         form = CommissionAgreementForm(request.POST)
         web_form_fields = dict(form.data)
         web_form_fields.pop('csrfmiddlewaretoken')
+        web_form_fields_items = list(web_form_fields.items())
+        if user_details['m_name'][0]:
+            web_form_fields_items.insert(0, ('agentName', [f"{user_details['f_name'][0]} {user_details['m_name'][0]} {user_details['l_name'][0]}".strip()]))
+            web_form_fields_items.insert(26, ('printedNameOfAgent', [f"{user_details['f_name'][0]} {user_details['m_name'][0]} {user_details['l_name'][0]}".strip()]))
+            web_form_fields_items.append(('nameOfAgent', [f"{user_details['f_name'][0]} {user_details['m_name'][0]} {user_details['l_name'][0]}".strip()]))
+        else:
+            web_form_fields_items.insert(0, ('agentName', [f"{user_details['f_name'][0]} {user_details['l_name'][0]}".strip()]))
+            web_form_fields_items.insert(26, ('printedNameOfAgent', [f"{user_details['f_name'][0]} {user_details['l_name'][0]}".strip()]))
+            web_form_fields_items.append(('nameOfAgent', [f"{user_details['f_name'][0]} {user_details['l_name'][0]}".strip()]))
+
+        web_form_fields_items.insert(27, ('agentAddress', [f"{user_details['s_address'][0]}"]))
+        web_form_fields = dict(web_form_fields_items)
         web_form_fields_keys = list(web_form_fields.keys())
         web_form_fields_items = list(web_form_fields.items())
                                 
@@ -209,9 +251,9 @@ def commission_agreement_form(request):
             web_form_fields_items.insert(32, ('applicableExclusion', ['Yes_erku']))
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
-
         # Attempt to fill PDF using web form data
         if form.is_valid():
+            print(web_form_fields_items)
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
             final_dict = {form_fields[i]: web_form_fields[web_form_fields_keys[i]][0] for i in range(len(form_fields))}
             fillpdfs.write_fillable_pdf('automatePDF/Commission_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf', final_dict)
@@ -269,14 +311,15 @@ def records_form(request):
     def make_next_form_button(file_path):
         safe_path = quote(file_path.replace('output_files/', ''))
         return f'<a href="/contractor_agreement_form/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
-    
     if not df.empty:
-        df['Download'] = df.apply(lambda x: make_download_button(x['file_path'], x['name']), axis=1)
+        df['Download'] = df.apply(lambda x: make_download_button(x['file_path'], x['First Name']), axis=1)
         df['Next'] = df.apply(lambda x: make_next_form_button(x['file_path']), axis=1)
     else:
         df['Download'] = 'No records found'
-        
+        df['Next'] = 'No records found'
+    
     df.drop('file_path', axis=1, inplace=True)
+
     html_table = df.to_html(index=False, escape=False)
     return render(request, 'pdfapp/list_forms.html', {'html_table': html_table})
 
