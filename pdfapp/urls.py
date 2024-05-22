@@ -10,6 +10,7 @@ urlpatterns = [
     path('contractor-agreement/', views.contractor_agreement_form, name='contractor_agreement_form'),
     path('commission-agreement/', views.commission_agreement_form, name='commission_agreement_form'),
     path('success/', views.success, name='success'),
-    path('success2/' views.success, name='success2')
+    path('success2/' views.success, name='success2'),
+    path('list_forms/' views.success, name='list_forms'),
 ]
 
