@@ -12,6 +12,7 @@ from sqllite_test.sqlite_conn import DatabaseManager
 from sqllite_test.email import EmailSender
 import uuid
 from zipfile import ZipFile, ZIP_DEFLATED
+from django.http import HttpResponse
 import mimetypes
 import io
 
@@ -333,6 +334,8 @@ def log_in(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                response = HttpResponse("Cookie is set with more options")
+                response.set_cookie('is_log_in', 'True', path='/')
                 return redirect('home')
             else:
                 return HttpResponse("Invalid username or password.")
