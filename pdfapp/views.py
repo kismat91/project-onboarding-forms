@@ -298,8 +298,7 @@ def download_file(request):
 
 
 def records_form(request):
-    is_log_in = request.COOKIES.get('isLogIn', 'No Cookie Found')
-    if is_log_in!='True':
+    if not request.user.is_authenticated:
         return redirect('log_in')
     
     db = DatabaseManager("/root/project/real_estate_onboarding.db")
