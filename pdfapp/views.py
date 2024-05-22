@@ -297,9 +297,9 @@ def download_file(request):
         return HttpResponseNotFound('The requested file or directory was not found on our server.')
 
 
-def list_forms(request):
+def records_form(request):
     if not request.user.is_authenticated:
-        return redirect('list_forms')
+        return redirect('log_in')
     
     db = DatabaseManager("/root/project/real_estate_onboarding.db")
     df = db.fetch_all_records()
@@ -321,7 +321,7 @@ def list_forms(request):
     df.drop('file_path', axis=1, inplace=True)
 
     html_table = df.to_html(index=False, escape=False)
-    return render(request, 'pdfapp/list_forms.html', {'html_table': html_table})
+    return render(request, 'pdfapp/records_form.html', {'html_table': html_table})
 
 
 def log_in(request):
@@ -352,7 +352,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('list_forms')
+            return redirect('records_form')
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -361,7 +361,7 @@ def home(request):
     return render(request, 'pdfapp/home.html')
 
 def success(request):
-    return render(request, 'pdfapp/success.html', {'host_link':request.build_absolute_uri('/list_forms/')})
+    return render(request, 'pdfapp/success.html', {'host_link':request.build_absolute_uri('/records_form/')})
 
 def success2(request):
     return render(request, 'pdfapp/success2.html')
