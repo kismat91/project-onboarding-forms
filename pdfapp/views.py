@@ -333,8 +333,6 @@ def log_in(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                response = HttpResponse("Cookie is set with more options")
-                response.set_cookie('is_log_in', 'True', path='/')
                 return redirect('home')
             else:
                 return HttpResponse("Invalid username or password.")
