@@ -18,7 +18,7 @@ import io
 
 session_id = uuid.uuid4()
 
-OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
+OUTPUT_LOCAL_FOLDER_PATH = '/root/project/output_files/{session_id}'.format(session_id=session_id)
 
 def process_pdf(pdf_template_path, output_path, data_dict):
     # Logic to fill out PDF form with user details
@@ -136,7 +136,7 @@ def contractor_agreement_form(request):
     print('aaa')
     print(session_id)
     print(request.GET.dict())
-    OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
+    OUTPUT_LOCAL_FOLDER_PATH = '/root/project/output_files/{session_id}'.format(session_id=session_id)
     user_details = db.fetch_record(OUTPUT_LOCAL_FOLDER_PATH).to_dict()
     print(OUTPUT_LOCAL_FOLDER_PATH)
     if not session_id:
@@ -181,7 +181,7 @@ def contractor_agreement_form(request):
 def commission_agreement_form(request):
     global OUTPUT_LOCAL_FOLDER_PATH, session_id
     session_id = request.GET.get('session_id')
-    OUTPUT_LOCAL_FOLDER_PATH = 'output_files/{session_id}'.format(session_id=session_id)
+    OUTPUT_LOCAL_FOLDER_PATH = '/root/project/output_files/{session_id}'.format(session_id=session_id)
     db = DatabaseManager("/root/project/real_estate_onboarding.db")
     user_details = db.fetch_record(OUTPUT_LOCAL_FOLDER_PATH).to_dict()
     if not session_id:
