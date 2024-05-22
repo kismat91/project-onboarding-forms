@@ -3,17 +3,17 @@ from .models import UserDetails, ContractorAgreement, CommissionAgreement
 
 class CombinedForm(forms.ModelForm):
     # Additional fields from DirectDeposit
-    bank_name = forms.CharField(max_length=100)
+    bank_name = forms.CharField(max_length=100, required=False)
     bank_address = forms.CharField(max_length=200, required=False)
     bank_city = forms.CharField(max_length=100, required=False)
     bank_state = forms.CharField(max_length=100, required=False)
     bank_zipcode = forms.CharField(max_length=100, required=False)
     fax_number = forms.CharField(max_length=20, required=False)
     bank_phone_number = forms.CharField(max_length=20, required=False)
-    account_number = forms.CharField(max_length=100)
-    bank_route_number = forms.CharField(max_length=100)
+    account_number = forms.CharField(max_length=100, required=False)
+    bank_route_number = forms.CharField(max_length=100, required=False)
     type_of_account = forms.CharField(max_length=100, required=False)
-    date = forms.DateField(widget=forms.DateInput(format='%Y-%m-%d'))
+    date = forms.DateField(widget=forms.DateInput(format='%Y-%m-%d'), required=False)
 
     class Meta:
         model = UserDetails
@@ -27,7 +27,7 @@ class CombinedForm(forms.ModelForm):
             'type_of_account', 'date'
         ]
         widgets = {
-            'birth_date': forms.DateInput(format='%Y-%m-%d'),
+            'birth_date': forms.DateInput(format='%Y-%m-%d'), 
             'date': forms.DateInput(format='%Y-%m-%d'),
         }
 
