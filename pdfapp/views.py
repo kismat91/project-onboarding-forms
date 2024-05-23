@@ -181,12 +181,8 @@ def contractor_agreement_form(request):
             print(f'Form Fields: {form_fields}')
 
             final_dict = {}
-            for i in range(len(form_fields)):
-                key = form_fields[i]
-                if key in web_form_fields_keys:
-                    final_dict[key] = web_form_fields[key][0]
-                else:
-                    final_dict[key] = ''
+            for key in form_fields:
+                final_dict[key] = web_form_fields.get(key, '')
 
             print(f'Final Dict: {final_dict}')
 
@@ -310,7 +306,10 @@ def commission_agreement_form(request):
 
             # Attempt to fill PDF using web form data
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
-            final_dict = {form_fields[i]: web_form_fields.get(form_fields[i], [''])[0] for i in range(len(form_fields))}
+            final_dict = {}
+            for key in form_fields:
+                final_dict[key] = web_form_fields.get(key, '')
+
             print(f'Final Dict: {final_dict}')
 
             commission_agreement_path = f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf'
