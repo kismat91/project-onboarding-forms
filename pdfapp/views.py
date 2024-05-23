@@ -17,6 +17,7 @@ from datetime import date
 
 # Set up a global session ID and output folder path
 session_id = uuid.uuid4()
+output_base_folder_path = '/root/project/output_files/'
 OUTPUT_LOCAL_FOLDER_PATH = '/root/project/output_files/{session_id}'.format(session_id=session_id)
 
 def process_pdf(pdf_template_path, output_path, data_dict):
@@ -357,7 +358,7 @@ def records_form(request):
         return f'<a href="/download_file/?file_path={safe_path}&file_name={file_name}" class="btn btn-primary">Download</a>'
 
     def make_next_form_button(file_path):
-        safe_path = quote(file_path.replace('output_files/', ''))
+        safe_path = quote(file_path.replace(output_base_folder_path, ''))
         return f'<a href="/contractor_agreement_form/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
 
     if not df.empty:
