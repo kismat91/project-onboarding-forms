@@ -12,7 +12,7 @@ import uuid
 from zipfile import ZipFile, ZIP_DEFLATED
 import mimetypes
 import io
-
+import re
 from datetime import date
 
 # Set up a global session ID and output folder path
