@@ -18,12 +18,14 @@ from datetime import date
 # Set up a global session ID and output folder path
 session_id = uuid.uuid4()
 output_base_folder_path = '/root/project/output_files/'
-OUTPUT_LOCAL_FOLDER_PATH = '/root/project/output_files/{session_id}'.format(session_id=session_id)
-
+db_path = '/root/project/real_estate_onboarding.db'
+OUTPUT_LOCAL_FOLDER_PATH = f'{output_base_folder_path}{session_id}'
+print(f'Output Local Folder Path: {OUTPUT_LOCAL_FOLDER_PATH}')
 def process_pdf(pdf_template_path, output_path, data_dict):
     fillpdfs.write_fillable_pdf(pdf_template_path, output_path, data_dict)
 
 def sanitize_session_id(session_id):
+    return session_id
     return re.sub(r'[<>:"/\\|?*\x00-\x1F]', '_', session_id)
 
 def get_value(user_details, key, default=''):
@@ -36,7 +38,7 @@ def get_value(user_details, key, default=''):
 
 def user_details(request):
     print(session_id)
-    db = DatabaseManager("/root/project/real_estate_onboarding.db")
+    db = DatabaseManager(db_path)
     email_sender = EmailSender()
     if request.method == 'POST':
         form = CombinedForm(request.POST)
@@ -74,7 +76,7 @@ def user_details(request):
 
             if not os.path.exists(OUTPUT_LOCAL_FOLDER_PATH):
                 os.makedirs(OUTPUT_LOCAL_FOLDER_PATH)
-
+            print(f'Output Local Folder Path: {OUTPUT_LOCAL_FOLDER_PATH}')
             fillpdfs.write_fillable_pdf(agent_info_template_path, f'{OUTPUT_LOCAL_FOLDER_PATH}/Agent_information.pdf', final_dict)
 
             direct_deposit_pdf_fields = {
@@ -121,22 +123,22 @@ def user_details(request):
     return render(request, 'pdfapp/combined_form.html', {'form': form})
 
 def contractor_agreement_form(request):
-    db = DatabaseManager("/root/project/real_estate_onboarding.db")
+    db = DatabaseManager(db_path)
     global OUTPUT_LOCAL_FOLDER_PATH, session_id
     session_id = request.GET.get('session_id')
     print(f'Session ID: {session_id}')
-    print(f'Request GET Dict: {request.GET.dict()}')
 
     if session_id:
         session_id = sanitize_session_id(session_id)
     else:
         return redirect('log_in')
 
-    OUTPUT_LOCAL_FOLDER_PATH = f'/root/project/output_files/{session_id}'
+    OUTPUT_LOCAL_FOLDER_PATH = f'{output_base_folder_path}{session_id}'
     print(f'Output Local Folder Path: {OUTPUT_LOCAL_FOLDER_PATH}')
 
     try:
-        user_details = db.fetch_record(session_id).to_dict()
+        print(OUTPUT_LOCAL_FOLDER_PATH)
+        user_details = db.fetch_record(OUTPUT_LOCAL_FOLDER_PATH).to_dict()
     except Exception as e:
         print(f'Error fetching record: {e}')
         user_details = {}
@@ -154,38 +156,33 @@ def contractor_agreement_form(request):
 
             web_form_fields_items = list(web_form_fields.items())
 
-            f_name = get_value(user_details, 'f_name')
-            m_name = get_value(user_details, 'm_name')
-            l_name = get_value(user_details, 'l_name')
-            s_address = get_value(user_details, 's_address')
-            ssn = get_value(user_details, 'ssn')
+            f_name = get_value(user_details, 'f_name')[0]
+            m_name = get_value(user_details, 'm_name')[0]
+            l_name = get_value(user_details, 'l_name')[0]
+            s_address = get_value(user_details, 's_address')[0]
+            ssn = get_value(user_details, 'ssn')[0]
+            if m_name:
+                web_form_fields_items.insert(4, ('employeeName', f"{f_name} {m_name} {l_name}".strip()))
+            else:
+                web_form_fields_items.insert(4, ('employeeName', f"{f_name} {l_name}".strip()))
+
+            web_form_fields_items.insert(6, ('ssn', ssn))
+            web_form_fields_items.insert(7, ('contractorLocation', s_address))
+            web_form_fields_items.insert(20, ('cAddress', s_address))
 
             if m_name:
-                web_form_fields_items.insert(4, ('employeeName', [f"{f_name} {m_name} {l_name}".strip()]))
+                web_form_fields_items.insert(28, ('cName', f"{f_name} {m_name} {l_name}".strip()))
             else:
-                web_form_fields_items.insert(4, ('employeeName', [f"{f_name} {l_name}".strip()]))
-
-            web_form_fields_items.insert(6, ('ssn', [ssn]))
-            web_form_fields_items.insert(7, ('contractorLocation', [s_address]))
-            web_form_fields_items.insert(20, ('cAddress', [s_address]))
-
-            if m_name:
-                web_form_fields_items.insert(28, ('cName', [f"{f_name} {m_name} {l_name}".strip()]))
-            else:
-                web_form_fields_items.insert(28, ('cName', [f"{f_name} {l_name}".strip()]))
+                web_form_fields_items.insert(28, ('cName', f"{f_name} {l_name}".strip()))
 
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
-            print(f'Web Form Fields: {web_form_fields}')
 
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())
-            print(f'Form Fields: {form_fields}')
 
             final_dict = {}
-            for key in form_fields:
-                final_dict[key] = web_form_fields.get(key, '')
-
-            print(f'Final Dict: {final_dict}')
+            for i in range(len(form_fields)):
+                final_dict[form_fields[i]] = web_form_fields.get(web_form_fields_keys[i], '')
 
             if not os.path.exists(OUTPUT_LOCAL_FOLDER_PATH):
                 os.makedirs(OUTPUT_LOCAL_FOLDER_PATH)
@@ -204,113 +201,113 @@ def commission_agreement_form(request):
     global OUTPUT_LOCAL_FOLDER_PATH, session_id
     session_id = request.GET.get('session_id')
     contractor_agreement_path = request.GET.get('contractor_agreement_path')
-    print(f'Session ID: {session_id}')
 
     if session_id:
         session_id = sanitize_session_id(session_id)
     else:
         return redirect('log_in')
 
-    OUTPUT_LOCAL_FOLDER_PATH = f'/root/project/output_files/{session_id}'
-    print(f'Output Local Folder Path: {OUTPUT_LOCAL_FOLDER_PATH}')
+    OUTPUT_LOCAL_FOLDER_PATH = f'{output_base_folder_path}{session_id}'
 
-    db = DatabaseManager("/root/project/real_estate_onboarding.db")
+    db = DatabaseManager(db_path)
 
     try:
-        user_details = db.fetch_record(session_id).to_dict()
-        print(f'User Details: {user_details}')
+        user_details = db.fetch_record(OUTPUT_LOCAL_FOLDER_PATH).to_dict()
     except Exception as e:
         print(f'Error fetching record: {e}')
         user_details = {}
 
     if request.method == 'POST':
         form = CommissionAgreementForm(request.POST)
-        print(f'Form Data: {form.data}')
+        # print(f'Form Data: {form.data}')
 
         if form.is_valid():
             print('Form is valid')
             web_form_fields = dict(form.cleaned_data)
-            print(f'Cleaned Form Data: {web_form_fields}')
+            # print(f'Cleaned Form Data: {web_form_fields}')
 
             web_form_fields_items = list(web_form_fields.items())
 
-            f_name = get_value(user_details, 'f_name')
-            m_name = get_value(user_details, 'm_name')
-            l_name = get_value(user_details, 'l_name')
-            s_address = get_value(user_details, 's_address')
-            ssn = get_value(user_details, 'ssn')
+            f_name = get_value(user_details, 'f_name')[0]
+            m_name = get_value(user_details, 'm_name')[0]
+            l_name = get_value(user_details, 'l_name')[0]
+            s_address = get_value(user_details, 's_address')[0]
+            ssn = get_value(user_details, 'ssn')[0]
 
             if m_name:
-                web_form_fields_items.insert(0, ('agentName', [f"{f_name} {m_name} {l_name}".strip()]))
-                web_form_fields_items.insert(26, ('printedNameOfAgent', [f"{f_name} {m_name} {l_name}".strip()]))
-                web_form_fields_items.append(('nameOfAgent', [f"{f_name} {m_name} {l_name}".strip()]))
+                web_form_fields_items.insert(0, ('agentName', f"{f_name} {m_name} {l_name}".strip()))
+                web_form_fields_items.insert(26, ('printedNameOfAgent', f"{f_name} {m_name} {l_name}".strip()))
+                web_form_fields_items.append(('nameOfAgent', f"{f_name} {m_name} {l_name}".strip()))
             else:
-                web_form_fields_items.insert(0, ('agentName', [f"{f_name} {l_name}".strip()]))
-                web_form_fields_items.insert(26, ('printedNameOfAgent', [f"{f_name} {l_name}".strip()]))
-                web_form_fields_items.append(('nameOfAgent', [f"{f_name} {l_name}".strip()]))
+                web_form_fields_items.insert(0, ('agentName', f"{f_name} {l_name}".strip()))
+                web_form_fields_items.insert(26, ('printedNameOfAgent', f"{f_name} {l_name}".strip()))
+                web_form_fields_items.append(('nameOfAgent', f"{f_name} {l_name}".strip()))
 
-            web_form_fields_items.insert(27, ('agentAddress', [s_address]))
+            web_form_fields_items.insert(27, ('agentAddress', s_address))
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
-            print(f'Web Form Fields: {web_form_fields}')
+            # print(f'Web Form Fields: {web_form_fields}')
             web_form_fields_items = list(web_form_fields.items())
 
             try:
-                web_form_fields_items.insert(web_form_fields_keys.index('exclusive') + 1, ('nonExclusive', [None]))
+                web_form_fields_items.insert(web_form_fields_keys.index('exclusive') + 1, ('nonExclusive', None))
                 web_form_fields = dict(web_form_fields_items)
-                web_form_fields['exclusive'] = ['Yes_pgge']
+                web_form_fields['exclusive'] = None
+                web_form_fields['exclusive'] = 'Yes_pgge'
                 web_form_fields_keys = list(web_form_fields.keys())
                 web_form_fields_items = list(web_form_fields.items())
             except ValueError:
-                web_form_fields_items.insert(1, ('exclusive', [None]))
-                web_form_fields_items.insert(2, ('nonExclusive', ['Yes_rjaw']))
+                web_form_fields_items.insert(1, ('exclusive', None))
+                web_form_fields_items.insert(2, ('nonExclusive', 'Yes_rjaw'))
                 web_form_fields = dict(web_form_fields_items)
                 web_form_fields_keys = list(web_form_fields.keys())
 
             try:
-                web_form_fields_items.insert(web_form_fields_keys.index('notApplicableExpenses') + 1, ('applicableExpenses', [None]))
+                web_form_fields_items.insert(web_form_fields_keys.index('notApplicableExpenses') + 1, ('applicableExpenses', None))
                 web_form_fields = dict(web_form_fields_items)
-                web_form_fields['notApplicableExpenses'] = ['Yes_xavj']
+                web_form_fields['notApplicableExpenses'] = 'Yes_xavj'
                 web_form_fields_keys = list(web_form_fields.keys())
                 web_form_fields_items = list(web_form_fields.items())
             except ValueError:
-                web_form_fields_items.insert(16, ('notApplicableExpenses', [None]))
-                web_form_fields_items.insert(17, ('applicableExpenses', ['Yes_vkfk']))
+                web_form_fields_items.insert(16, ('notApplicableExpenses', None))
+                web_form_fields_items.insert(17, ('applicableExpenses', 'Yes_vkfk'))
                 web_form_fields = dict(web_form_fields_items)
                 web_form_fields_keys = list(web_form_fields.keys())
 
             try:
-                web_form_fields_items.insert(web_form_fields_keys.index('notApplicable') + 1, ('applicable', [None]))
+                web_form_fields_items.insert(web_form_fields_keys.index('notApplicable') + 1, ('applicable', None))
                 web_form_fields = dict(web_form_fields_items)
-                web_form_fields['notApplicable'] = ['Yes_aecf']
+                web_form_fields['notApplicable'] = 'Yes_aecf'
                 web_form_fields_keys = list(web_form_fields.keys())
                 web_form_fields_items = list(web_form_fields.items())
             except ValueError:
-                web_form_fields_items.insert(23, ('notApplicable', [None]))
-                web_form_fields_items.insert(24, ('applicable', ['Yes_kzvw']))
+                web_form_fields_items.insert(23, ('notApplicable', None))
+                web_form_fields_items.insert(24, ('applicable', 'Yes_kzvw'))
                 web_form_fields = dict(web_form_fields_items)
                 web_form_fields_keys = list(web_form_fields.keys())
 
             try:
-                web_form_fields_items.insert(web_form_fields_keys.index('notapplicableExclussion') + 1, ('applicableExclusion', [None]))
+                web_form_fields_items.insert(web_form_fields_keys.index('notapplicableExclussion') + 1, ('applicableExclusion', None))
                 web_form_fields = dict(web_form_fields_items)
-                web_form_fields['notapplicableExclussion'] = ['Yes_jqla']
+                web_form_fields['notapplicableExclussion'] = 'Yes_jqla'
                 web_form_fields_keys = list(web_form_fields.keys())
                 web_form_fields_items = list(web_form_fields.items())
             except ValueError:
-                web_form_fields_items.insert(31, ('notapplicableExclussion', [None]))
-                web_form_fields_items.insert(32, ('applicableExclusion', ['Yes_erku']))
+                web_form_fields_items.insert(31, ('notapplicableExclussion', None))
+                web_form_fields_items.insert(32, ('applicableExclusion', 'Yes_erku'))
                 web_form_fields = dict(web_form_fields_items)
                 web_form_fields_keys = list(web_form_fields.keys())
 
             print(f'Web Form Fields after insertion: {web_form_fields}')
-
+            print(len(web_form_fields))
             # Attempt to fill PDF using web form data
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
             final_dict = {}
-            for key in form_fields:
-                final_dict[key] = web_form_fields.get(key, '')
-
+            print(len(form_fields))
+            for i in range(len(form_fields)):
+                value = web_form_fields.get(web_form_fields_keys[i], '')
+                final_dict[form_fields[i]] = value
+                
             print(f'Final Dict: {final_dict}')
 
             commission_agreement_path = f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf'
@@ -350,7 +347,7 @@ def records_form(request):
     if not request.user.is_authenticated:
         return redirect('log_in')
 
-    db = DatabaseManager("/root/project/real_estate_onboarding.db")
+    db = DatabaseManager(db_path)
     df = db.fetch_all_records()
 
     def make_download_button(file_path, file_name):
@@ -358,6 +355,7 @@ def records_form(request):
         return f'<a href="/download_file/?file_path={safe_path}&file_name={file_name}" class="btn btn-primary">Download</a>'
 
     def make_next_form_button(file_path):
+        print(f'File Path: {file_path}')
         safe_path = quote(file_path.replace(output_base_folder_path, ''))
         return f'<a href="/contractor_agreement_form/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
 
@@ -371,7 +369,7 @@ def records_form(request):
     df.drop('file_path', axis=1, inplace=True)
     html_table = df.to_html(index=False, escape=False)
 
-    return render(request, 'pdfapp/records_form.html', {'html_table': html_table})
+    return render(request, 'pdfapp/list_forms.html', {'html_table': html_table})
 
 def log_in(request):
     if request.method == 'POST':
@@ -418,7 +416,7 @@ def success2(request):
     commission_agreement_path = request.GET.get('commission_agreement_path')
 
     sanitized_session_id = sanitize_session_id(session_id)
-    output_folder_path = f'/root/project/output_files/{sanitized_session_id}'
+    output_folder_path = f'{output_base_folder_path}{sanitized_session_id}'
 
     files = [
         contractor_agreement_path,

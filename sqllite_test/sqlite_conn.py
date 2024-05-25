@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 class DatabaseManager:
-    def __init__(self, db_path='/root/project/real_estate_onboarding.db'):
+    def __init__(self, db_path):
         """Initialize the database connection."""
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
@@ -53,11 +53,19 @@ class DatabaseManager:
 
     def fetch_record(self, file_path):
         """Fetch all records from the onboarding table."""
-        query = f"SELECT * FROM onboarding where file_path='{file_path}';"
-        df = pd.read_sql_query(query, self.conn)
+        query = "SELECT * FROM onboarding WHERE file_path=?;"
+        df = pd.read_sql_query(query, self.conn, params=(file_path,))
         return df
 
     def close(self):
         """Close the cursor and the database connection."""
         self.cursor.close()
         self.conn.close()
+
+
+if __name__ == "__main__":
+    db = DatabaseManager("real_estate_onboarding.db")
+    print(db.fetch_all_records().to_string())
+    # print(f"{db.fetch_record('/Users/amitshendge/Documents/project-onboarding-forms/output_files/op/49e0cc0a-9fc8-41ac-9969-1e1c6670b1a5').to_dict()}")
+    print(db.fetch_record('').to_dict())
+    db.close()
