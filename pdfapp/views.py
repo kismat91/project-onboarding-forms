@@ -14,6 +14,7 @@ import mimetypes
 import io
 import re
 from datetime import date
+from django.utils.timezone import now
 
 # Set up a global session ID and output folder path
 session_id = uuid.uuid4()
