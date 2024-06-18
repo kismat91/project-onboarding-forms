@@ -47,7 +47,7 @@ class ContractorAgreementForm(forms.ModelForm):
             'bAddress': '8280 Willow Oaks Corp Dr. Suite 600 Fairfax, VA 22031',
             'bAttention': 'Anjana Budhathoki',
             'bFacsimileNo': 'NA',
-            'agreementDuration': '1 year',
+            'agreementDuration': 'one year',
             'terminationDays': '30 days',
             'commissionTimePeriod': '5 days',
         }
