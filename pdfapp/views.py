@@ -154,6 +154,18 @@ def contractor_agreement_form(request):
             web_form_fields = dict(form.cleaned_data)
             print(f'Cleaned Form Data: {web_form_fields}')
 
+            commission_type = web_form_fields['bCommission']
+            if commission_type == '80-20':
+                web_form_fields['bCommission'] = '20%'
+                web_form_fields['cCommission'] = '80%'
+            elif commission_type == '90-10':
+                web_form_fields['bCommission'] = '10%'
+                web_form_fields['cCommission'] = '90%'
+            elif commission_type == '$1000':
+                web_form_fields['bCommission'] = '50%'
+                web_form_fields['cCommission'] = '50%'
+
+
             web_form_fields_items = list(web_form_fields.items())
 
             f_name = get_value(user_details, 'f_name')[0]

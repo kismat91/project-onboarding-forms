@@ -32,6 +32,15 @@ class CombinedForm(forms.ModelForm):
         }
 
 class ContractorAgreementForm(forms.ModelForm):
+    COMMISSION_CHOICES = [
+        ('80-20', '80-20% (bCommission: 20%, cCommission: 80%)'),
+        ('90-10', '90-10% (bCommission: 10%, cCommission: 90%)'),
+        ('$1000', '$1000 FLAT (Office Generated - 50-50%)')
+    ]
+
+    bCommission = forms.ChoiceField(choices=COMMISSION_CHOICES, initial='80-20')
+    cCommission = forms.ChoiceField(choices=COMMISSION_CHOICES, initial='80-20')
+
     class Meta:
         model = ContractorAgreement
         fields = '__all__'
@@ -47,7 +56,7 @@ class ContractorAgreementForm(forms.ModelForm):
             'bAddress': '8280 Willow Oaks Corp Dr. Suite 600 Fairfax, VA 22031',
             'bAttention': 'Anjana Budhathoki',
             'bFacsimileNo': 'NA',
-            'agreementDuration': 'one year',
+            'agreementDuration': '1 year',
             'terminationDays': '30 days',
             'commissionTimePeriod': '5 days',
         }
