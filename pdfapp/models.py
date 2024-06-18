@@ -51,7 +51,7 @@ class ContractorAgreement(models.Model):
     bCommission = models.CharField(max_length=10)
     cCommission = models.CharField(max_length=10)
     agreementDuration = models.CharField(max_length=2)
-    agreementEffectiveDate = models.DateField(default=now)
+    agreementEffectiveDate = models.DateField()
     terminationDays = models.CharField(max_length=3)
     bAddress = models.CharField(max_length=100)
     bAttention = models.CharField(max_length=100)
