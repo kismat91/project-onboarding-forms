@@ -32,14 +32,20 @@ class CombinedForm(forms.ModelForm):
         }
 
 class ContractorAgreementForm(forms.ModelForm):
-    COMMISSION_CHOICES = [
-        ('80-20', '80-20% (bCommission: 20%, cCommission: 80%)'),
-        ('90-10', '90-10% (bCommission: 10%, cCommission: 90%)'),
+    COMMISSION_CHOICES_B = [
+        ('20%', '20% (Self Generated - 80-20%)'),
+        ('10%', '10% (Self Generated - 90-10%)'),
         ('$1000', '$1000 FLAT (Office Generated - 50-50%)')
     ]
 
-    bCommission = forms.ChoiceField(choices=COMMISSION_CHOICES, initial='80-20')
-    cCommission = forms.ChoiceField(choices=COMMISSION_CHOICES, initial='80-20')
+    COMMISSION_CHOICES_C = [
+        ('80%', '80% (Self Generated - 80-20%)'),
+        ('90%', '90% (Self Generated - 90-10%)'),
+        ('$1000', '$1000 FLAT (Office Generated - 50-50%)')
+    ]
+
+    bCommission = forms.ChoiceField(choices=COMMISSION_CHOICES_B, initial='20%')
+    cCommission = forms.ChoiceField(choices=COMMISSION_CHOICES_C, initial='80%')
 
     class Meta:
         model = ContractorAgreement
