@@ -39,6 +39,18 @@ class ContractorAgreementForm(forms.ModelForm):
             'bdate': forms.DateInput(format='%d:%m:%Y'),
             'cDate': forms.DateInput(format='%d:%m:%Y'),
         }
+        initial = {
+            'brokerName': 'Anjana Budhathoki',
+            'bName': 'Anjana Budhathoki',
+            'bTitle': 'Principal Broker',
+            'forumLocation': 'Fairfax, Virginia',
+            'bAddress': '8280 Willow Oaks Corp Dr. Suite 600 Fairfax, VA 22031',
+            'bAttention': 'Anjana Budhathoki',
+            'bFacsimileNo': 'NA',
+            'agreementDuration': '1 year',
+            'terminationDays': '30 days',
+            'commissionTimePeriod': '5 days',
+        }
 
 class CommissionAgreementForm(forms.ModelForm):
     class Meta:
