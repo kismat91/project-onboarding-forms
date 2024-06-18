@@ -154,17 +154,7 @@ def contractor_agreement_form(request):
             web_form_fields = dict(form.cleaned_data)
             print(f'Cleaned Form Data: {web_form_fields}')
 
-            commission_type = web_form_fields['bCommission']
-            if commission_type == '80-20':
-                web_form_fields['bCommission'] = '20%'
-                web_form_fields['cCommission'] = '80%'
-            elif commission_type == '90-10':
-                web_form_fields['bCommission'] = '10%'
-                web_form_fields['cCommission'] = '90%'
-            elif commission_type == '$1000':
-                web_form_fields['bCommission'] = '50%'
-                web_form_fields['cCommission'] = '50%'
-
+            # No need to adjust bCommission and cCommission here since they're already set in the form
 
             web_form_fields_items = list(web_form_fields.items())
 
@@ -205,9 +195,23 @@ def contractor_agreement_form(request):
             print('Form is invalid')
             print(form.errors)
     else:
-        form = ContractorAgreementForm()
+        form = ContractorAgreementForm(initial={
+            'brokerName': 'Anjana Budhathoki',
+            'bName': 'Anjana Budhathoki',
+            'bTitle': 'Principal Broker',
+            'forumLocation': 'Fairfax, Virginia',
+            'bAddress': '8280 Willow Oaks Corp Dr. Suite 600 Fairfax, VA 22031',
+            'bAttention': 'Anjana Budhathoki',
+            'bFacsimileNo': 'NA',
+            'agreementDuration': '1 year',
+            'terminationDays': '30 days',
+            'commissionTimePeriod': '5 days',
+            'bCommission': '20%',
+            'cCommission': '80%',
+        })
 
     return render(request, 'pdfapp/contractor_agreement_form.html', {'form': form, 'session_id': session_id})
+
 
 def commission_agreement_form(request):
     global OUTPUT_LOCAL_FOLDER_PATH, session_id
