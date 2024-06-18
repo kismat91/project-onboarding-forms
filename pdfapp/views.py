@@ -208,6 +208,7 @@ def contractor_agreement_form(request):
             'commissionTimePeriod': '5 days',
             'bCommission': '20%',
             'cCommission': '80%',
+            'agreementEffectiveDate': now().date(),
         })
 
     return render(request, 'pdfapp/contractor_agreement_form.html', {'form': form, 'session_id': session_id})
