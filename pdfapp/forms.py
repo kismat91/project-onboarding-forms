@@ -53,7 +53,7 @@ class ContractorAgreementForm(forms.ModelForm):
         widgets = {
             'bdate': forms.DateInput(format='%d:%m:%Y'),
             'cDate': forms.DateInput(format='%d:%m:%Y'),
-            #'agreementEffectiveDate': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d', initial=now)
+            'agreementEffectiveDate': forms.DateInput(attrs={'type': 'date'}),
         }
         initial = {
             'brokerName': 'Anjana Budhathoki',
