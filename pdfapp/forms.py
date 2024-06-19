@@ -73,5 +73,17 @@ class CommissionAgreementForm(forms.ModelForm):
         model = CommissionAgreement
         fields = '__all__'
         widgets = {
-            'agreementExpiryDate': forms.DateInput(format='%d:%m:%Y'),
+            'effective_date': forms.DateInput(format='%d-%m-%Y', attrs={'class': 'form-control', 'placeholder': 'Select a date'}),
+            'employer_sign_date': forms.DateInput(format='%d-%m-%Y', attrs={'class': 'form-control', 'placeholder': 'Select a date'}),
+            'employee_sign_date': forms.DateInput(format='%d-%m-%Y', attrs={'class': 'form-control', 'placeholder': 'Select a date'}),
         }
+        labels = {
+            'effective_date': 'Effective Date',
+            'agent_name': 'Agent Name',
+            'employee_name': 'Employee Name',
+            'employee_title': 'Employee Title',
+            'employee_address': 'Employee Address',
+            'employer_sign_date': 'Employer Sign Date',
+            'employee_sign_date': 'Employee Sign Date',
+        }
+
