@@ -36,7 +36,7 @@
             margin-right: auto;
             height: 175px;
         }
-        input[type="text"], input[type="email"], select, .date-picker {
+        input[type="text"], input[type="email"], input[type="date"], select, .date-picker {
             width: 100%;
             padding: 10px;
             margin-top: 8px;
@@ -194,147 +194,72 @@
             <form method="post" action="{% url 'commission_agreement_form' %}?session_id={{ session_id }}">
                 {% csrf_token %}
                 <div class="form-section active" id="section1">
-                    <h2>Company Purpose</h2>
-                    <!-- <label for="id_agentName">Agent Name:</label>
-                    {{ form.agentName }} -->
-                    <label for="id_exclusive">Exclusive:</label>
-                    {{ form.exclusive }} <br><br>
-                    <label for="id_companyPurpose1">Company Purpose 1:</label>
-                    {{ form.companyPurpose1 }}
-                    <label for="id_companyPurpose2">Company Purpose 2:</label>
-                    {{ form.companyPurpose2 }}
-                    <label for="id_companyPurpose3">Company Purpose 3:</label>
-                    {{ form.companyPurpose3 }}
-                    <label for="id_companyPurpose4">Company Purpose 4:</label>
-                    {{ form.companyPurpose4 }}
-                    <button type=button class="back-btn">Back</button>
+                    <h2>Effective Date & Agent Name</h2>
+                    <label for="id_effective_date">Effective Date:</label>
+                    {{ form.effective_date }}
+                    <label for="id_agent_name">Agent Name:</label>
+                    {{ form.agent_name }}
                     <button type="button" class="next-btn">Continue</button>
                 </div>
-                <!-- Section 2 -->
                 <div class="form-section" id="section2">
-                    <h2>Agent Duties & Commission Details</h2>
-                    <label for="id_agentDuties1">Agent Duty 1:</label>
-                    {{ form.agentDuties1 }}
-                    <label for="id_agentDuties2">Agent Duty 2:</label>
-                    {{ form.agentDuties2 }}
-                    <label for="id_agentDuties3">Agent Duty 3:</label>
-                    {{ form.agentDuties3 }}
-                    <label for="id_agentDuties4">Agent Duty 4:</label>
-                    {{ form.agentDuties4 }}
-                    <label for="id_commissionPercentage">Commission Percentage:</label>
-                    {{ form.commissionPercentage }}
+                    <h2>Employee Details</h2>
+                    <label for="id_employee_name">Employee Name:</label>
+                    {{ form.employee_name }}
+                    <label for="id_employee_title">Employee Title:</label>
+                    {{ form.employee_title }}
+                    <label for="id_employee_address">Employee Address:</label>
+                    {{ form.employee_address }}
                     <button type="button" class="back-btn">Back</button>
                     <button type="button" class="next-btn">Continue</button>
                 </div>
                 <div class="form-section" id="section3">
-                    <h2>Additional Details & Expenses</h2>
-                        <label for="id_additionalDetails1">Additional Detail 1:</label>
-                        {{ form.additionalDetails1 }}
-                        <label for="id_additionalDetails2">Additional Detail 2:</label>
-                        {{ form.additionalDetails2 }}
-                        <label for="id_additionalDetails3">Additional Detail 3:</label>
-                        {{ form.additionalDetails3 }}
-                        <label for="id_additionalDetails4">Additional Detail 4:</label>
-                        {{ form.additionalDetails4 }}
-                        <label for="id_notApplicableExpenses">Not Applicable Expenses:</label>
-                        {{ form.notApplicableExpenses }}
-                        <br>
-                        <br>
-                        <label for="id_expensesDetails1">Expenses Detail 1:</label>
-                        {{ form.expensesDetails1 }}
-                        <label for="id_expensesDetails2">Expenses Detail 2:</label>
-                        {{ form.expensesDetails2 }}
-                        <label for="id_expensesDetails3">Expenses Detail 3:</label>
-                        {{ form.expensesDetails3 }}
-                        <label for="id_expensesDetails4">Expenses Detail 4:</label>
-                        {{ form.expensesDetails4 }}
-                        <button type="button" class="back-btn">Back</button>
-                        <button type="button" class="next-btn">Continue</button>
-                    </div>
-                    <div class="form-section" id="section4">
-                        <h2>Agreement Terms & Conditions</h2>
-                        <label for="id_agreementExpiryDate">Agreement Expiry Date:</label>
-                        {{ form.agreementExpiryDate }}
-                        <label for="id_notApplicable">Not Applicable:</label>
-                        {{ form.notApplicable }}
-                        <br>
-                        <br>
-                        <label for="id_incrementDay">Increment Day:</label>
-                        {{ form.incrementDay }}
-                        <label for="id_incrementMonth">Increment Month:</label>
-                        {{ form.incrementMonth }}
-                        <label for="id_incrementYear">Increment Year:</label>
-                        {{ form.incrementYear }}
-                        <label for="id_noticeDay">Notice Day:</label>
-                        {{ form.noticeDay }}
-                        <button type="button" class="back-btn">Back</button>
-                        <button type="button" class="next-btn">Continue</button>
-                    </div>
-                    <div class="form-section" id="section5">
-                        <h2>Confirmation Details</h2>
-                        <!-- <label for="id_printedNameOfAgent">Printed Name of Agent:</label>
-                        {{ form.printedNameOfAgent }}
-                        <label for="id_agentAddress">Agent Address:</label>
-                        {{ form.agentAddress }} -->
-                        <label for="id_notapplicableExclussion">Not Applicable Exclusion:</label>
-                        {{ form.notapplicableExclussion }}
-                        <br>
-                        <br>
-                        <label for="id_agreementPages">Agreement Pages:</label>
-                        {{ form.agreementPages }}
-                        <label for="id_agreementDay">Agreement Day:</label>
-                        {{ form.agreementDay }}
-                        <label for="id_agreementMonth">Agreement Month:</label>
-                        {{ form.agreementMonth }}
-                        <label for="id_agreementYear">Agreement Year:</label>
-                        {{ form.agreementYear }}
-                        <label for="id_nameOfCompanyRepresentative">Name of Company Representative:</label>
-                        {{ form.nameOfCompanyRepresentative }}
-                        <!-- <label for="id_nameOfAgent">Name of Agent:</label>
-                        {{ form.nameOfAgent }} -->
-                        <button type="button" class="back-btn">Back</button>
-                        <button type="submit" class="submit-btn">Submit</button>
-                    </div>
+                    <h2>Signature Dates</h2>
+                    <label for="id_employer_sign_date">Employer Sign Date:</label>
+                    {{ form.employer_sign_date }}
+                    <label for="id_employee_sign_date">Employee Sign Date:</label>
+                    {{ form.employee_sign_date }}
+                    <button type="button" class="back-btn">Back</button>
+                    <button type="submit" class="submit-btn">Submit</button>
                 </div>
             </form>
         </div>
     </div>
     <script>
         $(document).ready(function () {
-    // Show the form initially hidden to prevent a flash of content before overlay is ready
-    $('.form-container').hide();
+            // Show the form initially hidden to prevent a flash of content before overlay is ready
+            $('.form-container').hide();
 
-    // Delay before fading out the overlay
-    setTimeout(function() {
-        $('#loading-overlay').fadeOut(1000, function() {
-            $(this).remove();  // Remove the overlay from the DOM
-            $('.form-container').fadeIn();  // Fade in the form after the overlay is gone
+            // Delay before fading out the overlay
+            setTimeout(function() {
+                $('#loading-overlay').fadeOut(1000, function() {
+                    $(this).remove();  // Remove the overlay from the DOM
+                    $('.form-container').fadeIn();  // Fade in the form after the overlay is gone
+                });
+            }, 2000);  // 2000 milliseconds = 2 seconds
+
+            let currentSection = 0;
+            const sections = $(".form-section");
+            $(sections[currentSection]).show();
+
+            $(".next-btn, .back-btn").click(function () {
+                const isNext = $(this).hasClass('next-btn');
+                if (isNext && currentSection < sections.length - 1) {
+                    $(sections[currentSection]).hide();
+                    currentSection++;
+                } else if (!isNext && currentSection > 0) {
+                    $(sections[currentSection]).hide();
+                    currentSection--;
+                }
+                $(sections[currentSection]).fadeIn();
+                updateProgressBar(currentSection + 1);
+            });
+
+            function updateProgressBar(stepNumber) {
+                var percentage = (stepNumber / 3) * 100;
+                $(".progress-fill").width(percentage + "%").text("Step " + stepNumber + " of 3");
+            }
         });
-    }, 2000);  // 2000 milliseconds = 2 seconds
-
-    let currentSection = 0;
-    const sections = $(".form-section");
-    $(sections[currentSection]).show();
-
-    $(".next-btn, .back-btn").click(function () {
-        const isNext = $(this).hasClass('next-btn');
-        if (isNext && currentSection < sections.length - 1) {
-            $(sections[currentSection]).hide();
-            currentSection++;
-        } else if (!isNext && currentSection > 0) {
-            $(sections[currentSection]).hide();
-            currentSection--;
-        }
-        $(sections[currentSection]).fadeIn();
-        updateProgressBar(currentSection + 1);
-    });
-
-    function updateProgressBar(stepNumber) {
-        var percentage = (stepNumber / 5) * 100;
-        $(".progress-fill").width(percentage + "%").text("Step " + stepNumber + " of 5");
-    }
-});
-      </script>
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
