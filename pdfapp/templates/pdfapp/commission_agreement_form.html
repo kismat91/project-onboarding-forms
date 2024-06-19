@@ -181,7 +181,7 @@
         </div>
         <div class="progress-bar-container">
             <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
+                <div class="progress-fill" style="width: 20%">Step 1 of 3</div>
             </div>
         </div>
         <div id="loading-overlay">
@@ -194,25 +194,14 @@
             <form method="post" action="{% url 'commission_agreement_form' %}?session_id={{ session_id }}">
                 {% csrf_token %}
                 <div class="form-section active" id="section1">
-                    <h2>Effective Date & Agent Name</h2>
+                    <h2>Effective Date & Employee Details</h2>
                     <label for="id_effective_date">Effective Date:</label>
                     {{ form.effective_date }}
-                    <label for="id_agent_name">Agent Name:</label>
-                    {{ form.agent_name }}
+                    <label for="id_employee_title">Employee Title:</label>
+                    {{ form.employee_title }}
                     <button type="button" class="next-btn">Continue</button>
                 </div>
                 <div class="form-section" id="section2">
-                    <h2>Employee Details</h2>
-                    <label for="id_employee_name">Employee Name:</label>
-                    {{ form.employee_name }}
-                    <label for="id_employee_title">Employee Title:</label>
-                    {{ form.employee_title }}
-                    <label for="id_employee_address">Employee Address:</label>
-                    {{ form.employee_address }}
-                    <button type="button" class="back-btn">Back</button>
-                    <button type="button" class="next-btn">Continue</button>
-                </div>
-                <div class="form-section" id="section3">
                     <h2>Signature Dates</h2>
                     <label for="id_employer_sign_date">Employer Sign Date:</label>
                     {{ form.employer_sign_date }}
@@ -255,8 +244,8 @@
             });
 
             function updateProgressBar(stepNumber) {
-                var percentage = (stepNumber / 3) * 100;
-                $(".progress-fill").width(percentage + "%").text("Step " + stepNumber + " of 3");
+                var percentage = (stepNumber / 2) * 100;
+                $(".progress-fill").width(percentage + "%").text("Step " + stepNumber + " of 2");
             }
         });
     </script>
