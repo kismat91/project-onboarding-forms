@@ -80,7 +80,7 @@ class CommissionAgreement(models.Model):
     #employee_address = models.CharField(max_length=255)
     employer_sign_date = models.DateField(null=True, blank=True)
     #employee_name = models.CharField(max_length=100)
-    employee_title = models.CharField(max_length=100)
+    #employee_title = models.CharField(max_length=100)
     employee_sign_date = models.DateField(null=True, blank=True)
 
     def __str__(self):

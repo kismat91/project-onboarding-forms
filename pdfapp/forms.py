@@ -79,10 +79,10 @@ class CommissionAgreementForm(forms.ModelForm):
         }
         labels = {
             'effective_date': 'Effective Date',
-            'agent_name': 'Agent Name',
-            'employee_name': 'Employee Name',
+            
+            
             'employee_title': 'Employee Title',
-            'employee_address': 'Employee Address',
+            
             'employer_sign_date': 'Employer Sign Date',
             'employee_sign_date': 'Employee Sign Date',
         }
