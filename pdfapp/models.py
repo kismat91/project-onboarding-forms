@@ -74,15 +74,15 @@ class ContractorAgreement(models.Model):
     
 class CommissionAgreement(models.Model):
     effective_date = models.DateField()
-    agent_name = models.CharField(max_length=100)
-    employee_name = models.CharField(max_length=100)
+    #agent_name = models.CharField(max_length=100)
+    #employee_name = models.CharField(max_length=100)
     employee_title = models.CharField(max_length=100)
-    employee_address = models.CharField(max_length=255)
+    #employee_address = models.CharField(max_length=255)
     employer_sign_date = models.DateField(null=True, blank=True)
-    employee_name = models.CharField(max_length=100)
+    #employee_name = models.CharField(max_length=100)
     employee_title = models.CharField(max_length=100)
     employee_sign_date = models.DateField(null=True, blank=True)
-    
+
     def __str__(self):
         return self.agentName
 
