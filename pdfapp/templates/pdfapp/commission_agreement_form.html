@@ -7,11 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/themes/default.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/themes/default.date.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/picker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/picker.date.js"></script>
     <style>
         body {
             background-color: #f0f4f8;
@@ -185,7 +181,7 @@
         </div>
         <div class="progress-bar-container">
             <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" style="width: 20%">Step 1 of 2</div>
+                <div class="progress-fill" style="width: 20%">Step 1 of 3</div>
             </div>
         </div>
         <div id="loading-overlay">
@@ -251,13 +247,6 @@
                 var percentage = (stepNumber / 2) * 100;
                 $(".progress-fill").width(percentage + "%").text("Step " + stepNumber + " of 2");
             }
-
-            // Initialize date pickers
-            $('input[type="date"]').pickadate({
-                format: 'yyyy-mm-dd',
-                selectMonths: true,
-                selectYears: true
-            });
         });
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
