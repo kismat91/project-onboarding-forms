@@ -73,42 +73,16 @@ class ContractorAgreement(models.Model):
         return self.contractDay
     
 class CommissionAgreement(models.Model):
-    # agentName = models.CharField(max_length=100)
-    exclusive = models.BooleanField(default=False)
-    companyPurpose1 = models.CharField(max_length=100)
-    companyPurpose2 = models.CharField(max_length=100)
-    companyPurpose3 = models.CharField(max_length=100)
-    companyPurpose4 = models.CharField(max_length=100)
-    agentDuties1 = models.CharField(max_length=100)
-    agentDuties2 = models.CharField(max_length=100)
-    agentDuties3 = models.CharField(max_length=100)
-    agentDuties4 = models.CharField(max_length=100)
-    commissionPercentage = models.CharField(max_length=100)
-    additionalDetails1 = models.CharField(max_length=100)
-    additionalDetails2 = models.CharField(max_length=100)
-    additionalDetails3 = models.CharField(max_length=100)
-    additionalDetails4 = models.CharField(max_length=100)
-    notApplicableExpenses = models.BooleanField(default=False)
-    expensesDetails1 = models.CharField(max_length=100)
-    expensesDetails2 = models.CharField(max_length=100)
-    expensesDetails3 = models.CharField(max_length=100)
-    expensesDetails4 = models.CharField(max_length=100)
-    agreementExpiryDate = models.DateField()
-    notApplicable = models.BooleanField(default=False)
-    incrementDay = models.CharField(max_length=100)
-    incrementMonth = models.CharField(max_length=100)
-    incrementYear = models.CharField(max_length=100)
-    noticeDay = models.CharField(max_length=100)
-    # printedNameOfAgent = models.CharField(max_length=100)26
-    # agentAddress = models.CharField(max_length=100)27
-    notapplicableExclussion = models.BooleanField(default=False)
-    agreementPages = models.CharField(max_length=100)
-    agreementDay = models.CharField(max_length=100)
-    agreementMonth = models.CharField(max_length=100)
-    agreementYear = models.CharField(max_length=100)
-    nameOfCompanyRepresentative = models.CharField(max_length=100)
-    # nameOfAgent = models.CharField(max_length=100)34
-
+    effective_date = models.DateField()
+    agent_name = models.CharField(max_length=100)
+    employee_name = models.CharField(max_length=100)
+    employee_title = models.CharField(max_length=100)
+    employee_address = models.CharField(max_length=255)
+    employer_sign_date = models.DateField(null=True, blank=True)
+    employee_name = models.CharField(max_length=100)
+    employee_title = models.CharField(max_length=100)
+    employee_sign_date = models.DateField(null=True, blank=True)
+    
     def __str__(self):
         return self.agentName
 
