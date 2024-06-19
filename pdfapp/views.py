@@ -237,12 +237,10 @@ def commission_agreement_form(request):
 
     if request.method == 'POST':
         form = CommissionAgreementForm(request.POST)
-        # print(f'Form Data: {form.data}')
 
         if form.is_valid():
             print('Form is valid')
             web_form_fields = dict(form.cleaned_data)
-            # print(f'Cleaned Form Data: {web_form_fields}')
 
             web_form_fields_items = list(web_form_fields.items())
 
@@ -250,74 +248,26 @@ def commission_agreement_form(request):
             m_name = get_value(user_details, 'm_name')[0]
             l_name = get_value(user_details, 'l_name')[0]
             s_address = get_value(user_details, 's_address')[0]
-            ssn = get_value(user_details, 'ssn')[0]
 
             if m_name:
-                web_form_fields_items.insert(0, ('agentName', f"{f_name} {m_name} {l_name}".strip()))
-                web_form_fields_items.insert(26, ('printedNameOfAgent', f"{f_name} {m_name} {l_name}".strip()))
-                web_form_fields_items.append(('nameOfAgent', f"{f_name} {m_name} {l_name}".strip()))
+                full_name = f"{f_name} {m_name} {l_name}".strip()
             else:
-                web_form_fields_items.insert(0, ('agentName', f"{f_name} {l_name}".strip()))
-                web_form_fields_items.insert(26, ('printedNameOfAgent', f"{f_name} {l_name}".strip()))
-                web_form_fields_items.append(('nameOfAgent', f"{f_name} {l_name}".strip()))
+                full_name = f"{f_name} {l_name}".strip()
 
-            web_form_fields_items.insert(27, ('agentAddress', s_address))
+            web_form_fields_items.insert(1, ('agent_name', full_name))
+            web_form_fields_items.insert(2, ('employee_name', full_name))
+            web_form_fields_items.insert(4, ('employee_address', s_address))
+            web_form_fields_items.insert(6, ('employee_name', full_name))
+
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
-            # print(f'Web Form Fields: {web_form_fields}')
+
+            print(f'Web Form Fields: {web_form_fields}')
             web_form_fields_items = list(web_form_fields.items())
-
-            try:
-                web_form_fields_items.insert(web_form_fields_keys.index('exclusive') + 1, ('nonExclusive', None))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields['exclusive'] = None
-                web_form_fields['exclusive'] = 'Yes_pgge'
-                web_form_fields_keys = list(web_form_fields.keys())
-                web_form_fields_items = list(web_form_fields.items())
-            except ValueError:
-                web_form_fields_items.insert(1, ('exclusive', None))
-                web_form_fields_items.insert(2, ('nonExclusive', 'Yes_rjaw'))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields_keys = list(web_form_fields.keys())
-
-            try:
-                web_form_fields_items.insert(web_form_fields_keys.index('notApplicableExpenses') + 1, ('applicableExpenses', None))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields['notApplicableExpenses'] = 'Yes_xavj'
-                web_form_fields_keys = list(web_form_fields.keys())
-                web_form_fields_items = list(web_form_fields.items())
-            except ValueError:
-                web_form_fields_items.insert(16, ('notApplicableExpenses', None))
-                web_form_fields_items.insert(17, ('applicableExpenses', 'Yes_vkfk'))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields_keys = list(web_form_fields.keys())
-
-            try:
-                web_form_fields_items.insert(web_form_fields_keys.index('notApplicable') + 1, ('applicable', None))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields['notApplicable'] = 'Yes_aecf'
-                web_form_fields_keys = list(web_form_fields.keys())
-                web_form_fields_items = list(web_form_fields.items())
-            except ValueError:
-                web_form_fields_items.insert(23, ('notApplicable', None))
-                web_form_fields_items.insert(24, ('applicable', 'Yes_kzvw'))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields_keys = list(web_form_fields.keys())
-
-            try:
-                web_form_fields_items.insert(web_form_fields_keys.index('notapplicableExclussion') + 1, ('applicableExclusion', None))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields['notapplicableExclussion'] = 'Yes_jqla'
-                web_form_fields_keys = list(web_form_fields.keys())
-                web_form_fields_items = list(web_form_fields.items())
-            except ValueError:
-                web_form_fields_items.insert(31, ('notapplicableExclussion', None))
-                web_form_fields_items.insert(32, ('applicableExclusion', 'Yes_erku'))
-                web_form_fields = dict(web_form_fields_items)
-                web_form_fields_keys = list(web_form_fields.keys())
 
             print(f'Web Form Fields after insertion: {web_form_fields}')
             print(len(web_form_fields))
+
             # Attempt to fill PDF using web form data
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Commission_agreement.pdf').keys())
             final_dict = {}
@@ -338,6 +288,7 @@ def commission_agreement_form(request):
         form = CommissionAgreementForm()
 
     return render(request, 'pdfapp/commission_agreement_form.html', {'form': form, 'session_id': session_id})
+
 
 def download_file(request):
     file_path = request.GET.get('file_path')
