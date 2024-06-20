@@ -1,5 +1,6 @@
 from django import forms
 from .models import UserDetails, ContractorAgreement, CommissionAgreement
+import datetime
 
 class CombinedForm(forms.ModelForm):
     # Additional fields from DirectDeposit
