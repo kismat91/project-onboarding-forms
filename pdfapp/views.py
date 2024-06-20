@@ -165,19 +165,25 @@ def contractor_agreement_form(request):
             s_address = get_value(user_details, 's_address')[0]
             ssn = get_value(user_details, 'ssn')[0]
             if m_name:
-                web_form_fields_items.insert(4, ('employeeName', f"{f_name} {m_name} {l_name}".strip()))
+                web_form_fields_items.insert(3, ('employeeName', f"{f_name} {m_name} {l_name}".strip()))
             else:
-                web_form_fields_items.insert(4, ('employeeName', f"{f_name} {l_name}".strip()))
+                web_form_fields_items.insert(3, ('employeeName', f"{f_name} {l_name}".strip()))
 
-            web_form_fields_items.insert(6, ('ssn', ssn))
-            web_form_fields_items.insert(7, ('contractorLocation', s_address))
-            web_form_fields_items.insert(20, ('cAddress', s_address))
-            web_form_fields_items.insert(25, ('toBrokerNAME', 'Anjana Budhathoki'))
+            web_form_fields_items.insert(5, ('ssn', ssn))
+            web_form_fields_items.insert(6, ('contractorLocation', s_address))
 
             if m_name:
-                web_form_fields_items.insert(28, ('cName', f"{f_name} {m_name} {l_name}".strip()))
+                web_form_fields_items.insert(18, ('cName', f"{f_name} {m_name} {l_name}".strip()))
             else:
-                web_form_fields_items.insert(28, ('cName', f"{f_name} {l_name}".strip()))
+                web_form_fields_items.insert(18, ('cName', f"{f_name} {l_name}".strip()))
+                
+            web_form_fields_items.insert(14, ('cAddress', s_address))
+            
+
+            if m_name:
+                web_form_fields_items.insert(18, ('cName', f"{f_name} {m_name} {l_name}".strip()))
+            else:
+                web_form_fields_items.insert(18, ('cName', f"{f_name} {l_name}".strip()))
 
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
