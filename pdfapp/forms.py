@@ -32,6 +32,10 @@ class CombinedForm(forms.ModelForm):
         }
 
 class ContractorAgreementForm(forms.ModelForm):
+    DAY_CHOICES = [(str(i), str(i)) for i in range(1, 32)]
+    MONTH_CHOICES = [(str(i), str(i)) for i in range(1, 13)]
+    YEAR_CHOICES = [(str(i), str(i)) for i in range(datetime.datetime.now().year, datetime.datetime.now().year + 5)]
+
     COMMISSION_CHOICES_B = [
         ('20%', '20% (Self Generated - 80-20%)'),
         ('10%', '10% (Self Generated - 90-10%)'),
@@ -43,6 +47,14 @@ class ContractorAgreementForm(forms.ModelForm):
         ('90%', '90% (Self Generated - 90-10%)'),
         ('$1000', '$1000 FLAT (Office Generated - 50-50%)')
     ]
+
+    contractDay = forms.ChoiceField(choices=DAY_CHOICES, initial='1')
+    contractMonth = forms.ChoiceField(choices=MONTH_CHOICES, initial='1')
+    contractYear = forms.ChoiceField(choices=YEAR_CHOICES, initial=str(datetime.datetime.now().year))
+    effectiveDayOfAgreement = forms.ChoiceField(choices=DAY_CHOICES, initial='1')
+    effectiveMonthOfAgreement = forms.ChoiceField(choices=MONTH_CHOICES, initial='1')
+    effectiveYearOfAgreement = forms.ChoiceField(choices=YEAR_CHOICES, initial=str(datetime.datetime.now().year)[2:])
+
 
     bCommission = forms.ChoiceField(choices=COMMISSION_CHOICES_B, initial='20%')
     cCommission = forms.ChoiceField(choices=COMMISSION_CHOICES_C, initial='80%')
