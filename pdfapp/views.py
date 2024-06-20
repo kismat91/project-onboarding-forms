@@ -173,9 +173,9 @@ def contractor_agreement_form(request):
             web_form_fields_items.insert(6, ('contractorLocation', s_address))
 
             if m_name:
-                web_form_fields_items.insert(18, ('cName', f"{f_name} {m_name} {l_name}".strip()))
+                web_form_fields_items.insert(13, ('cName', f"{f_name} {m_name} {l_name}".strip()))
             else:
-                web_form_fields_items.insert(18, ('cName', f"{f_name} {l_name}".strip()))
+                web_form_fields_items.insert(13, ('cName', f"{f_name} {l_name}".strip()))
                 
             web_form_fields_items.insert(14, ('cAddress', s_address))
             
