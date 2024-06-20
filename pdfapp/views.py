@@ -181,7 +181,8 @@ def contractor_agreement_form(request):
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
 
-            form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())[:len(web_form_fields)]
+            form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())
+            form_fields.pop(32)
 
             final_dict = {}
             for i in range(len(form_fields)):
