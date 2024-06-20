@@ -62,7 +62,7 @@ class ContractorAgreement(models.Model):
     
     bdate = models.DateField()
     bWitness = models.CharField(max_length=100)
-    # cName = models.CharField(max_length=100)18
+    # cName2 = models.CharField(max_length=100)18
     cTitle = models.CharField(max_length=100)
     cDate = models.DateField()
     cWitness = models.CharField(max_length=100)
