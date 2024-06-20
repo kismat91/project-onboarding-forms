@@ -172,6 +172,7 @@ def contractor_agreement_form(request):
             web_form_fields_items.insert(6, ('ssn', ssn))
             web_form_fields_items.insert(7, ('contractorLocation', s_address))
             web_form_fields_items.insert(20, ('cAddress', s_address))
+            web_form_fields_items.insert(25, ('toBrokerNAME', 'Anjana Budhathoki'))
 
             if m_name:
                 web_form_fields_items.insert(28, ('cName', f"{f_name} {m_name} {l_name}".strip()))
@@ -182,7 +183,6 @@ def contractor_agreement_form(request):
             web_form_fields_keys = list(web_form_fields.keys())
 
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())
-            form_fields.pop(32)
 
             final_dict = {}
             for i in range(len(form_fields)):
