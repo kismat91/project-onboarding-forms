@@ -155,49 +155,59 @@ def contractor_agreement_form(request):
             web_form_fields = dict(form.cleaned_data)
             print(f'Cleaned Form Data: {web_form_fields}')
 
-            # No need to adjust bCommission and cCommission here since they're already set in the form
-
+            # Convert web_form_fields to a list of items
             web_form_fields_items = list(web_form_fields.items())
 
+            # Fetch user details
             f_name = get_value(user_details, 'f_name')[0]
             m_name = get_value(user_details, 'm_name')[0]
             l_name = get_value(user_details, 'l_name')[0]
             s_address = get_value(user_details, 's_address')[0]
             ssn = get_value(user_details, 'ssn')[0]
-            if m_name:
-                web_form_fields_items.insert(3, ('employeeName', f"{f_name} {m_name} {l_name}".strip()))
-            else:
-                web_form_fields_items.insert(3, ('employeeName', f"{f_name} {l_name}".strip()))
+            
+            # Construct full name
+            full_name = f"{f_name} {m_name} {l_name}".strip() if m_name else f"{f_name} {l_name}".strip()
 
+            # Insert required fields into web_form_fields_items
+            web_form_fields_items.insert(3, ('employeeName', full_name))
             web_form_fields_items.insert(5, ('ssn', ssn))
             web_form_fields_items.insert(6, ('contractorLocation', s_address))
-
-            if m_name:
-                web_form_fields_items.insert(13, ('cName', f"{f_name} {m_name} {l_name}".strip()))
-            else:
-                web_form_fields_items.insert(13, ('cName', f"{f_name} {l_name}".strip()))
-                
+            web_form_fields_items.insert(13, ('cName', full_name))
             web_form_fields_items.insert(14, ('cAddress', s_address))
-            
+            web_form_fields_items.insert(18, ('cName2', full_name))
 
-            if m_name:
-                web_form_fields_items.insert(18, ('cName2', f"{f_name} {m_name} {l_name}".strip()))
-            else:
-                web_form_fields_items.insert(18, ('cName2', f"{f_name} {l_name}".strip()))
-
+            # Convert back to dictionary and update keys
             web_form_fields = dict(web_form_fields_items)
             web_form_fields_keys = list(web_form_fields.keys())
 
+            # Ensure all expected keys are in web_form_fields
+            expected_keys = [
+                'contractDay', 'contractMonth', 'contractYear', 'employeeName', 'age', 'ssn',
+                'contractorLocation', 'effectiveDayOfAgreement', 'effectiveMonthOfAgreement',
+                'effectiveYearOfAgreement', 'bCommission', 'cCommission', 'agreementEffectiveDate',
+                'cName', 'cAddress', 'cAttention', 'bdate', 'bWitness', 'cTitle', 'cDate', 'cWitness', 'cName2'
+            ]
+
+            for key in expected_keys:
+                if key not in web_form_fields:
+                    web_form_fields[key] = ''
+
+            # Get form fields from the PDF
             form_fields = list(fillpdfs.get_form_fields('automatePDF/Independent_contractor_agreement.pdf').keys())
 
+            # Fill the final dictionary
             final_dict = {}
             for i in range(len(form_fields)):
                 final_dict[form_fields[i]] = web_form_fields.get(web_form_fields_keys[i], '')
 
+            # Create output directory if not exists
             if not os.path.exists(OUTPUT_LOCAL_FOLDER_PATH):
                 os.makedirs(OUTPUT_LOCAL_FOLDER_PATH)
 
+            # Write the filled PDF
             fillpdfs.write_fillable_pdf('automatePDF/Independent_contractor_agreement.pdf', f'{OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf', final_dict)
+            
+            # Redirect to the next form
             return redirect(f'/commission_agreement_form/?session_id={session_id}&contractor_agreement_path={OUTPUT_LOCAL_FOLDER_PATH}/contractor_agreement.pdf')
         else:
             print('Form is invalid')
