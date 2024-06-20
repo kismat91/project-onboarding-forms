@@ -56,7 +56,7 @@ class ContractorAgreement(models.Model):
     #cName = models.CharField(max_length=100)13
     
     # cAddress = models.CharField(max_length=100)14
-    cAttention = models.CharField(max_length=100)
+    #cAttention = models.CharField(max_length=100)15
     
     
     

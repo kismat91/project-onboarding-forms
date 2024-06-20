@@ -174,6 +174,7 @@ def contractor_agreement_form(request):
             web_form_fields_items.insert(6, ('contractorLocation', s_address))
             web_form_fields_items.insert(13, ('cName', full_name))
             web_form_fields_items.insert(14, ('cAddress', s_address))
+            web_form_fields_items.insert(15, ('cAttention', full_name))
             web_form_fields_items.insert(18, ('cName2', full_name))
 
             # Convert back to dictionary and update keys
