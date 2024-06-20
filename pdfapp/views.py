@@ -252,7 +252,7 @@ def commission_agreement_form(request):
             web_form_fields_items.insert(1, ('agent_name', full_name))
             web_form_fields_items.insert(2, ('employee_name', full_name))
             web_form_fields_items.insert(4, ('employee_address', s_address))
-            web_form_fields_items.insert(7, ('employee_name', full_name))
+            web_form_fields_items.insert(7, ('employee_name2', full_name))
             web_form_fields_items.insert(8, ('employee_title2', web_form_fields['employee_title']))
 
             web_form_fields = dict(web_form_fields_items)
