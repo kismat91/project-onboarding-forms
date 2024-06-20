@@ -198,18 +198,6 @@ def contractor_agreement_form(request):
             print(form.errors)
     else:
         form = ContractorAgreementForm(initial={
-            'brokerName': 'Anjana Budhathoki',
-            'bName': 'Anjana Budhathoki',
-            'bTitle': 'Principal Broker',
-            'forumLocation': 'Fairfax, Virginia',
-            'bAddress': '8280 Willow Oaks Corp Dr. Suite 600 Fairfax, VA 22031',
-            'bAttention': 'Anjana Budhathoki',
-            'bFacsimileNo': 'NA',
-            'agreementDuration': '1 year',
-            'terminationDays': '30 days',
-            'commissionTimePeriod': '5 days',
-            'bCommission': '20%',
-            'cCommission': '80%',
             'agreementEffectiveDate': now().date(),
         })
 
