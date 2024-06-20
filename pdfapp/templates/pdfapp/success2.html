@@ -3,65 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Submission Success</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Commission Agreement Form - oNest Real Estate</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0;
-            color: #333;
+        body {
+            background-color: #f0f4f8;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 55px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.07);
+            margin: auto;
+            width: 600px;
+            border: 1px solid #e0e0e0;
+        }
+        .title-bubble {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 50px;
             text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.10);
+            width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 175px;
         }
-        .container {
+        input[type="text"], input[type="email"], input[type="date"], select, .date-picker {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button-group {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
         }
-        .checkmark-icon {
-            color: #b68319; /* Green color */
-            font-size: 60px; /* Larger icon for emphasis */
-            margin-bottom: 10px;
-        }
-        .message {
-            font-size: 22px;
-            color: #555;
-        }
-        .home-button {
-            background-color: #b68319; /* Bootstrap primary blue */
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 5px;
+        button, .next-btn, .back-btn {
+            background-color: #b68319;
+            color: #ffffff;
+            border-radius: 1em;
+            font-size: 17px;
+            font-weight: 600;
+            padding: 1em 2em;
             cursor: pointer;
-            text-transform: uppercase;
-            outline: none;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            box-shadow: 0 0 0 0 black;
+            width: 49%;
+            margin-top: 30px;
+            margin-bottom: 15px;
         }
-        .home-button:hover {
-            background-color: #8d640b;
+        button:hover, .next-btn:hover, .back-btn:hover {
+            transform: translateY(-4px) translateX(-2px);
+            box-shadow: 2px 5px 0 0 black;
         }
-        .home-button i {
-            margin-left: 8px;
+        button:active, .next-btn:active, .back-btn:active {
+            transform: translateY(2px) translateX(1px);
+            box-shadow: 0 0 0 0 black;
+        }
+    
+        .submit-btn {
+            background-color: #b68319; /* Default background color */
+            color: #ffffff; /* Default text color */
+            border: 0px;
+        }
+
+        .submit-btn:hover {
+            background-color: #217eda; /* Green background color on hover */
+            color: #ffffff; /* Optional: change text color on hover if needed */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow effect on hover */
+            border: 0px;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        img {
+            margin-top: -182px; /* Moves the image upwards by 20px */
+            vertical-align: center;
+        }
+
+        .back-to-main {
+            position: absolute;
+            top: 65px;
+            left: 450px;
+        }
+
+        .progress-bar-container {
+            width: 54.5%; /* Responsive width */
+            background-color: #f1f4f8; /* Light grey */
+            border-radius: 55px;
+            margin: 20px auto;
+            padding: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0; /* Grey */
+            border-radius: 20px;
+            height: 35px; /* Fixed height for better visibility */
+        }
+        .progress-fill {
+            background-color: #b68319; /* Theme color */
+            color: white;
+            text-align: center;
+            line-height: 35px; /* Aligns text vertically */
+            border-radius: 20px;
+            transition: width 0.3s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <i class="fas fa-check-circle checkmark-icon"></i>
-        <p class="message">Your form has been submitted, Thank you!</p>
-        <button class="home-button" onclick="window.location.href='/home/'">
-            Return to home <i class="fas fa-arrow-right"></i>
-        </button>
+    <div class="back-to-main">
+        <a href="{% url 'records_form' %}" class="back-button"><i class="fas fa-arrow-left"></i> Table</a>
     </div>
+    <div class="container">
+        <div class="title-bubble">
+            <img src="https://raw.githubusercontent.com/kismat91/project-onboarding-forms/main/oNEST%20Logo.png" alt="oNest Real Estate" style="width: 500px; height: 500px;">
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" style="width: 20%">Step 1 of 2</div>
+            </div>
+        </div>
+        <div class="form-container">
+            <form method="post" action="{% url 'commission_agreement_form' %}?session_id={{ session_id }}">
+                {% csrf_token %}
+                <div class="form-section active" id="section1">
+                    <h2>Effective Date & Employee Details</h2>
+                    <label for="id_effective_date">Effective Date:</label>
+                    {{ form.effective_date }}
+                    <label for="id_employee_title">Employee Title:</label>
+                    {{ form.employee_title }}
+                    <button type="button" class="next-btn">Continue</button>
+                </div>
+                <div class="form-section" id="section2">
+                    <h2>Signature Dates</h2>
+                    <label for="id_employer_sign_date">Employer Sign Date:</label>
+                    {{ form.employer_sign_date }}
+                    <label for="id_employee_sign_date">Employee Sign Date:</label>
+                    {{ form.employee_sign_date }}
+                    <button type="button" class="back-btn">Back</button>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            let currentSection = 0;
+            const sections = $(".form-section");
+            $(sections[currentSection]).show();
+
+            $(".next-btn, .back-btn").click(function () {
+                const isNext = $(this).hasClass('next-btn');
+                if (isNext && currentSection < sections.length - 1) {
+                    $(sections[currentSection]).hide();
+                    currentSection++;
+                } else if (!isNext && currentSection > 0) {
+                    $(sections[currentSection]).hide();
+                    currentSection--;
+                }
+                $(sections[currentSection]).fadeIn();
+                updateProgressBar(currentSection + 1);
+            });
+
+            function updateProgressBar(stepNumber) {
+                var percentage = (stepNumber / 2) * 100;
+                $(".progress-fill").width(percentage + "%").text("Step " + stepNumber + " of 2");
+            }
+        });
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
