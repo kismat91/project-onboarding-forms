@@ -269,10 +269,7 @@ def commission_agreement_form(request):
             final_dict = {}
             print(len(form_fields))
             for i in range(len(form_fields)):
-                try:
-                    value = web_form_fields.get(web_form_fields_keys[i], '')
-                except IndexError:
-                    value = ''
+                value = web_form_fields.get(web_form_fields_keys[i], '')
                 final_dict[form_fields[i]] = value
                 
             print(f'Final Dict: {final_dict}')
