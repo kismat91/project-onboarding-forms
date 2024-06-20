@@ -39,32 +39,30 @@ class ContractorAgreement(models.Model):
     contractDay = models.CharField(max_length=2)
     contractMonth = models.CharField(max_length=2)
     contractYear = models.CharField(max_length=4)
-    brokerName = models.CharField(max_length=100)
-    # employeeName = models.CharField(max_length=100)
+   
+    # employeeName = models.CharField(max_length=100)3
     age = models.CharField(max_length=3)
-    # ssn = models.CharField(max_length=10)
-    # contractorLocation = models.CharField(max_length=100)
+    # ssn = models.CharField(max_length=10)5
+    # contractorLocation = models.CharField(max_length=100)6
     effectiveDayOfAgreement = models.CharField(max_length=2)
     effectiveMonthOfAgreement = models.CharField(max_length=2)
     effectiveYearOfAgreement = models.CharField(max_length=4)
-    commissionTimePeriod = models.CharField(max_length=200)
+    
     bCommission = models.CharField(max_length=10)
     cCommission = models.CharField(max_length=10)
-    agreementDuration = models.CharField(max_length=200)
+    
     agreementEffectiveDate = models.DateField()
-    terminationDays = models.CharField(max_length=200)
-    bAddress = models.CharField(max_length=100)
-    bAttention = models.CharField(max_length=100)
-    bFacsimileNo = models.CharField(max_length=20)
-    # cAddress = models.CharField(max_length=100)20
+    
+    #cName = models.CharField(max_length=100)13
+    
+    # cAddress = models.CharField(max_length=100)14
     cAttention = models.CharField(max_length=100)
-    cFacsimileNo = models.CharField(max_length=20)
-    forumLocation = models.CharField(max_length=100)
-    bName = models.CharField(max_length=100)
-    bTitle = models.CharField(max_length=100)
+    
+    
+    
     bdate = models.DateField()
     bWitness = models.CharField(max_length=100)
-    # cName = models.CharField(max_length=100)28
+    # cName = models.CharField(max_length=100)18
     cTitle = models.CharField(max_length=100)
     cDate = models.DateField()
     cWitness = models.CharField(max_length=100)
@@ -74,13 +72,13 @@ class ContractorAgreement(models.Model):
     
 class CommissionAgreement(models.Model):
     effective_date = models.DateField()
-    #agent_name = models.CharField(max_length=100)
-    #employee_name = models.CharField(max_length=100)
+    #agent_name = models.CharField(max_length=100)1
+    #employee_name = models.CharField(max_length=100)2
     employee_title = models.CharField(max_length=100)
-    #employee_address = models.CharField(max_length=255)
+    #employee_address = models.CharField(max_length=255)4
     employer_sign_date = models.DateField(null=True, blank=True)
-    #employee_name = models.CharField(max_length=100)
-    #employee_title = models.CharField(max_length=100)
+    #employee_name = models.CharField(max_length=100)6
+    #employee_title = models.CharField(max_length=100)7
     employee_sign_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
