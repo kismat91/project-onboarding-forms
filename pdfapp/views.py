@@ -119,7 +119,11 @@ def user_details(request):
 
             return redirect('success')
     else:
-        form = CombinedForm()
+        form = CombinedForm(initial={
+            'birth_date': now().date(),
+            'date': now().date(),
+            
+        })
 
     return render(request, 'pdfapp/combined_form.html', {'form': form})
 
@@ -215,6 +219,8 @@ def contractor_agreement_form(request):
             print(form.errors)
     else:
         form = ContractorAgreementForm(initial={
+            'cdate': now().date(),
+            'bdate': now().date(),
             'agreementEffectiveDate': now().date(),
         })
 
@@ -295,7 +301,11 @@ def commission_agreement_form(request):
             print('Form is invalid')
             print(form.errors)
     else:
-        form = CommissionAgreementForm()
+        form = CommissionAgreementForm(initial={
+            'effective_date': now().date(),
+            'employer_sign_date': now().date(),
+            'employee_sign_date': now().date(),
+        })
 
     return render(request, 'pdfapp/commission_agreement_form.html', {'form': form, 'session_id': session_id})
 

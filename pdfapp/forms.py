@@ -27,8 +27,8 @@ class CombinedForm(forms.ModelForm):
             'type_of_account', 'date'
         ]
         widgets = {
-            'birth_date': forms.DateInput(format='%m-%d-%Y'), 
-            'date': forms.DateInput(format='%m-%d-%Y'),
+            'birth_date': forms.DateInput(attrs={'type': 'date'}), 
+            'date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 class ContractorAgreementForm(forms.ModelForm):
@@ -51,8 +51,8 @@ class ContractorAgreementForm(forms.ModelForm):
         model = ContractorAgreement
         fields = '__all__'
         widgets = {
-            'bdate': forms.DateInput(format='%m:%d:%Y'),
-            'cDate': forms.DateInput(format='%m:%d:%Y'),
+            'bdate': forms.DateInput(attrs={'type': 'date'}),
+            'cDate': forms.DateInput(attrs={'type': 'date'}),
             'agreementEffectiveDate': forms.DateInput(attrs={'type': 'date'}),
         }
         
@@ -62,9 +62,9 @@ class CommissionAgreementForm(forms.ModelForm):
         model = CommissionAgreement
         fields = '__all__'
         widgets = {
-            'effective_date': forms.DateInput(format='%m-%d-%Y', attrs={'class': 'form-control', 'placeholder': 'Select a date'}),
-            'employer_sign_date': forms.DateInput(format='%m-%d-%Y', attrs={'class': 'form-control', 'placeholder': 'Select a date'}),
-            'employee_sign_date': forms.DateInput(format='%m-%d-%Y', attrs={'class': 'form-control', 'placeholder': 'Select a date'}),
+            'effective_date': forms.DateInput(attrs={'type': 'date'}),
+            'employer_sign_date': forms.DateInput(attrs={'type': 'date'}),
+            'employee_sign_date': forms.DateInput(attrs={'type': 'date'}),
         }
         labels = {
             'effective_date': 'Effective Date',
