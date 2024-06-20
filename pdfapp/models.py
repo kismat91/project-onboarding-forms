@@ -77,10 +77,9 @@ class CommissionAgreement(models.Model):
     employee_title = models.CharField(max_length=100)
     #employee_address = models.CharField(max_length=255)4
     employer_sign_date = models.DateField()
+    #employee_name2 = models.CharField(max_length=100)6
+    #employee_title2 = models.CharField(max_length=100)7
     employee_sign_date = models.DateField()
-    #employee_name2 = models.CharField(max_length=100)7
-    #employee_title2 = models.CharField(max_length=100)8
-   
 
     def __str__(self):
         return self.agentName
