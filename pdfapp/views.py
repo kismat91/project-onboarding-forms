@@ -426,4 +426,4 @@ def success2(request):
     response = FileResponse(mem_zip, as_attachment=True, content_type='application/zip')
     response['Content-Disposition'] = f'attachment; filename="filled_forms_{sanitized_session_id}.zip"'
 
-    return render(request, 'pdfapp/success2.html')
+    return response
