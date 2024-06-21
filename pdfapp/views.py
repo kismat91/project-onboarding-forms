@@ -296,7 +296,7 @@ def commission_agreement_form(request):
 
             commission_agreement_path = f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf'
             fillpdfs.write_fillable_pdf('automatePDF/Commission_agreement.pdf', commission_agreement_path, final_dict)
-            return redirect(f'/success2/?session_id={session_id}&contractor_agreement_path={contractor_agreement_path}&commission_agreement_path={commission_agreement_path}')
+            return render(request, 'pdfapp/success2.html')
         else:
             print('Form is invalid')
             print(form.errors)
