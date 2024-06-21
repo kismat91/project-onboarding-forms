@@ -296,8 +296,7 @@ def commission_agreement_form(request):
 
             commission_agreement_path = f'{OUTPUT_LOCAL_FOLDER_PATH}/commission_agreement.pdf'
             fillpdfs.write_fillable_pdf('automatePDF/Commission_agreement.pdf', commission_agreement_path, final_dict)
-            return redirect('success2')
-            # return redirect(f'/success2/?session_id={session_id}&contractor_agreement_path={contractor_agreement_path}&commission_agreement_path={commission_agreement_path}')
+            return redirect(f'/success2/?session_id={session_id}&contractor_agreement_path={contractor_agreement_path}&commission_agreement_path={commission_agreement_path}')
         else:
             print('Form is invalid')
             print(form.errors)
@@ -424,7 +423,7 @@ def success2(request):
 
     mem_zip.seek(0)
 
-    response = FileResponse(mem_zip, as_attachment=True, content_type='application/zip')
-    response['Content-Disposition'] = f'attachment; filename="filled_forms_{sanitized_session_id}.zip"'
+    # response = FileResponse(mem_zip, as_attachment=True, content_type='application/zip')
+    # response['Content-Disposition'] = f'attachment; filename="filled_forms_{sanitized_session_id}.zip"'
 
     return response

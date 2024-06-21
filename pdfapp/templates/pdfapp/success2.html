@@ -150,8 +150,7 @@
             </div>
         </div>
         <div class="form-container">
-            <!-- <form method="post" action="{% url 'commission_agreement_form' %}?session_id={{ session_id }}"> -->
-                <form method="post">
+            <form method="post" action="{% url 'commission_agreement_form' %}?session_id={{ session_id }}">
                 {% csrf_token %}
                 <div class="form-section active" id="section1">
                     <h2>Effective Date & Employee Details</h2>
