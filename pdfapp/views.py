@@ -423,7 +423,7 @@ def success2(request):
 
     mem_zip.seek(0)
 
-    # response = FileResponse(mem_zip, as_attachment=True, content_type='application/zip')
-    # response['Content-Disposition'] = f'attachment; filename="filled_forms_{sanitized_session_id}.zip"'
+    response = FileResponse(mem_zip, as_attachment=True, content_type='application/zip')
+    response['Content-Disposition'] = f'attachment; filename="filled_forms_{sanitized_session_id}.zip"'
 
-    return request
+    return response
