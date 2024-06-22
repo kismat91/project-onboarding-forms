@@ -100,7 +100,7 @@ def user_details(request):
                 'BankRouteNumber': web_form_fields.get('bank_route_number', ''),
                 'AccountNumber': web_form_fields.get('account_number', ''),
                 'TypeOfAccount': web_form_fields.get('type_of_account', ''),
-                'TransactionDate': web_form_fields['date'].strftime('%Y-%m-%d'),
+                'TransactionDate': web_form_fields['date'].strftime('%m/%d/%Y'),
                 'PayeePhoneNumber': f"{web_form_fields['home_phone']}",
             }
 
@@ -121,7 +121,8 @@ def user_details(request):
     else:
         form = CombinedForm(initial={
             'birth_date': now().date(),
-            'date': now().date(),
+            'date': now().date().strftime('%m/%d/%Y'),
+
             
         })
 
