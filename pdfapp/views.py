@@ -17,7 +17,7 @@ from datetime import date
 from django.utils.timezone import now
 
 # Set up a global session ID and output folder path
-session_id = uuid.uuid4()
+# session_id = uuid.uuid4()
 output_base_folder_path = '/root/project/output_files/'
 db_path = '/root/project/real_estate_onboarding.db'
 OUTPUT_LOCAL_FOLDER_PATH = f'{output_base_folder_path}{session_id}'
@@ -38,6 +38,7 @@ def get_value(user_details, key, default=''):
     return value
 
 def user_details(request):
+    session_id = uuid.uuid4()
     print(session_id)
     db = DatabaseManager(db_path)
     email_sender = EmailSender()
