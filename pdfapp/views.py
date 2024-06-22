@@ -17,11 +17,8 @@ from datetime import date
 from django.utils.timezone import now
 
 # Set up a global session ID and output folder path
-# session_id = uuid.uuid4()
 output_base_folder_path = '/root/project/output_files/'
 db_path = '/root/project/real_estate_onboarding.db'
-OUTPUT_LOCAL_FOLDER_PATH = f'{output_base_folder_path}{session_id}'
-print(f'Output Local Folder Path: {OUTPUT_LOCAL_FOLDER_PATH}')
 def process_pdf(pdf_template_path, output_path, data_dict):
     fillpdfs.write_fillable_pdf(pdf_template_path, output_path, data_dict)
 
@@ -40,6 +37,8 @@ def get_value(user_details, key, default=''):
 def user_details(request):
     session_id = uuid.uuid4()
     print(session_id)
+    OUTPUT_LOCAL_FOLDER_PATH = f'{output_base_folder_path}{session_id}'
+    print(f'Output Local Folder Path: {OUTPUT_LOCAL_FOLDER_PATH}')
     db = DatabaseManager(db_path)
     email_sender = EmailSender()
     if request.method == 'POST':
