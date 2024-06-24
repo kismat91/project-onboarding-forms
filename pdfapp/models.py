@@ -1,5 +1,6 @@
 # Create your models here.
 from django.db import models
+
 class UserDetails(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -19,7 +20,6 @@ class UserDetails(models.Model):
     spouse_employer = models.CharField(max_length=200, blank=True, null=True)
     spouse_work_phone = models.CharField(max_length=20, blank=True, null=True)
     referred_by = models.CharField(max_length=100)
-    
     bank_name = models.CharField(max_length=100)
     bank_address = models.CharField(max_length=200)
     bank_city = models.CharField(max_length=100, blank=True, null=True)
@@ -32,7 +32,7 @@ class UserDetails(models.Model):
     type_of_account = models.CharField(max_length=100)
     transaction_date = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.first_name} {self.last_name}"
     
 class ContractorAgreement(models.Model):
@@ -83,7 +83,3 @@ class CommissionAgreement(models.Model):
 
     def __str__(self):
         return self.agentName
-
-    
-
-    
