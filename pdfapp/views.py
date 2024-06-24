@@ -15,12 +15,12 @@ import io
 import re
 from datetime import date
 from django.utils.timezone import now
+from .models import UserDetails, ContractorAgreement, CommissionAgreement
+import pandas as pd
 
 # Set up a global session ID and output folder path
 output_base_folder_path = '/root/project/output_files/'
 db_path = '/root/project/real_estate_onboarding.db'
-def process_pdf(pdf_template_path, output_path, data_dict):
-    fillpdfs.write_fillable_pdf(pdf_template_path, output_path, data_dict)
 
 def sanitize_session_id(session_id):
     return session_id
