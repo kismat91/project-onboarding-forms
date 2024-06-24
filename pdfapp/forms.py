@@ -3,7 +3,21 @@ from .models import UserDetails, ContractorAgreement, CommissionAgreement
 import datetime
 
 class CombinedForm(forms.ModelForm):
-    # Additional fields from DirectDeposit
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError('This field is required.')
+        if not '@' in email:
+            raise forms.ValidationError('Enter a valid email address.')
+        return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for field in self.Meta.required_fields:
+            if not cleaned_data.get(field):
+                self.add_error(field, 'This field is required.')
+        return cleaned_data
+
     bank_name = forms.CharField(max_length=100, required=False)
     bank_address = forms.CharField(max_length=200, required=False)
     bank_city = forms.CharField(max_length=100, required=False)
@@ -14,7 +28,7 @@ class CombinedForm(forms.ModelForm):
     account_number = forms.CharField(max_length=100, required=False)
     bank_route_number = forms.CharField(max_length=100, required=False)
     type_of_account = forms.CharField(max_length=100, required=False)
-    date = forms.DateField(widget=forms.DateInput(format='%m-%d-%Y'), required=False)
+    date = forms.DateField(widget=forms.DateInput(format='%m-%d-%Y'))
 
     class Meta:
         model = UserDetails
@@ -26,6 +40,10 @@ class CombinedForm(forms.ModelForm):
             'bank_name', 'bank_address', 'bank_city', 'bank_state', 'bank_zipcode',
             'fax_number', 'bank_phone_number', 'account_number', 'bank_route_number',
             'type_of_account', 'date'
+        ]
+        required_fields = [
+            'first_name', 'last_name', 'street_address', 'city', 'state', 'zip_code', 
+            'home_phone', 'email', 'ssn_or_gov_id', 'birth_date', 'marital_status'
         ]
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}), 
@@ -57,7 +75,6 @@ class ContractorAgreementForm(forms.ModelForm):
     effectiveMonthOfAgreement = forms.ChoiceField(choices=MONTH_CHOICES, initial='1')
     effectiveYearOfAgreement = forms.ChoiceField(choices=YEAR_CHOICES_LAST_TWO, initial=str(datetime.datetime.now().year)[2:])
 
-
     bCommission = forms.ChoiceField(choices=COMMISSION_CHOICES_B, initial='20%')
     cCommission = forms.ChoiceField(choices=COMMISSION_CHOICES_C, initial='80%')
 
@@ -69,7 +86,6 @@ class ContractorAgreementForm(forms.ModelForm):
             'cDate': forms.DateInput(attrs={'type': 'date'}),
             'agreementEffectiveDate': forms.DateInput(attrs={'type': 'date'}),
         }
-        
 
 class CommissionAgreementForm(forms.ModelForm):
     class Meta:
@@ -82,11 +98,7 @@ class CommissionAgreementForm(forms.ModelForm):
         }
         labels = {
             'effective_date': 'Effective Date',
-            
-            
             'employee_title': 'Employee Title',
-            
             'employer_sign_date': 'Employer Sign Date',
             'employee_sign_date': 'Employee Sign Date',
         }
-
