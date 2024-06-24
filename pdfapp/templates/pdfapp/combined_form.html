@@ -1,340 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agent Submission Form - oNest Real Estate</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <style>
         body {
-          background-color: #f0f4f8;
-          padding-top: 40px;
-          padding-bottom: 40px;
-          font-family: "Roboto", sans-serif;
+            background-color: #f0f4f8;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            font-family: "Roboto", sans-serif;
         }
         .form-container {
-          background-color: #ffffff;
-          padding: 40px;
-          border-radius: 55px;
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
-          margin: auto;
-          width: 600px;
-          border: 1px solid #e0e0e0;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 55px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+            margin: auto;
+            width: 600px;
+            border: 1px solid #e0e0e0;
         }
         .title-bubble {
-          background-color: #ffffff;
-          padding: 20px;
-          border-radius: 50px;
-          text-align: center;
-          margin-bottom: 15px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-          height: 175px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 50px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 175px;
         }
         input[type="text"],
         input[type="email"],
         select,
         .date-picker {
-          width: 100%;
-          padding: 10px;
-          margin-top: 8px;
-          margin-bottom: 16px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        .error {
+            border: 2px solid red;
+            animation: wiggle 0.3s ease;
+        }
+        .error-animate {
+            border: 2px solid red;
+            animation: wiggle 0.3s ease, revert-border 1.5s forwards;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+        @keyframes wiggle {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+        @keyframes revert-border {
+            0% {
+                border-color: red;
+            }
+            100% {
+                border-color: #ccc;
+            }
         }
         .button-group {
-          display: flex;
-          justify-content: space-between; /* Adjusts the space distribution */
-          align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-  
         button,
         .next-btn,
         .back-btn,
         .submit-btn {
-          background-color: #b68319;
-          color: #ffffff;
-          border-radius: 1em;
-          font-size: 17px;
-          font-weight: 600;
-          padding: 1em 2em;
-          cursor: pointer;
-          transition: all 0.3s ease-in-out;
-          border: 0px solid black;
-          box-shadow: 0 0 0 0 black;
-          width: 49%; /* Adjust width to make space for both buttons in one line */
-          margin-top: 30px;
-          margin-bottom: 15px;
+            background-color: #b68319;
+            color: #ffffff;
+            border-radius: 1em;
+            font-size: 17px;
+            font-weight: 600;
+            padding: 1em 2em;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: 0px solid black;
+            box-shadow: 0 0 0 0 black;
+            width: 49%;
+            margin-top: 30px;
+            margin-bottom: 15px;
         }
-  
         button:hover,
         .next-btn:hover,
         .back-btn:hover {
-          transform: translateY(-4px) translateX(-2px);
-          box-shadow: 2px 5px 0 0 black;
-          border: 0px;
+            transform: translateY(-4px) translateX(-2px);
+            box-shadow: 2px 5px 0 0 black;
+            border: 0px;
         }
-  
         button:active,
         .next-btn:active,
         .back-btn:active {
-          transform: translateY(2px) translateX(1px);
-          box-shadow: 0 0 0 0 black;
+            transform: translateY(2px) translateX(1px);
+            box-shadow: 0 0 0 0 black;
         }
-  
         .submit-btn {
-          background-color: #b68319; /* Default background color */
-          color: #ffffff; /* Default text color */
-          border: 0px;
-          /* Other styles already defined */
+            background-color: #b68319;
+            color: #ffffff;
+            border: 0px;
         }
-  
         .submit-btn:hover {
-          background-color: #217eda; /* Green background color on hover */
-          color: #ffffff; /* Optional: change text color on hover if needed */
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow effect on hover */
-          border: 0px;
+            background-color: #217eda;
+            color: #ffffff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border: 0px;
         }
-  
         .back-to-main {
-          position: absolute;
-          top: 65px;
-          left: 450px;
+            position: absolute;
+            top: 65px;
+            left: 450px;
         }
-  
         .form-section {
-          display: none;
+            display: none;
+        }
+        .form-section.active {
+            display: block;
         }
         h1 {
-          font-weight: bold;
+            font-weight: bold;
         }
         h2 {
-          text-align: center;
-          margin-top: 30px;
-          margin-bottom: 50px;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 50px;
         }
-  
         img {
-          margin-top: -182px; /* Moves the image upwards by 20px */
-          vertical-align: center;
+            margin-top: -182px;
+            vertical-align: center;
         }
-  
         .progress-bar-container {
-          width: 605px;
-          background-color: (241, 244, 248); /* Light grey that's still visible */
-          border-radius: 55px;
-          margin: 20px auto 30px;
-          padding: 3px;
-          align-items: center;
+            width: 605px;
+            background-color: (241, 244, 248);
+            border-radius: 55px;
+            margin: 20px auto 30px;
+            padding: 3px;
+            align-items: center;
         }
-  
         .progress-bar {
-          width: 100%;
-          background-color: #e0e0e0; /* Slightly darker grey for contrast */
-          border-radius: 20px;
-          overflow: hidden;
-          margin-bottom: 20px;
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
-  
         .progress-fill {
-          background-color: #b68319; /* Your theme color for visibility */
-          color: white;
-          text-align: center;
-          line-height: 35px;
-          height: 35px;
-          border-radius: 25px;
-          transition: width 0.3s ease-in-out;
+            background-color: #b68319;
+            color: white;
+            text-align: center;
+            line-height: 35px;
+            height: 35px;
+            border-radius: 25px;
+            transition: width 0.3s ease-in-out;
         }
-
         .warning-bubble {
-            position: absolute;  /* Absolute positioning relative to its nearest positioned ancestor */
-            top: 50%;  /* Center it vertically relative to the form container */
-            right: -300px;  /* Adjust this value based on your layout to move it right outside the form */
-            width: 280px;  /* Set a fixed width for the bubble */
+            position: absolute;
+            top: 50%;
+            right: -300px;
+            width: 280px;
             padding: 15px;
-            background-color: #fff4e5;  /* Light orange background for visibility */
-            border: 1px solid #ffd580;  /* Slightly darker border */
-            border-radius: 10px;  /* Rounded corners */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Soft shadow for 3D effect */
-            transform: translateY(-50%);  /* Adjust vertical position to truly center */
-            z-index: 10;  /* Ensure it's above other content */
+            background-color: #fff4e5;
+            border: 1px solid #ffd580;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50%);
+            z-index: 10;
         }
-
         .warning-bubble p {
             margin: 0;
-            font-size: 14px;  /* Smaller font size for the warning text */
-            color: #ca5700;  /* Dark orange text for contrast */
+            font-size: 14px;
+            color: #ca5700;
             text-align: center;
         }
-
         @media (max-width: 768px) {
-    .warning-bubble {
-        position: static;  /* Make it part of the normal document flow on small screens */
-        margin-top: 20px;  /* Add some space above the bubble */
-        right: 0;
-        transform: translateY(0);
-    }
-}
-        
-      </style>
-  </head>
-  <body>
+            .warning-bubble {
+                position: static;
+                margin-top: 20px;
+                right: 0;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-      <div class="title-bubble">
-        <img
-          src="https://raw.githubusercontent.com/kismat91/project-onboarding-forms/main/oNEST%20Logo.png"
-          alt="oNest Real Estate"
-          style="width: 500px; height: 500px"
-        />
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar">
-            <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
+        <div class="title-bubble">
+            <img src="https://raw.githubusercontent.com/kismat91/project-onboarding-forms/main/oNEST%20Logo.png" alt="oNest Real Estate" style="width: 500px; height: 500px" />
         </div>
-      <div class="form-container">
-        <div class="warning-bubble">
-            <p>Please ensure all fields, especially names, email addresses, and dates, are filled correctly to submit the form.</p>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
+            </div>
+            <div class="form-container">
+                <div class="warning-bubble">
+                    <p>Please ensure all fields, especially names, email addresses, and dates, are filled correctly to submit the form.</p>
+                </div>
+                <form method="post" action="{% url 'user_details' %}">
+                    {% csrf_token %}
+                    <div class="form-section active">
+                        <h2>Section 1: Personal Details</h2>
+                        <label for="id_first_name">First Name:</label>
+                        <div class="field-wrapper">
+                            {% if form.first_name.errors %}
+                            <div class="error-message">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                            {{ form.first_name }}
+                        </div>
+                        <label for="id_last_name">Last Name:</label>
+                        <div class="field-wrapper">
+                            {% if form.last_name.errors %}
+                            <div class="error-message">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                            {{ form.last_name }}
+                        </div>
+                        <label for="id_middle_name">Middle Name:</label>
+                        <div class="field-wrapper">
+                            {% if form.middle_name.errors %}
+                            <div class="error-message">{{ form.middle_name.errors }}</div>
+                            {% endif %}
+                            {{ form.middle_name }}
+                        </div>
+                        <label for="id_street_address">Street Address:</label>
+                        <div class="field-wrapper">
+                            {% if form.street_address.errors %}
+                            <div class="error-message">{{ form.street_address.errors }}</div>
+                            {% endif %}
+                            {{ form.street_address }}
+                        </div>
+                        <label for="id_apartment_number">APT / UNIT #:</label>
+                        <div class="field-wrapper">
+                            {% if form.apartment_number.errors %}
+                            <div class="error-message">{{ form.apartment_number.errors }}</div>
+                            {% endif %}
+                            {{ form.apartment_number }}
+                        </div>
+                        <label for="id_city">City:</label>
+                        <div class="field-wrapper">
+                            {% if form.city.errors %}
+                            <div class="error-message">{{ form.city.errors }}</div>
+                            {% endif %}
+                            {{ form.city }}
+                        </div>
+                        <label for="id_state">State:</label>
+                        <div class="field-wrapper">
+                            {% if form.state.errors %}
+                            <div class="error-message">{{ form.state.errors }}</div>
+                            {% endif %}
+                            {{ form.state }}
+                        </div>
+                        <label for="id_zip_code">Zip Code:</label>
+                        <div class="field-wrapper">
+                            {% if form.zip_code.errors %}
+                            <div class="error-message">{{ form.zip_code.errors }}</div>
+                            {% endif %}
+                            {{ form.zip_code }}
+                        </div>
+                        <button type="button" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="next-btn">Continue</button>
+                    </div>
+                    <div class="form-section">
+                        <h2>Section 2: Contact Information</h2>
+                        <label for="id_home_phone">Home Phone:</label>
+                        <div class="field-wrapper">
+                            {% if form.home_phone.errors %}
+                            <div class="error-message">{{ form.home_phone.errors }}</div>
+                            {% endif %}
+                            {{ form.home_phone }}
+                        </div>
+                        <label for="id_alternate_phone">Alternate Phone:</label>
+                        <div class="field-wrapper">
+                            {% if form.alternate_phone.errors %}
+                            <div class="error-message">{{ form.alternate_phone.errors }}</div>
+                            {% endif %}
+                            {{ form.alternate_phone }}
+                        </div>
+                        <label for="id_email">Email:</label>
+                        <div class="field-wrapper">
+                            {% if form.email.errors %}
+                            <div class="error-message">{{ form.email.errors }}</div>
+                            {% endif %}
+                            {{ form.email }}
+                        </div>
+                        <button type="button" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="next-btn">Continue</button>
+                    </div>
+                    <div class="form-section">
+                        <h2>Section 3: Personal - Continued</h2>
+                        <label for="id_ssn_or_gov_id">SSN or Government ID:</label>
+                        <div class="field-wrapper">
+                            {% if form.ssn_or_gov_id.errors %}
+                            <div class="error-message">{{ form.ssn_or_gov_id.errors }}</div>
+                            {% endif %}
+                            {{ form.ssn_or_gov_id }}
+                        </div>
+                        <label for="id_birth_date">Birth Date:</label>
+                        <div class="field-wrapper">
+                            {% if form.birth_date.errors %}
+                            <div class="error-message">{{ form.birth_date.errors }}</div>
+                            {% endif %}
+                            {{ form.birth_date }}
+                        </div>
+                        <label for="id_marital_status">Marital Status:</label>
+                        <div class="field-wrapper">
+                            {% if form.marital_status.errors %}
+                            <div class="error-message">{{ form.marital_status.errors }}</div>
+                            {% endif %}
+                            {{ form.marital_status }}
+                        </div>
+                        <label for="id_spouse_name">Spouse's Name:</label>
+                        <div class="field-wrapper">
+                            {% if form.spouse_name.errors %}
+                            <div class="error-message">{{ form.spouse_name.errors }}</div>
+                            {% endif %}
+                            {{ form.spouse_name }}
+                        </div>
+                        <label for="id_spouse_employer">Spouse's Employer:</label>
+                        <div class="field-wrapper">
+                            {% if form.spouse_employer.errors %}
+                            <div class="error-message">{{ form.spouse_employer.errors }}</div>
+                            {% endif %}
+                            {{ form.spouse_employer }}
+                        </div>
+                        <label for="id_spouse_work_phone">Spouse's Work Phone:</label>
+                        <div class="field-wrapper">
+                            {% if form.spouse_work_phone.errors %}
+                            <div class="error-message">{{ form.spouse_work_phone.errors }}</div>
+                            {% endif %}
+                            {{ form.spouse_work_phone }}
+                        </div>
+                        <label for="id_referred_by">Referred By:</label>
+                        <div class="field-wrapper">
+                            {% if form.referred_by.errors %}
+                            <div class="error-message">{{ form.referred_by.errors }}</div>
+                            {% endif %}
+                            {{ form.referred_by }}
+                        </div>
+                        <button type="button" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="next-btn">Continue</button>
+                    </div>
+                    <div class="form-section">
+                        <h2>Section 4: Bank Details</h2>
+                        <label for="id_bank_name">Bank Name:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_name.errors %}
+                            <div class="error-message">{{ form.bank_name.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_name }}
+                        </div>
+                        <label for="id_bank_address">Bank Address:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_address.errors %}
+                            <div class="error-message">{{ form.bank_address.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_address }}
+                        </div>
+                        <label for="id_bank_city">Bank City:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_city.errors %}
+                            <div class="error-message">{{ form.bank_city.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_city }}
+                        </div>
+                        <label for="id_bank_state">Bank State:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_state.errors %}
+                            <div class="error-message">{{ form.bank_state.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_state }}
+                        </div>
+                        <label for="id_bank_zipcode">Bank Zipcode:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_zipcode.errors %}
+                            <div class="error-message">{{ form.bank_zipcode.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_zipcode }}
+                        </div>
+                        <label for="id_fax_number">Fax Number:</label>
+                        <div class="field-wrapper">
+                            {% if form.fax_number.errors %}
+                            <div class="error-message">{{ form.fax_number.errors }}</div>
+                            {% endif %}
+                            {{ form.fax_number }}
+                        </div>
+                        <label for="id_bank_phone_number">Bank Phone Number:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_phone_number.errors %}
+                            <div class="error-message">{{ form.bank_phone_number.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_phone_number }}
+                        </div>
+                        <label for="id_account_number">Account Number:</label>
+                        <div class="field-wrapper">
+                            {% if form.account_number.errors %}
+                            <div class="error-message">{{ form.account_number.errors }}</div>
+                            {% endif %}
+                            {{ form.account_number }}
+                        </div>
+                        <label for="id_bank_route_number">Routing Number:</label>
+                        <div class="field-wrapper">
+                            {% if form.bank_route_number.errors %}
+                            <div class="error-message">{{ form.bank_route_number.errors }}</div>
+                            {% endif %}
+                            {{ form.bank_route_number }}
+                        </div>
+                        <label for="id_type_of_account">Type of Account:</label>
+                        <div class="field-wrapper">
+                            {% if form.type_of_account.errors %}
+                            <div class="error-message">{{ form.type_of_account.errors }}</div>
+                            {% endif %}
+                            {{ form.type_of_account }}
+                        </div>
+                        <label for="id_date">Transaction Date:</label>
+                        <div class="field-wrapper">
+                            {% if form.date.errors %}
+                            <div class="error-message">{{ form.date.errors }}</div>
+                            {% endif %}
+                            {{ form.date }}
+                        </div>
+                        <button type="button" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="submit" class="submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <form method="post" action="{% url 'user_details' %}">
-          {% csrf_token %}
-          <div class="form-section active">
-            <h2>Section 1: Personal Details</h2>
-            <label for="id_first_name">First Name:</label>
-            {{ form.first_name }}
-            <label for="id_last_name">Last Name:</label>
-            {{ form.last_name }}
-            <label for="id_middle_name">Middle Name:</label>
-            {{ form.middle_name }}
-            <label for="id_street_address">Street Address:</label>
-            {{ form.street_address }}
-            <label for="id_apartment_number">APT / UNIT #:</label>
-            {{ form.apartment_number }}
-            <label for="id_city">City:</label>
-            {{ form.city }}
-            <label for="id_state">State:</label>
-            {{ form.state }}
-            <label for="id_zip_code">Zip Code:</label>
-            {{ form.zip_code }}
-            <button type="button" class="back-btn">
-              <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button type="button" class="next-btn">Continue</button>
-          </div>
-          <div class="form-section">
-            <h2>Section 2: Contact Information</h2>
-            <label for="id_home_phone">Home Phone:</label>
-            {{ form.home_phone }}
-            <label for="id_alternate_phone">Alternate Phone:</label>
-            {{ form.alternate_phone }}
-            <label for="id_email">Email:</label>
-            {{ form.email }}
-            <button type="button" class="back-btn">
-              <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button type="button" class="next-btn">Continue</button>
-          </div>
-          <div class="form-section">
-            <h2>Section 3: Personal - Continued</h2>
-            <label for="id_ssn_or_gov_id">SSN or Government ID:</label>
-            {{ form.ssn_or_gov_id }}
-            <label for="id_birth_date">Birth Date:</label>
-            {{ form.birth_date }}
-            <label for="id_marital_status">Marital Status:</label>
-            {{ form.marital_status }}
-            <label for="id_spouse_name">Spouse's Name:</label>
-            {{ form.spouse_name }}
-            <label for="id_spouse_employer">Spouse's Employer:</label>
-            {{ form.spouse_employer }}
-            <label for="id_spouse_work_phone">Spouse's Work Phone:</label>
-            {{ form.spouse_work_phone }}
-            <label for="id_referred_by">Referred By:</label>
-            {{ form.referred_by }}
-            <button type="button" class="back-btn">
-              <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button type="button" class="next-btn">Continue</button>
-          </div>
-          <div class="form-section">
-            <h2>Section 4: Bank Details</h2>
-            <label for="id_bank_name">Bank Name:</label>
-            {{ form.bank_name }}
-            <label for="id_bank_address">Bank Address:</label>
-            {{ form.bank_address }}
-            <label for="id_bank_city">Bank City:</label>
-            {{ form.bank_city }}
-            <label for="id_bank_state">Bank State:</label>
-            {{ form.bank_state }}
-            <label for="id_bank_zipcode">Bank Zipcode:</label>
-            {{ form.bank_zipcode }}
-            <label for="id_fax_number">Fax Number:</label>
-            {{ form.fax_number }}
-            <label for="id_bank_phone_number">Bank Phone Number:</label>
-            {{ form.bank_phone_number }}
-            <label for="id_account_number">Account Number:</label>
-            {{ form.account_number }}
-            <label for="id_bank_route_number">Routing Number:</label>
-            {{ form.bank_route_number }}
-            <label for="id_type_of_account">Type of Account:</label>
-            {{ form.type_of_account }}
-            <label for="id_date">Transaction Date:</label>
-            {{ form.date }}
-            <button type="button" class="back-btn">
-              <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button type="submit" class="submit-btn">Submit</button>
-          </div>
-        </form>
-      </div>
     </div>
     <script>
-     $(document).ready(function () {
-        let currentSection = 0;
-        const sections = $(".form-section");
-        $(sections[currentSection]).show();
+        $(document).ready(function () {
+            let currentSection = 0;
+            const sections = $(".form-section");
+            $(sections[currentSection]).show();
 
-        $(".next-btn").click(function () {
-          if (currentSection < sections.length - 1) {
-            $(sections[currentSection]).hide();
-            currentSection++;
-            $(sections[currentSection]).fadeIn();
-            updateProgressBar(currentSection + 1);
-          }
+            $(".next-btn").click(function () {
+                if (validateSection(currentSection)) {
+                    if (currentSection < sections.length - 1) {
+                        $(sections[currentSection]).hide();
+                        currentSection++;
+                        $(sections[currentSection]).fadeIn();
+                        updateProgressBar(currentSection + 1);
+                    }
+                }
+            });
+
+            $(".back-btn").click(function () {
+                if (currentSection > 0) {
+                    $(sections[currentSection]).hide();
+                    currentSection--;
+                    $(sections[currentSection]).fadeIn();
+                    updateProgressBar(currentSection + 1);
+                }
+            });
+
+            function updateProgressBar(stepNumber) {
+                var percentage = (stepNumber / sections.length) * 100;
+                $(".progress-fill")
+                    .width(percentage + "%")
+                    .text("Step " + stepNumber + " of " + sections.length);
+            }
+
+            function validateSection(sectionIndex) {
+                let isValid = true;
+                const inputs = $(sections[sectionIndex]).find("input[required], select[required]");
+                inputs.each(function () {
+                    if (!this.value) {
+                        $(this).addClass("error error-animate");
+                        isValid = false;
+                        $('html, body').animate({
+                            scrollTop: $(this).offset().top - 50
+                        }, 500);
+                        setTimeout(() => {
+                            $(this).removeClass("error-animate");
+                        }, 1500);
+                    } else {
+                        $(this).removeClass("error error-animate");
+                    }
+                });
+                return isValid;
+            }
         });
-
-        $(".back-btn").click(function () {
-          if (currentSection > 0) {
-            $(sections[currentSection]).hide();
-            currentSection--;
-            $(sections[currentSection]).fadeIn();
-            updateProgressBar(currentSection + 1);
-          }
-        });
-
-        function updateProgressBar(stepNumber) {
-          var percentage = (stepNumber / 5) * 100;
-          $(".progress-fill")
-            .width(percentage + "%")
-            .text("Step " + stepNumber + " of 5");
-        }
-      });
     </script>
-    <!-- Bootstrap JS and Popper.js for Bootstrap functionalities -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </body>
+</body>
 </html>
