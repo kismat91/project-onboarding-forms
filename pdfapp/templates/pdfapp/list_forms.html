@@ -3,52 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Table with Download Buttons</title>
+    <title>Virginia Agent Applications</title>
     <style>
         body {
-            font-family: Arial, sans-serif; /* Sets the font for the page */
-            padding: 20px; /* Adds spacing around the content */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            height: 100%;
+            width: 60px;
+            background-color: #b68319;
+            transition: width 0.5s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .sidebar:hover {
+            width: 200px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar li {
+            width: 100%;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #945d14;
+        }
+        .sidebar .menu-icon {
+            font-size: 24px;
+            padding: 10px 0;
+            transition: padding 0.5s;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: margin-left 0.5s;
+            margin-left: 60px; /* Initial margin */
+        }
+        .sidebar:hover + .content {
+            margin-left: 70px; /* Margin when sidebar expands */
+        }
+        h1, h2 {
+            color: #000000;
+            text-align: center;
+            margin: 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            margin-left: -35px;
         }
         h1 {
-            color: #b68319; /* Dark grey color for the heading */
+            margin-top: 50px;
+            font-size: 36px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-top: 3px;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
         table {
-            width: 100%; /* Full width */
-            border-collapse: collapse; /* Ensures borders between cells are merged */
+            width: calc(100% - 5px); /* Reduced margin for tighter fit */
+            max-width: 1600px;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 30px;
+            margin-left: -50px;
         }
         th, td {
-            border: 1px solid #b68319; /* Teal colored border */
-            padding: 8px; /* Spacing inside cells */
-            text-align: left; /* Aligns text to the left */
+            border: 1px solid #dddddd;
+            padding: 12px 15px;
+            text-align: center;
         }
         th {
-            background-color: #b68319; /* Teal background for headers */
-            color: white; /* White text for headers */
+            background-color: #b68319;
+            color: white;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2; /* Light grey background for even rows */
+            background-color: #f2f2f2;
         }
         tr:hover {
-            background-color: #ddd; /* Lighter grey background on hover */
+            background-color: #ddd;
+        }
+        a.btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: #b68319;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        a.btn:hover {
+            background-color: #945d14;
         }
     </style>
 </head>
 <body>
-    <h1>Agent Applications</h1>
-    <table>
-        <tr>
-          {% for col in html_table.columns %}
-            <th>{{ col }}</th> <!-- Changed td to th for header cells -->
-          {% endfor %}
-        </tr>
-        {% for index, row in html_table.iterrows %}
-            <tr>
-              {% for cell in row %}
-                <td>{{ cell }}</td>
-              {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-    {{ html_table|safe }}
+    <div class="sidebar">
+        <div class="menu-icon">☰</div>
+        <ul>
+            <li><a href="#VA" data-abbr="VA" data-full="Virginia">VA</a></li>
+            <li><a href="#WV" data-abbr="WV" data-full="West Virginia">WV</a></li>
+            <li><a href="#MA" data-abbr="MA" data-full="Massachusetts">MA</a></li>
+            <li><a href="#NH" data-abbr="NH" data-full="New Hampshire">NH</a></li>
+            <li><a href="#MD" data-abbr="MD" data-full="Maryland">MD</a></li>
+            <li><a href="#DC" data-abbr="DC" data-full="District of Columbia">DC</a></li>
+            <li><a href="#RI" data-abbr="RI" data-full="Rhode Island">RI</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>VIRGINIA</h1>
+        <h2>Agent Applications</h2>
+        <table id="applicationsTable">
+            <thead>
+                <tr>
+                    {% for col in html_table.columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in html_table.iterrows %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ html_table|safe }}
+    </div>
+
+    <script>
+        const sidebar = document.querySelector('.sidebar');
+        const links = sidebar.querySelectorAll('a');
+        const content = document.querySelector('.content');
+
+        sidebar.addEventListener('mouseenter', () => {
+            links.forEach(link => {
+                link.textContent = link.dataset.full;
+            });
+        });
+
+        sidebar.addEventListener('mouseleave', () => {
+            links.forEach(link => {
+                link.textContent = link.dataset.abbr;
+            });
+        });
+    </script>
 </body>
 </html>
