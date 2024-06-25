@@ -17,6 +17,7 @@
             font-family: "Roboto", sans-serif;
         }
         .form-container {
+            position: relative;
             background-color: #ffffff;
             padding: 40px;
             border-radius: 55px;
@@ -178,17 +179,25 @@
             border-radius: 25px;
             transition: width 0.3s ease-in-out;
         }
-        .warning-bubble {
+        .warning-icon {
             position: absolute;
-            top: 50%;
+            top: 30px;
+            right: 45px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #ca5700;
+        }
+        .warning-bubble {
+            display: none;
+            position: absolute;
+            top: 10px;
             right: -300px;
             width: 280px;
             padding: 15px;
             background-color: #fff4e5;
             border: 1px solid #ffd580;
-            border-radius: 10px;
+            border-radius: 30px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transform: translateY(-50%);
             z-index: 10;
         }
         .warning-bubble p {
@@ -198,11 +207,15 @@
             text-align: center;
         }
         @media (max-width: 768px) {
+            .warning-icon {
+                display: none;
+            }
             .warning-bubble {
                 position: static;
                 margin-top: 20px;
                 right: 0;
                 transform: translateY(0);
+                display: block;
             }
         }
     </style>
@@ -217,6 +230,7 @@
                 <div class="progress-fill" style="width: 20%">Step 1 of 5</div>
             </div>
             <div class="form-container">
+                <i class="fas fa-info-circle warning-icon"></i>
                 <div class="warning-bubble">
                     <p>Please ensure all fields, especially names, email addresses, and dates, are filled correctly to submit the form.</p>
                 </div>
@@ -509,6 +523,15 @@
                 });
                 return isValid;
             }
+
+            $(".warning-icon").hover(
+                function () {
+                    $(".warning-bubble").fadeIn();
+                },
+                function () {
+                    $(".warning-bubble").fadeOut();
+                }
+            );
         });
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
