@@ -37,5 +37,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.home, name='home'),
     path('success2/', views.success2, name='success2'),
+    path('delete_record/', views.delete_record, name='delete_record'),
 ]
 

@@ -56,6 +56,14 @@ class DatabaseManager:
         query = "SELECT * FROM onboarding WHERE file_path=?;"
         df = pd.read_sql_query(query, self.conn, params=(file_path,))
         return df
+    
+    def delete_record_by_session_id(self, file_path):
+        """Delete a record from the onboarding table by file path."""
+        print(file_path)
+        sql = 'DELETE FROM onboarding WHERE file_path = ?'
+        self.cursor.execute(sql, (file_path,))
+        self.conn.commit()
+
 
     def close(self):
         """Close the cursor and the database connection."""

@@ -340,26 +340,64 @@ def records_form(request):
     db = DatabaseManager(db_path)
     df = db.fetch_all_records()
 
+    # Rename columns to replace spaces with underscores
+    df.columns = df.columns.str.replace(' ', '_')
+
+    # Print the columns to debug
+    print("Columns in DataFrame:", df.columns)
+
+    # Search query
+    query = request.GET.get('q', '')
+
+    # Apply search logic using the correct column names
+    if query:
+        df = df[df['First_Name'].str.contains(query, case=False) | df['Last_Name'].str.contains(query, case=False)]
+
     def make_download_button(file_path, file_name):
         safe_path = quote(file_path)
         return f'<a href="/download_file/?file_path={safe_path}&file_name={file_name}" class="btn btn-primary">Download</a>'
 
     def make_next_form_button(file_path):
-        print(f'File Path: {file_path}')
         safe_path = quote(file_path.replace(output_base_folder_path, ''))
         return f'<a href="/contractor_agreement_form/?session_id={safe_path}" class="btn btn-primary">Next Forms</a>'
 
+    def make_delete_button(file_path):
+        return f'<a href="/delete_record/?file_path={file_path}" class="btn btn-primary">Delete</a>'
+        # return f'<button onclick="delete_record(\'{file_path}\')" class="btn btn-danger">Delete</button>'
+
     if not df.empty:
-        df['Download'] = df.apply(lambda x: make_download_button(x['file_path'], x['First Name']), axis=1)
+        df['Download'] = df.apply(lambda x: make_download_button(x['file_path'], x['First_Name']), axis=1)
         df['Next'] = df.apply(lambda x: make_next_form_button(x['file_path']), axis=1)
+        df['Delete'] = df.apply(lambda x: make_delete_button(x['file_path']), axis=1)  # Add delete button
     else:
         df['Download'] = 'No records found'
         df['Next'] = 'No records found'
+        df['Delete'] = 'No records found'
 
     df.drop('file_path', axis=1, inplace=True)
-    html_table = df.to_html(index=False, escape=False)
+    
+    # Convert DataFrame to a list of dictionaries
+    records = df.to_dict(orient='records')
 
-    return render(request, 'pdfapp/list_forms.html', {'html_table': html_table})
+    return render(request, 'pdfapp/list_forms.html', {
+        'records': records,
+        'query': query,
+    })
+
+
+
+def delete_record(request):
+    file_path = request.GET.get('file_path')
+    print(f"Received file_path: {file_path}")  # Debugging line
+    if file_path:
+        try:
+            db = DatabaseManager(db_path)
+            db.delete_record_by_session_id(file_path)
+            return redirect('records_form')
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'File path not provided'})
 
 def log_in(request):
     if request.method == 'POST':
