@@ -137,28 +137,24 @@
     <div class="sidebar">
         <div class="menu-icon">☰</div>
         <ul>
-            <li><a href="#VA" data-abbr="VA" data-full="Virginia">VA</a></li>
-            <li><a href="#WV" data-abbr="WV" data-full="West Virginia">WV</a></li>
-            <li><a href="#MA" data-abbr="MA" data-full="Massachusetts">MA</a></li>
-            <li><a href="#NH" data-abbr="NH" data-full="New Hampshire">NH</a></li>
-            <li><a href="#MD" data-abbr="MD" data-full="Maryland">MD</a></li>
-            <li><a href="#DC" data-abbr="DC" data-full="District of Columbia">DC</a></li>
-            <li><a href="#RI" data-abbr="RI" data-full="Rhode Island">RI</a></li>
+            <!-- Modify links to include state filter -->
+            <li><a href="?state=VA" data-abbr="VA" data-full="Virginia">VA</a></li>
+            <li><a href="?state=WV" data-abbr="WV" data-full="West Virginia">WV</a></li>
+            <li><a href="?state=MA" data-abbr="MA" data-full="Massachusetts">MA</a></li>
+            <li><a href="?state=NH" data-abbr="NH" data-full="New Hampshire">NH</a></li>
+            <li><a href="?state=MD" data-abbr="MD" data-full="Maryland">MD</a></li>
+            <li><a href="?state=DC" data-abbr="DC" data-full="District of Columbia">DC</a></li>
+            <li><a href="?state=RI" data-abbr="RI" data-full="Rhode Island">RI</a></li>
         </ul>
     </div>
     <div class="content">
-        <h1>VIRGINIA</h1>
+        <h1>{{ state_filter }}</h1>
         <h2>Agent Applications</h2>
 
-        <!-- Search and Filter Form -->
+        <!-- Search Form (without state dropdown) -->
         <form method="GET" action="{% url 'records_form' %}">
             <input type="text" name="q" placeholder="Search by name" value="{{ query }}">
-            <select name="state">
-                <option value="">All States</option>
-                <option value="VA" {% if state_filter == "VA" %}selected{% endif %}>Virginia</option>
-                <option value="WV" {% if state_filter == "WV" %}selected{% endif %}>West Virginia</option>
-                <!-- Add other states as needed -->
-            </select>
+            <!-- State filter handled by the sidebar -->
             <button type="submit">Search</button>
         </form>
 
@@ -185,15 +181,9 @@
                         <td>{{ record.Download|safe }}</td>
                         <td>{{ record.Next|safe }}</td>
                         <td>{{ record.Delete|safe }}</td>
-
-                        <!-- <td>
-                        <button onclick="deleteRecord('{{ record.file_path }}')" class="btn btn-danger">Delete</button>
-                    </td>  -->
-                    <!-- Pass the file_path to the delete function -->
-                </tr>
+                    </tr>
                 {% endfor %}
             </tbody>
-    
         </table>
 
         <!-- Safe HTML rendering for complex tables -->
