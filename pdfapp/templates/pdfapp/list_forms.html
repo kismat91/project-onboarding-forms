@@ -184,12 +184,16 @@
                         <td>{{ record.City }}</td>
                         <td>{{ record.Download|safe }}</td>
                         <td>{{ record.Next|safe }}</td>
-                        <td>
-                            <button onclick="deleteRecord('{{ record.file_path }}')" class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
+                        <td>{{ record.Delete|safe }}</td>
+
+                        <!-- <td>
+                        <button onclick="deleteRecord('{{ record.file_path }}')" class="btn btn-danger">Delete</button>
+                    </td>  -->
+                    <!-- Pass the file_path to the delete function -->
+                </tr>
                 {% endfor %}
             </tbody>
+    
         </table>
 
         <!-- Safe HTML rendering for complex tables -->
